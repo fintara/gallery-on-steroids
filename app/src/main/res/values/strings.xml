@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Gallery on Steroids</string>
+
+    <string name="go">Go!</string>
+    <string name="clear">Clear</string>
+    <string name="cancel">Cancel</string>
+</resources>
