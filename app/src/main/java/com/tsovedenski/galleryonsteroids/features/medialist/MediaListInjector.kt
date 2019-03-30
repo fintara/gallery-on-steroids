@@ -14,7 +14,7 @@ class MediaListInjector (
     private val mediaService: MediaService,
     private val coroutineContextProvider: CoroutineContextProvider
 ) {
-    fun attachPresenter(view: MediaListView) {
+    fun attachPresenter(view: MediaListActivity) {
         val presenter = MediaListPresenter(
             view,
             ViewModelProviders.of(view).get(MediaListViewModel::class.java),
