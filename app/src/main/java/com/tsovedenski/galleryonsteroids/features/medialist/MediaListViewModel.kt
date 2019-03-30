@@ -1,4 +1,4 @@
-package com.tsovedenski.galleryonsteroids.features.photoslist
+package com.tsovedenski.galleryonsteroids.features.medialist
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -6,10 +6,10 @@ import androidx.lifecycle.ViewModel
 /**
  * Created by Tsvetan Ovedenski on 10/03/19.
  */
-class PhotosListViewModel (
+class MediaListViewModel (
     private val loaded: MutableLiveData<Boolean> = MutableLiveData()
 ) : ViewModel(),
-    PhotosListContract.ViewModel {
+    MediaListContract.ViewModel {
 
     init {
         loaded.value = false

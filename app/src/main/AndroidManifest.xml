@@ -3,6 +3,8 @@
           xmlns:tools="http://schemas.android.com/tools"
           package="com.tsovedenski.galleryonsteroids">
 
+    <uses-permission android:name="android.permission.CAMERA" />
+
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
@@ -13,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".features.photoslist.PhotosListActivity">
+        <activity android:name=".features.medialist.MediaListActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
