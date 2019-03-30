@@ -15,6 +15,7 @@ import com.leinardi.android.speeddial.SpeedDialView
 import com.tsovedenski.galleryonsteroids.MyApplication
 import com.tsovedenski.galleryonsteroids.R
 import com.tsovedenski.galleryonsteroids.domain.entities.MediaType
+import com.tsovedenski.galleryonsteroids.setFragment
 import kotlinx.android.synthetic.main.activity_creator.*
 import javax.inject.Inject
 
@@ -99,6 +100,15 @@ class CreatorActivity : AppCompatActivity(), CreatorContract.View {
     }
 
     override fun setMediaType(value: MediaType) {
+        updateButtonHighlight(value)
+
+        if (value == MediaType.Audio) {
+            val fragment = CreatorVoiceFragment()
+            setFragment(fragment, "mode", R.id.container)
+        }
+    }
+
+    private fun updateButtonHighlight(value: MediaType) {
         val transparent = resources.getColor(android.R.color.transparent, theme)
         val selected = resources.getColor(R.color.white_25t, theme)
 
