@@ -4,4 +4,7 @@
     <string name="go">Go!</string>
     <string name="clear">Clear</string>
     <string name="cancel">Cancel</string>
+    <string name="photo">Photo</string>
+    <string name="video">Video</string>
+    <string name="voice">Voice</string>
 </resources>

@@ -1,5 +1,6 @@
 package com.tsovedenski.galleryonsteroids.features.medialist
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +12,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.tsovedenski.galleryonsteroids.R
 import com.tsovedenski.galleryonsteroids.domain.entities.Media
+import com.tsovedenski.galleryonsteroids.domain.entities.MediaType
+import com.tsovedenski.galleryonsteroids.features.creator.CreatorActivity
 import kotlinx.android.synthetic.main.fragment_media_list.*
 
 /**
@@ -26,6 +29,14 @@ class MediaListView : Fragment(), MediaListContract.View {
     override fun setAdapter(adapter: MediaListAdapter) {
         items.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
         items.adapter = adapter
+    }
+
+    override fun openCreator(type: MediaType) {
+        fab_create.close()
+        val intent = Intent(activity, CreatorActivity::class.java).apply {
+            putExtra("type", type.asString)
+        }
+        startActivity(intent)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

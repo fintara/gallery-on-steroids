@@ -16,7 +16,7 @@ class MediaService (
     suspend fun savePicture(): Media {
         val media = Media(
             title = "Test manual",
-            type = MediaType.Picture
+            type = MediaType.Photo
         )
 
         mediaRepository.save(media)

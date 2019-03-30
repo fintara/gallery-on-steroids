@@ -28,13 +28,13 @@ data class Media (
 sealed class MediaType (val asString: String) {
     object Audio : MediaType("audio")
     object Video : MediaType("video")
-    object Picture : MediaType("picture")
+    object Photo : MediaType("photo")
 
     companion object {
         fun fromString(value: String): MediaType? = when (value.toLowerCase()) {
             Audio.asString -> Audio
             Video.asString -> Video
-            Picture.asString -> Picture
+            Photo.asString -> Photo
             else -> null
         }
     }

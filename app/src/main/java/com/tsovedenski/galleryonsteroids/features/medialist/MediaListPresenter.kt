@@ -1,6 +1,7 @@
 package com.tsovedenski.galleryonsteroids.features.medialist
 
 import com.tsovedenski.galleryonsteroids.common.CoroutineContextProvider
+import com.tsovedenski.galleryonsteroids.domain.entities.MediaType
 import com.tsovedenski.galleryonsteroids.features.common.Presenter
 import com.tsovedenski.galleryonsteroids.services.MediaService
 import kotlinx.coroutines.launch
@@ -28,10 +29,6 @@ class MediaListPresenter (
     }
 
     private fun onStart() {
-        launch {
-            service.savePicture()
-        }
-
         adapter.setObserver(this)
         view.setAdapter(adapter)
     }
@@ -45,7 +42,15 @@ class MediaListPresenter (
         adapter.submitList(items)
     }
 
-    private fun createPhoto() {}
-    private fun createVideo() {}
-    private fun createAudio() {}
+    private fun createPhoto() {
+        view.openCreator(MediaType.Photo)
+    }
+
+    private fun createVideo() {
+        view.openCreator(MediaType.Video)
+    }
+
+    private fun createAudio() {
+        view.openCreator(MediaType.Audio)
+    }
 }

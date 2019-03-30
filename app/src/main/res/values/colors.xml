@@ -4,5 +4,10 @@
     <color name="colorPrimaryDark">#19647e</color>
     <color name="colorAccent">#ee964b</color>
 
+    <color name="recordColor">#ff0000</color>
+
+    <color name="white">#ffffff</color>
+    <color name="white_25t">#3FFFFFFF</color>
+
     <color name="black_overlay">#66000000</color>
 </resources>
