@@ -12,11 +12,7 @@ class CreatorViewModel (
 ) : ViewModel(),
     CreatorContract.ViewModel {
 
-    init {
-        setMediaType(MediaType.Photo)
-    }
-
-    override fun getMediaType(): MediaType = mediaType.value!!
+    override fun getMediaType(): MediaType? = mediaType.value
 
     override fun setMediaType(value: MediaType) {
         mediaType.value = value

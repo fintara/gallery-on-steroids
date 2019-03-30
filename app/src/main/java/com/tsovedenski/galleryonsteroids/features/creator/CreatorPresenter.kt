@@ -21,11 +21,13 @@ class CreatorPresenter (
     }
 
     private fun onStart(initialMediaType: MediaType) {
-        model.setMediaType(initialMediaType)
+        if (model.getMediaType() == null) {
+            model.setMediaType(initialMediaType)
+        }
     }
 
     private fun onResume() {
-        view.setMediaType(model.getMediaType())
+        view.setMediaType(model.getMediaType()!!)
     }
 
     private fun onChangeType(type: MediaType) {

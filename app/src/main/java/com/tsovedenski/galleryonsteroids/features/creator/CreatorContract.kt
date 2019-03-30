@@ -13,7 +13,7 @@ interface CreatorContract {
     }
 
     interface ViewModel {
-        fun getMediaType(): MediaType
+        fun getMediaType(): MediaType?
         fun setMediaType(value: MediaType)
     }
 }

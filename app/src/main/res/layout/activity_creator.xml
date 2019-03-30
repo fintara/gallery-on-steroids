@@ -14,9 +14,9 @@
     />
 
     <com.leinardi.android.speeddial.SpeedDialView
-        android:id="@+id/action"
+        android:id="@+id/creator_action"
         app:fabSize="auto"
-        app:sdMainFabClosedBackgroundColor="@color/recordColor"
+        app:sdMainFabClosedBackgroundColor="@color/record"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -27,6 +27,7 @@
 
     <LinearLayout
         style="?android:buttonBarButtonStyle"
+        android:id="@+id/types_container"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

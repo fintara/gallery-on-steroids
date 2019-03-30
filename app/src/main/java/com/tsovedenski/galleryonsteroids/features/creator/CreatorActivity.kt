@@ -1,10 +1,17 @@
 package com.tsovedenski.galleryonsteroids.features.creator
 
+import android.animation.ObjectAnimator
+import android.animation.ValueAnimator
 import android.os.Bundle
+import android.view.View
 import android.view.WindowManager
+import android.view.animation.AlphaAnimation
+import android.view.animation.Animation
+import android.view.animation.LinearInterpolator
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
+import com.leinardi.android.speeddial.SpeedDialView
 import com.tsovedenski.galleryonsteroids.MyApplication
 import com.tsovedenski.galleryonsteroids.R
 import com.tsovedenski.galleryonsteroids.domain.entities.MediaType
@@ -33,6 +40,41 @@ class CreatorActivity : AppCompatActivity(), CreatorContract.View {
         photo_btn.setOnClickListener { event.value = CreatorEvent.ChangeType(MediaType.Photo) }
         video_btn.setOnClickListener { event.value = CreatorEvent.ChangeType(MediaType.Video) }
         voice_btn.setOnClickListener { event.value = CreatorEvent.ChangeType(MediaType.Audio) }
+
+        val animation = ObjectAnimator.ofArgb(
+            creator_action,
+            "mainFabClosedBackgroundColor",
+            resources.getColor(R.color.record, theme),
+            resources.getColor(R.color.recordHighlight, theme)
+        ).apply {
+            duration = 450
+            repeatCount = Animation.INFINITE
+            repeatMode = ValueAnimator.REVERSE
+        }
+
+        // todo: remove this
+        var animated = false
+        creator_action.setOnChangeListener(object: SpeedDialView.OnChangeListener {
+            override fun onMainActionSelected(): Boolean {
+                if (animated) {
+                    println("Clear animation")
+                    animation.cancel()
+                    creator_action.mainFabClosedBackgroundColor = resources.getColor(R.color.record, theme)
+                    types_container.visibility = View.VISIBLE
+                } else {
+                    println("Start animation")
+                    animation.start()
+                    types_container.visibility = View.GONE
+                }
+                animated = !animated
+                return true
+            }
+
+            override fun onToggleChanged(isOpen: Boolean) {
+                TODO("not implemented")
+            }
+
+        })
     }
 
     override fun onStart() {
@@ -57,15 +99,17 @@ class CreatorActivity : AppCompatActivity(), CreatorContract.View {
     }
 
     override fun setMediaType(value: MediaType) {
-        val transparent = resources.getColor(android.R.color.transparent, null)
-        val selected = resources.getColor(R.color.white_25t, null)
+        val transparent = resources.getColor(android.R.color.transparent, theme)
+        val selected = resources.getColor(R.color.white_25t, theme)
 
         listOf(photo_btn, video_btn, voice_btn).forEach { it.setBackgroundColor(transparent) }
 
-        when (value) {
-            MediaType.Photo -> photo_btn.setBackgroundColor(selected)
-            MediaType.Video -> video_btn.setBackgroundColor(selected)
-            MediaType.Audio -> voice_btn.setBackgroundColor(selected)
+        val button = when (value) {
+            MediaType.Photo -> photo_btn
+            MediaType.Video -> video_btn
+            MediaType.Audio -> voice_btn
         }
+
+        button.setBackgroundColor(selected)
     }
 }

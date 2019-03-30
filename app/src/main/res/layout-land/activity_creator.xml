@@ -14,9 +14,9 @@
     />
 
     <com.leinardi.android.speeddial.SpeedDialView
-        android:id="@+id/action"
+        android:id="@+id/creator_action"
         app:fabSize="auto"
-        app:sdMainFabClosedBackgroundColor="@color/recordColor"
+        app:sdMainFabClosedBackgroundColor="@color/record"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -26,6 +26,7 @@
 
     <LinearLayout
         style="?android:buttonBarButtonStyle"
+        android:id="@+id/types_container"
         android:orientation="vertical"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
@@ -34,10 +35,10 @@
         app:layout_constraintTop_toTopOf="parent">
         <ImageButton
             style="?android:buttonBarButtonStyle"
-            android:src="@drawable/camera"
-            android:contentDescription="@string/photo"
+            android:src="@drawable/microphone"
+            android:contentDescription="@string/voice"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:id="@+id/photo_btn" android:layout_weight="1"/>
+            android:layout_height="wrap_content" android:id="@+id/voice_btn" android:layout_weight="1"/>
         <ImageButton
             style="?android:buttonBarButtonStyle"
             android:src="@drawable/video"
@@ -46,9 +47,9 @@
             android:layout_height="wrap_content" android:id="@+id/video_btn" android:layout_weight="1"/>
         <ImageButton
             style="?android:buttonBarButtonStyle"
-            android:src="@drawable/microphone"
-            android:contentDescription="@string/voice"
+            android:src="@drawable/camera"
+            android:contentDescription="@string/photo"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:id="@+id/voice_btn" android:layout_weight="1"/>
+            android:layout_height="wrap_content" android:id="@+id/photo_btn" android:layout_weight="1"/>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
