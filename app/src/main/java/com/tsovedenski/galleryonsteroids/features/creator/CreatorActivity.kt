@@ -5,9 +5,7 @@ import android.animation.ValueAnimator
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
-import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
-import android.view.animation.LinearInterpolator
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
@@ -15,6 +13,8 @@ import com.leinardi.android.speeddial.SpeedDialView
 import com.tsovedenski.galleryonsteroids.MyApplication
 import com.tsovedenski.galleryonsteroids.R
 import com.tsovedenski.galleryonsteroids.domain.entities.MediaType
+import com.tsovedenski.galleryonsteroids.features.creator.modes.CreatorMode
+import com.tsovedenski.galleryonsteroids.features.creator.modes.CreatorVoiceFragment
 import com.tsovedenski.galleryonsteroids.setFragment
 import kotlinx.android.synthetic.main.activity_creator.*
 import javax.inject.Inject
@@ -25,7 +25,10 @@ import javax.inject.Inject
 class CreatorActivity : AppCompatActivity(), CreatorContract.View {
 
     @Inject lateinit var injector: CreatorInjector
+
     private val event = MutableLiveData<CreatorEvent>()
+
+    private lateinit var mode: CreatorMode
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,11 +61,16 @@ class CreatorActivity : AppCompatActivity(), CreatorContract.View {
         creator_action.setOnChangeListener(object: SpeedDialView.OnChangeListener {
             override fun onMainActionSelected(): Boolean {
                 if (animated) {
+                    val media = mode.stopRecording()
+                    println(media)
+
                     println("Clear animation")
                     animation.cancel()
                     creator_action.mainFabClosedBackgroundColor = resources.getColor(R.color.record, theme)
                     types_container.visibility = View.VISIBLE
                 } else {
+                    mode.startRecording()
+
                     println("Start animation")
                     animation.start()
                     types_container.visibility = View.GONE
@@ -103,8 +111,8 @@ class CreatorActivity : AppCompatActivity(), CreatorContract.View {
         updateButtonHighlight(value)
 
         if (value == MediaType.Audio) {
-            val fragment = CreatorVoiceFragment()
-            setFragment(fragment, "mode", R.id.container)
+            mode = CreatorVoiceFragment()
+            setFragment(mode as CreatorVoiceFragment, "mode", R.id.container)
         }
     }
 

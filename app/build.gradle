@@ -77,6 +77,8 @@ dependencies {
 
     implementation "com.github.MikeOrtiz:TouchImageView:$versions.touch_imageview"
 
+    implementation "com.jakewharton.timber:timber:$versions.timber"
+
     testImplementation "io.mockk:mockk:$versions.mockk"
     testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$versions.kotlin"
 

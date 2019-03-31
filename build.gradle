@@ -20,6 +20,7 @@ buildscript {
         retrofit_adapter         : '0.9.2',
         room                     : '2.1.0-alpha06',
         speed_dial               : '2.0.1',
+        timber                   : '4.7.1',
         touch_imageview          : '2.2.0',
     ]
 

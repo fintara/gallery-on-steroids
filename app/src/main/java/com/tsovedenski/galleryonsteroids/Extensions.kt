@@ -16,3 +16,7 @@ fun AppCompatActivity.setFragment(fragment: Fragment, tag: String, containerView
 fun Fragment.showToast(@StringRes resId: Int) {
     Toast.makeText(activity, resId, Toast.LENGTH_SHORT).show()
 }
+
+fun Fragment.showToast(value: String) {
+    Toast.makeText(activity, value, Toast.LENGTH_SHORT).show()
+}
