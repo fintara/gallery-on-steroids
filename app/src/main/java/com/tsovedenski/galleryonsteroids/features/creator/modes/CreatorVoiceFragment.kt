@@ -86,8 +86,8 @@ class CreatorVoiceFragment : Fragment(), CreatorMode {
     }
 
     private fun startPreview() {
-        waveform.visibility = View.VISIBLE
         previewThread.start()
+        waveform.visibility = View.VISIBLE
     }
 
     private fun stopPreview() {
@@ -100,8 +100,8 @@ class CreatorVoiceFragment : Fragment(), CreatorMode {
     }
 
     override fun stopRecording(): Media {
-        stopPreview()
         encoder.stop()
+        stopPreview()
 
         return media
     }

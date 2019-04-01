@@ -5,10 +5,11 @@
     <color name="colorAccent">#ee964b</color>
 
     <color name="record">#ff0000</color>
-    <color name="recordHighlight">#FF9898</color>
+    <color name="recordHighlight">#E66363</color>
 
     <color name="white">#ffffff</color>
     <color name="white_25t">#3FFFFFFF</color>
 
     <color name="black_overlay">#66000000</color>
+    <color name="black">#000</color>
 </resources>

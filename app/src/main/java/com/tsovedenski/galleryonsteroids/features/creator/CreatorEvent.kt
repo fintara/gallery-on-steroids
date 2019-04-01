@@ -1,5 +1,6 @@
 package com.tsovedenski.galleryonsteroids.features.creator
 
+import com.tsovedenski.galleryonsteroids.domain.entities.Media
 import com.tsovedenski.galleryonsteroids.domain.entities.MediaType
 
 /**
@@ -10,5 +11,8 @@ sealed class CreatorEvent {
     object OnResume : CreatorEvent()
     object OnDestroy : CreatorEvent()
 
+    object RecordPressed : CreatorEvent()
+
     data class ChangeType(val value: MediaType) : CreatorEvent()
+    data class RecordedMedia(val value: Media) : CreatorEvent()
 }

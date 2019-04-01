@@ -1,6 +1,7 @@
 package com.tsovedenski.galleryonsteroids.features.creator
 
 import com.tsovedenski.galleryonsteroids.common.CoroutineContextProvider
+import com.tsovedenski.galleryonsteroids.domain.entities.Media
 import com.tsovedenski.galleryonsteroids.domain.entities.MediaType
 import com.tsovedenski.galleryonsteroids.features.common.Presenter
 
@@ -17,7 +18,9 @@ class CreatorPresenter (
         is CreatorEvent.OnStart -> onStart(e.initialMediaType)
         CreatorEvent.OnResume -> onResume()
         CreatorEvent.OnDestroy -> onDestroy()
+        CreatorEvent.RecordPressed -> recordPressed()
         is CreatorEvent.ChangeType -> onChangeType(e.value)
+        is CreatorEvent.RecordedMedia -> recorded(e.value)
     }
 
     private fun onStart(initialMediaType: MediaType) {
@@ -28,6 +31,27 @@ class CreatorPresenter (
 
     private fun onResume() {
         view.setMediaType(model.getMediaType()!!)
+    }
+
+    private fun recordPressed() {
+        if (model.isRecording()) {
+            stopRecording()
+        } else {
+            startRecording()
+        }
+    }
+
+    private fun startRecording() {
+        view.startRecording()
+    }
+
+    private fun stopRecording() {
+        view.stopRecording()
+    }
+
+    private fun recorded(media: Media) {
+        // save in database?
+        // open details view?
     }
 
     private fun onChangeType(type: MediaType) {

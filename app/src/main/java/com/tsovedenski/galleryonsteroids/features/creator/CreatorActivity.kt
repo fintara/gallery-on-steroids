@@ -7,6 +7,7 @@ import android.view.View
 import android.view.WindowManager
 import android.view.animation.Animation
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.leinardi.android.speeddial.SpeedDialView
@@ -30,6 +31,19 @@ class CreatorActivity : AppCompatActivity(), CreatorContract.View {
 
     private lateinit var mode: CreatorMode
 
+    private val recordAnimation by lazy {
+        ObjectAnimator.ofArgb(
+            creator_action,
+            "mainFabClosedBackgroundColor",
+            resources.getColor(R.color.record, theme),
+            resources.getColor(R.color.recordHighlight, theme)
+        ).apply {
+            duration = 450
+            repeatCount = Animation.INFINITE
+            repeatMode = ValueAnimator.REVERSE
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_creator)
@@ -45,44 +59,12 @@ class CreatorActivity : AppCompatActivity(), CreatorContract.View {
         video_btn.setOnClickListener { event.value = CreatorEvent.ChangeType(MediaType.Video) }
         voice_btn.setOnClickListener { event.value = CreatorEvent.ChangeType(MediaType.Audio) }
 
-        val animation = ObjectAnimator.ofArgb(
-            creator_action,
-            "mainFabClosedBackgroundColor",
-            resources.getColor(R.color.record, theme),
-            resources.getColor(R.color.recordHighlight, theme)
-        ).apply {
-            duration = 450
-            repeatCount = Animation.INFINITE
-            repeatMode = ValueAnimator.REVERSE
-        }
-
-        // todo: remove this
-        var animated = false
         creator_action.setOnChangeListener(object: SpeedDialView.OnChangeListener {
             override fun onMainActionSelected(): Boolean {
-                if (animated) {
-                    val media = mode.stopRecording()
-                    println(media)
-
-                    println("Clear animation")
-                    animation.cancel()
-                    creator_action.mainFabClosedBackgroundColor = resources.getColor(R.color.record, theme)
-                    types_container.visibility = View.VISIBLE
-                } else {
-                    mode.startRecording()
-
-                    println("Start animation")
-                    animation.start()
-                    types_container.visibility = View.GONE
-                }
-                animated = !animated
+                event.value = CreatorEvent.RecordPressed
                 return true
             }
-
-            override fun onToggleChanged(isOpen: Boolean) {
-                TODO("not implemented")
-            }
-
+            override fun onToggleChanged(isOpen: Boolean) = Unit
         })
     }
 
@@ -109,11 +91,31 @@ class CreatorActivity : AppCompatActivity(), CreatorContract.View {
 
     override fun setMediaType(value: MediaType) {
         updateButtonHighlight(value)
+        updateRecordButtonIcon(value)
 
-        if (value == MediaType.Audio) {
-            mode = CreatorVoiceFragment()
-            setFragment(mode as CreatorVoiceFragment, "mode", R.id.container)
+        mode = when (value) {
+            MediaType.Photo -> CreatorVoiceFragment()
+            MediaType.Video -> CreatorVoiceFragment()
+            MediaType.Audio -> CreatorVoiceFragment()
         }
+
+        setFragment(mode as Fragment, "mode", R.id.container)
+    }
+
+    override fun startRecording() {
+        mode.startRecording()
+
+        recordAnimation.start()
+        types_container.visibility = View.GONE
+    }
+
+    override fun stopRecording() {
+        val media = mode.stopRecording()
+        event.value = CreatorEvent.RecordedMedia(media)
+
+        recordAnimation.cancel()
+        creator_action.mainFabClosedBackgroundColor = resources.getColor(R.color.record, theme)
+        types_container.visibility = View.VISIBLE
     }
 
     private fun updateButtonHighlight(value: MediaType) {
@@ -129,5 +131,15 @@ class CreatorActivity : AppCompatActivity(), CreatorContract.View {
         }
 
         button.setBackgroundColor(selected)
+    }
+
+    private fun updateRecordButtonIcon(value: MediaType) {
+        val icon = when (value) {
+            MediaType.Photo -> R.drawable.camera
+            MediaType.Video -> R.drawable.video
+            MediaType.Audio -> R.drawable.microphone
+        }
+
+        creator_action.setMainFabClosedDrawable(resources.getDrawable(icon, theme))
     }
 }
