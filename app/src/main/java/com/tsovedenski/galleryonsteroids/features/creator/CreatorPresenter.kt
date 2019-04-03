@@ -52,6 +52,10 @@ class CreatorPresenter (
     private fun recorded(media: Media) {
         // save in database?
         // open details view?
+
+        if (media.type == MediaType.Video) {
+            view.openDetails(media)
+        }
     }
 
     private fun onChangeType(type: MediaType) {

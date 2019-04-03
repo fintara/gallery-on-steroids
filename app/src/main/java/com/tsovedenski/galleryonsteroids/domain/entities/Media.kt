@@ -1,6 +1,8 @@
 package com.tsovedenski.galleryonsteroids.domain.entities
 
 import android.os.Environment
+import android.os.Parcel
+import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -24,12 +26,40 @@ data class Media (
 
     @ColumnInfo(name = "created_at")
     val createdAt: Instant = Instant.now()
-) {
+) : Parcelable {
 //    val path: String get() = Environment.getDataDirectory().absolutePath + when (type) {
     val path: String get() = Environment.getExternalStorageDirectory().absolutePath + when (type) {
         MediaType.Photo -> "/$id.jpg"
         MediaType.Video -> "/$id.mp4"
         MediaType.Audio -> "/$id.m4a"
+    }
+
+    constructor(parcel: Parcel) : this(
+        parcel.readString()!!,
+        parcel.readString()!!,
+        MediaType.fromString(parcel.readString() ?: "") ?: throw RuntimeException("Bad media type"),
+        Instant.ofEpochSecond(parcel.readLong())
+    )
+
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeString(id)
+        parcel.writeString(title)
+        parcel.writeString(type.asString)
+        parcel.writeLong(createdAt.epochSecond)
+    }
+
+    override fun describeContents(): Int {
+        return 0
+    }
+
+    companion object CREATOR : Parcelable.Creator<Media> {
+        override fun createFromParcel(parcel: Parcel): Media {
+            return Media(parcel)
+        }
+
+        override fun newArray(size: Int): Array<Media?> {
+            return arrayOfNulls(size)
+        }
     }
 }
 

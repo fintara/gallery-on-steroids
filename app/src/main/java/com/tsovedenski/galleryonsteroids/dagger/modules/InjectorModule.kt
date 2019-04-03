@@ -4,6 +4,7 @@ import android.content.Context
 import com.tsovedenski.galleryonsteroids.common.CoroutineContextProvider
 import com.tsovedenski.galleryonsteroids.domain.repositories.MediaRepository
 import com.tsovedenski.galleryonsteroids.features.creator.CreatorInjector
+import com.tsovedenski.galleryonsteroids.features.details.DetailsInjector
 import com.tsovedenski.galleryonsteroids.features.medialist.MediaListInjector
 import com.tsovedenski.galleryonsteroids.services.MediaService
 import dagger.Module
@@ -28,4 +29,10 @@ class InjectorModule {
     fun provideCreatorInjector(
         coroutineContextProvider: CoroutineContextProvider
     ) = CreatorInjector(coroutineContextProvider)
+
+    @Provides
+    @Singleton
+    fun provideDetailsInjector(
+        coroutineContextProvider: CoroutineContextProvider
+    ) = DetailsInjector(coroutineContextProvider)
 }

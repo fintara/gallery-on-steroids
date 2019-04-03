@@ -13,15 +13,8 @@ class MediaService (
 
     suspend fun getMedia(): List<Media> = mediaRepository.getMedia()
 
-    suspend fun savePicture(): Media {
-        val media = Media(
-            title = "Test manual",
-            type = MediaType.Photo
-        )
-
+    suspend fun save(media: Media): Media {
         mediaRepository.save(media)
-
         return media
     }
-
 }

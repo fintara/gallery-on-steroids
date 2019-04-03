@@ -5,6 +5,7 @@ import com.tsovedenski.galleryonsteroids.dagger.modules.AppModule
 import com.tsovedenski.galleryonsteroids.dagger.modules.DatabaseModule
 import com.tsovedenski.galleryonsteroids.dagger.modules.InjectorModule
 import com.tsovedenski.galleryonsteroids.features.creator.CreatorActivity
+import com.tsovedenski.galleryonsteroids.features.details.DetailsActivity
 import com.tsovedenski.galleryonsteroids.features.medialist.MediaListActivity
 import dagger.Component
 import javax.inject.Singleton
@@ -17,4 +18,5 @@ import javax.inject.Singleton
 interface AppComponent {
     fun inject(activity: MediaListActivity)
     fun inject(activity: CreatorActivity)
+    fun inject(activity: DetailsActivity)
 }

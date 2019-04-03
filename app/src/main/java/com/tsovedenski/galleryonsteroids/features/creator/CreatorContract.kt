@@ -1,6 +1,7 @@
 package com.tsovedenski.galleryonsteroids.features.creator
 
 import androidx.lifecycle.Observer
+import com.tsovedenski.galleryonsteroids.domain.entities.Media
 import com.tsovedenski.galleryonsteroids.domain.entities.MediaType
 
 /**
@@ -14,6 +15,8 @@ interface CreatorContract {
         // todo: not really part of view
         fun startRecording()
         fun stopRecording()
+
+        fun openDetails(media: Media)
     }
 
     interface ViewModel {

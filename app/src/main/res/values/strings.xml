@@ -7,4 +7,6 @@
     <string name="photo">Photo</string>
     <string name="video">Video</string>
     <string name="voice">Voice</string>
+    <string name="title">Title</string>
+    <string name="save">Save</string>
 </resources>

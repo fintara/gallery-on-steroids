@@ -2,6 +2,7 @@ package com.tsovedenski.galleryonsteroids.features.creator
 
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
@@ -13,9 +14,12 @@ import androidx.lifecycle.Observer
 import com.leinardi.android.speeddial.SpeedDialView
 import com.tsovedenski.galleryonsteroids.MyApplication
 import com.tsovedenski.galleryonsteroids.R
+import com.tsovedenski.galleryonsteroids.domain.entities.Media
 import com.tsovedenski.galleryonsteroids.domain.entities.MediaType
 import com.tsovedenski.galleryonsteroids.features.creator.modes.CreatorMode
+import com.tsovedenski.galleryonsteroids.features.creator.modes.CreatorVideoFragment
 import com.tsovedenski.galleryonsteroids.features.creator.modes.CreatorVoiceFragment
+import com.tsovedenski.galleryonsteroids.features.details.DetailsActivity
 import com.tsovedenski.galleryonsteroids.setFragment
 import kotlinx.android.synthetic.main.activity_creator.*
 import javax.inject.Inject
@@ -95,7 +99,7 @@ class CreatorActivity : AppCompatActivity(), CreatorContract.View {
 
         mode = when (value) {
             MediaType.Photo -> CreatorVoiceFragment()
-            MediaType.Video -> CreatorVoiceFragment()
+            MediaType.Video -> CreatorVideoFragment()
             MediaType.Audio -> CreatorVoiceFragment()
         }
 
@@ -116,6 +120,14 @@ class CreatorActivity : AppCompatActivity(), CreatorContract.View {
         recordAnimation.cancel()
         creator_action.mainFabClosedBackgroundColor = resources.getColor(R.color.record, theme)
         types_container.visibility = View.VISIBLE
+    }
+
+    override fun openDetails(media: Media) {
+        val intent = Intent(this, DetailsActivity::class.java).apply {
+            putExtra("media", media)
+        }
+        startActivity(intent)
+        finish()
     }
 
     private fun updateButtonHighlight(value: MediaType) {

@@ -76,6 +76,7 @@ dependencies {
     implementation "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:$versions.retrofit_adapter"
 
     implementation "com.github.MikeOrtiz:TouchImageView:$versions.touch_imageview"
+    implementation "com.otaliastudios:cameraview:$versions.cameraview"
 
     implementation "com.jakewharton.timber:timber:$versions.timber"
 
