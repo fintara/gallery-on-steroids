@@ -20,9 +20,10 @@ class InjectorModule {
     @Provides
     @Singleton
     fun provideMediaListInjector(
+        context: Context,
         mediaService: MediaService,
         coroutineContextProvider: CoroutineContextProvider
-    ) = MediaListInjector(mediaService, coroutineContextProvider)
+    ) = MediaListInjector(context, mediaService, coroutineContextProvider)
 
     @Provides
     @Singleton
@@ -33,6 +34,7 @@ class InjectorModule {
     @Provides
     @Singleton
     fun provideDetailsInjector(
+        mediaService: MediaService,
         coroutineContextProvider: CoroutineContextProvider
-    ) = DetailsInjector(coroutineContextProvider)
+    ) = DetailsInjector(mediaService, coroutineContextProvider)
 }

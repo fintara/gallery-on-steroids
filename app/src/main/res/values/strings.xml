@@ -9,4 +9,6 @@
     <string name="voice">Voice</string>
     <string name="title">Title</string>
     <string name="save">Save</string>
+    <string name="view_as_grid">View as Grid</string>
+    <string name="view_as_cards">View as Cards</string>
 </resources>

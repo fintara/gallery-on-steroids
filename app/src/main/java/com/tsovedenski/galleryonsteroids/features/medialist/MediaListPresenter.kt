@@ -26,6 +26,8 @@ class MediaListPresenter (
         MediaListEvent.CreatePhoto -> createPhoto()
         MediaListEvent.CreateVideo -> createVideo()
         MediaListEvent.CreateAudio -> createAudio()
+
+        is MediaListEvent.ChangeViewType -> changeViewType(e.value)
     }
 
     private fun onStart() {
@@ -35,6 +37,7 @@ class MediaListPresenter (
 
     private fun onResume() {
         loadItems()
+        changeViewType(model.getViewType())
     }
 
     private fun loadItems() = launch {
@@ -52,5 +55,11 @@ class MediaListPresenter (
 
     private fun createAudio() {
         view.openCreator(MediaType.Audio)
+    }
+
+    private fun changeViewType(value: ViewType) {
+        view.setViewType(value)
+        model.setViewType(value)
+        adapter.viewType = value
     }
 }

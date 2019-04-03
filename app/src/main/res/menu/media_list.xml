@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/viewtype_grid"
+        android:icon="@drawable/grid"
+        app:showAsAction="ifRoom"
+        android:title="@string/view_as_grid" />
+
+    <item
+        android:id="@+id/viewtype_card"
+        android:icon="@drawable/card"
+        app:showAsAction="ifRoom"
+        android:title="@string/view_as_cards"/>
+
+</menu>

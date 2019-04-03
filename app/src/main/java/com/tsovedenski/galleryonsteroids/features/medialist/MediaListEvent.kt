@@ -11,4 +11,6 @@ sealed class MediaListEvent {
     object CreatePhoto : MediaListEvent()
     object CreateVideo : MediaListEvent()
     object CreateAudio : MediaListEvent()
+
+    data class ChangeViewType(val value: ViewType) : MediaListEvent()
 }

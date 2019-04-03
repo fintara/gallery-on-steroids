@@ -1,5 +1,6 @@
 package com.tsovedenski.galleryonsteroids.features.medialist
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,32 +14,64 @@ import androidx.recyclerview.widget.RecyclerView
 import com.tsovedenski.galleryonsteroids.R
 import com.tsovedenski.galleryonsteroids.common.createDiffCallback
 import com.tsovedenski.galleryonsteroids.domain.entities.Media
-import kotlinx.android.synthetic.main.media_row.view.*
+import kotlinx.android.synthetic.main.media_row_card.view.*
 
 /**
  * Created by Tsvetan Ovedenski on 30/03/19.
  */
 class MediaListAdapter (
+    private val context: Context,
     private val event: MutableLiveData<MediaListEvent> = MutableLiveData()
 ) : ListAdapter<Media, MediaListAdapter.ViewHolder>(diffCallback) {
 
+    var viewType: ViewType = ViewType.Grid
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
+
     fun setObserver(observer: Observer<MediaListEvent>) = event.observeForever(observer)
+
+    override fun getItemViewType(position: Int): Int = viewType.asInt
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        return ViewHolder(inflater.inflate(R.layout.media_row, parent, false))
+        val (holder, layout) = when (viewType) {
+            ViewType.Grid.asInt -> Pair(ViewHolder::GridViewHolder, R.layout.media_row_grid)
+            ViewType.Card.asInt -> Pair(ViewHolder::CardViewHolder, R.layout.media_row_card)
+            else -> throw RuntimeException("Unknown viewType: $viewType")
+        }
+        return holder(inflater.inflate(layout, parent, false))
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
-
-//        holder.thumbnail.setImageResource(android.R)
-        holder.title.text = "${item.title} (${item.id})"
+        holder.bindTo(item, position, event, context)
     }
 
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val thumbnail: ImageView = view.findViewById(R.id.thumbnail)
-        val title: TextView = view.findViewById(R.id.title)
+    sealed class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        abstract fun bindTo(
+            item: Media,
+            position: Int,
+            event: MutableLiveData<MediaListEvent>,
+            context: Context
+        )
+
+        class GridViewHolder(view: View) : ViewHolder(view) {
+            override fun bindTo(item: Media, position: Int, event: MutableLiveData<MediaListEvent>, context: Context) {
+
+            }
+        }
+
+        class CardViewHolder(view: View) : ViewHolder(view) {
+            private val thumbnail: ImageView = view.findViewById(R.id.thumbnail)
+            private val title: TextView = view.findViewById(R.id.media_title)
+
+            override fun bindTo(item: Media, position: Int, event: MutableLiveData<MediaListEvent>, context: Context) {
+                // thumbnail.setImageResource(android.R)
+                title.text = "${item.title} (${item.id})"
+            }
+        }
     }
 }
 

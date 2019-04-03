@@ -11,6 +11,7 @@ import com.tsovedenski.galleryonsteroids.services.MediaService
  * Created by Tsvetan Ovedenski on 10/03/19.
  */
 class MediaListInjector (
+    private val context: Context,
     private val mediaService: MediaService,
     private val coroutineContextProvider: CoroutineContextProvider
 ) {
@@ -19,7 +20,7 @@ class MediaListInjector (
             view,
             ViewModelProviders.of(view).get(MediaListViewModel::class.java),
             mediaService,
-            MediaListAdapter(),
+            MediaListAdapter(context),
             coroutineContextProvider
         )
         view.setObserver(presenter)
