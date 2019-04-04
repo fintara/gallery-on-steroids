@@ -30,7 +30,7 @@ class CreatorPresenter (
     }
 
     private fun onResume() {
-        view.setMediaType(model.getMediaType()!!)
+        model.getMediaType()?.let(view::setMediaType)
     }
 
     private fun recordPressed() {
@@ -43,22 +43,30 @@ class CreatorPresenter (
 
     private fun startRecording() {
         view.startRecording()
+        model.setRecording(true)
     }
 
     private fun stopRecording() {
         view.stopRecording()
+        model.setRecording(false)
     }
 
     private fun recorded(media: Media) {
         // save in database?
         // open details view?
 
-        if (media.type == MediaType.Video) {
+//        if (media.type == MediaType.Video || media.type == MediaType.Audio) {
             view.openDetails(media)
-        }
+//        }
     }
 
     private fun onChangeType(type: MediaType) {
+        val currentType = model.getMediaType()
+
+        if (currentType == type) {
+            return
+        }
+
         when (type) {
             MediaType.Photo -> Unit
             MediaType.Video -> Unit

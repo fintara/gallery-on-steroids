@@ -25,6 +25,8 @@ import kotlin.experimental.and
  */
 class CreatorVoiceFragment : Fragment(), CreatorMode {
 
+    override var onRecordingFinished: ((Media) -> Unit)? = null
+
     private val sampleRate = 44_100
     private val channels = 2
     private val bitrate = 224
@@ -99,11 +101,10 @@ class CreatorVoiceFragment : Fragment(), CreatorMode {
         startPreview()
     }
 
-    override fun stopRecording(): Media {
+    override fun stopRecording() {
         encoder.stop()
         stopPreview()
-
-        return media
+        onRecordingFinished?.let { it(media) }
     }
 
     private fun onAudioBuffer(buffer: ShortArray) {

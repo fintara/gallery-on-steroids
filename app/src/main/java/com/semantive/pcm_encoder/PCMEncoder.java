@@ -98,6 +98,7 @@ public class PCMEncoder {
         int inputBufferIndex = mediaCodec.dequeueInputBuffer(CODEC_TIMEOUT);
         mediaCodec.queueInputBuffer(inputBufferIndex, 0, 0, (long) presentationTimeUs, MediaCodec.BUFFER_FLAG_END_OF_STREAM);
         writeOutputs();
+        Log.d(TAG, "Finished writing");
     }
 
     /**

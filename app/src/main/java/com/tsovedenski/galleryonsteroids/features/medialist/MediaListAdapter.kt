@@ -10,6 +10,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.tsovedenski.galleryonsteroids.GlideApp
 import com.tsovedenski.galleryonsteroids.R
 import com.tsovedenski.galleryonsteroids.common.createDiffCallback
 import com.tsovedenski.galleryonsteroids.domain.entities.Media
@@ -66,7 +67,10 @@ class MediaListAdapter (
             private val title: TextView = view.findViewById(R.id.media_title)
 
             override fun bindTo(item: Media, position: Int, event: MutableLiveData<MediaListEvent>, context: Context) {
-                // thumbnail.setImageResource(android.R)
+                GlideApp
+                    .with(context)
+                    .load(item.path)
+                    .into(thumbnail)
                 title.text = "${item.title} (${item.id})"
             }
         }

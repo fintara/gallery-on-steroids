@@ -15,6 +15,7 @@
             android:layout_height="96dp"
             tools:srcCompat="@tools:sample/avatars"
             android:id="@+id/media_thumbnail"
+            android:scaleType="centerCrop"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>

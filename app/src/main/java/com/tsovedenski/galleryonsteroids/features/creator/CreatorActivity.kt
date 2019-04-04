@@ -17,6 +17,7 @@ import com.tsovedenski.galleryonsteroids.R
 import com.tsovedenski.galleryonsteroids.domain.entities.Media
 import com.tsovedenski.galleryonsteroids.domain.entities.MediaType
 import com.tsovedenski.galleryonsteroids.features.creator.modes.CreatorMode
+import com.tsovedenski.galleryonsteroids.features.creator.modes.CreatorPhotoFragment
 import com.tsovedenski.galleryonsteroids.features.creator.modes.CreatorVideoFragment
 import com.tsovedenski.galleryonsteroids.features.creator.modes.CreatorVoiceFragment
 import com.tsovedenski.galleryonsteroids.features.details.DetailsActivity
@@ -98,9 +99,13 @@ class CreatorActivity : AppCompatActivity(), CreatorContract.View {
         updateRecordButtonIcon(value)
 
         mode = when (value) {
-            MediaType.Photo -> CreatorVoiceFragment()
+            MediaType.Photo -> CreatorPhotoFragment()
             MediaType.Video -> CreatorVideoFragment()
             MediaType.Audio -> CreatorVoiceFragment()
+        }
+
+        mode.onRecordingFinished = { media ->
+            event.value = CreatorEvent.RecordedMedia(media)
         }
 
         setFragment(mode as Fragment, "mode", R.id.container)
@@ -114,12 +119,13 @@ class CreatorActivity : AppCompatActivity(), CreatorContract.View {
     }
 
     override fun stopRecording() {
-        val media = mode.stopRecording()
-        event.value = CreatorEvent.RecordedMedia(media)
+        mode.stopRecording()
+
+        spinner.visibility = View.VISIBLE
+        container.visibility = View.GONE
 
         recordAnimation.cancel()
         creator_action.mainFabClosedBackgroundColor = resources.getColor(R.color.record, theme)
-        types_container.visibility = View.VISIBLE
     }
 
     override fun openDetails(media: Media) {

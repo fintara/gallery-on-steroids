@@ -10,7 +10,7 @@ class DetailsViewModel (
 
     override fun getMedia(): Media? = media.value
 
-    override fun setMedia(value: Media) {
+    override fun setMedia(value: Media?) {
         media.value = value
     }
 }

@@ -6,6 +6,10 @@ import com.bumptech.glide.module.AppGlideModule
 import com.tsovedenski.galleryonsteroids.dagger.AppComponent
 import com.tsovedenski.galleryonsteroids.dagger.DaggerAppComponent
 import com.tsovedenski.galleryonsteroids.dagger.modules.AppModule
+import timber.log.Timber.DebugTree
+import timber.log.Timber
+
+
 
 class MyApplication : Application() {
 
@@ -18,6 +22,10 @@ class MyApplication : Application() {
         appComponent = DaggerAppComponent.builder()
             .appModule(AppModule(this))
             .build()
+
+        if (BuildConfig.DEBUG) {
+            Timber.plant(DebugTree())
+        }
     }
 }
 
