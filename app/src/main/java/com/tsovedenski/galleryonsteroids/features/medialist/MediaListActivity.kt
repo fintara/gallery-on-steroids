@@ -13,10 +13,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.tsovedenski.galleryonsteroids.MyApplication
 import com.tsovedenski.galleryonsteroids.R
 import com.tsovedenski.galleryonsteroids.domain.entities.MediaType
+import com.tsovedenski.galleryonsteroids.features.common.hasPermissions
+import com.tsovedenski.galleryonsteroids.features.common.requestPermissions
 import com.tsovedenski.galleryonsteroids.features.creator.CreatorActivity
 import com.tsovedenski.galleryonsteroids.features.details.DetailsEvent
 import kotlinx.android.synthetic.main.activity_details.*
 import kotlinx.android.synthetic.main.activity_media_list.*
+import pub.devrel.easypermissions.EasyPermissions
+import pub.devrel.easypermissions.PermissionRequest
 import javax.inject.Inject
 
 class MediaListActivity : AppCompatActivity(), MediaListContract.View {
@@ -76,6 +80,12 @@ class MediaListActivity : AppCompatActivity(), MediaListContract.View {
         return true
     }
 
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
+    }
+
     override fun setObserver(observer: Observer<MediaListEvent>) {
         event.observeForever(observer)
     }
@@ -99,6 +109,14 @@ class MediaListActivity : AppCompatActivity(), MediaListContract.View {
         startActivity(intent)
     }
 
+    override fun checkPermissions(vararg perms: String) {
+        if (hasPermissions(*perms)) {
+            return
+        }
+
+        requestPermissions(R.string.need_read_permission, RC_PERMISSIONS, *perms)
+    }
+
     private fun initFab() {
         fab_create.inflate(R.menu.fab)
         fab_create.setOnActionSelectedListener {
@@ -109,5 +127,9 @@ class MediaListActivity : AppCompatActivity(), MediaListContract.View {
                 else -> false
             }
         }
+    }
+
+    companion object {
+        private const val RC_PERMISSIONS = 1
     }
 }

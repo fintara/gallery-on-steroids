@@ -14,6 +14,8 @@ interface MediaListContract {
         fun setViewType(value: ViewType)
 
         fun openCreator(type: MediaType)
+
+        fun checkPermissions(vararg perms: String)
     }
 
     interface ViewModel {

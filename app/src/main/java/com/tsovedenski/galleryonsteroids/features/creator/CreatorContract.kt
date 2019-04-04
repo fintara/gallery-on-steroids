@@ -1,5 +1,6 @@
 package com.tsovedenski.galleryonsteroids.features.creator
 
+import androidx.annotation.StringRes
 import androidx.lifecycle.Observer
 import com.tsovedenski.galleryonsteroids.domain.entities.Media
 import com.tsovedenski.galleryonsteroids.domain.entities.MediaType
@@ -17,6 +18,8 @@ interface CreatorContract {
         fun stopRecording()
 
         fun openDetails(media: Media)
+
+        fun checkPermissions(@StringRes rationaleResId: Int, vararg perms: String)
     }
 
     interface ViewModel {

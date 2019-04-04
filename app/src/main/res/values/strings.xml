@@ -3,6 +3,7 @@
 
     <string name="go">Go!</string>
     <string name="clear">Clear</string>
+    <string name="ok">Ok</string>
     <string name="cancel">Cancel</string>
     <string name="photo">Photo</string>
     <string name="video">Video</string>
@@ -11,4 +12,8 @@
     <string name="save">Save</string>
     <string name="view_as_grid">View as Grid</string>
     <string name="view_as_cards">View as Cards</string>
+
+    <string name="need_read_permission">Need to read from storage</string>
+    <string name="need_write_permission">Need to write to storage</string>
+    <string name="need_audio_permission">Need to use the microphone</string>
 </resources>

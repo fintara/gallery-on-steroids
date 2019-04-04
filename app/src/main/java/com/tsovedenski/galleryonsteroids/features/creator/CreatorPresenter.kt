@@ -1,5 +1,7 @@
 package com.tsovedenski.galleryonsteroids.features.creator
 
+import android.Manifest
+import com.tsovedenski.galleryonsteroids.R
 import com.tsovedenski.galleryonsteroids.common.CoroutineContextProvider
 import com.tsovedenski.galleryonsteroids.domain.entities.Media
 import com.tsovedenski.galleryonsteroids.domain.entities.MediaType
@@ -30,7 +32,7 @@ class CreatorPresenter (
     }
 
     private fun onResume() {
-        model.getMediaType()?.let(view::setMediaType)
+        model.getMediaType()?.let(::onChangeType)
     }
 
     private fun recordPressed() {
@@ -61,16 +63,10 @@ class CreatorPresenter (
     }
 
     private fun onChangeType(type: MediaType) {
-        val currentType = model.getMediaType()
+        view.checkPermissions(R.string.need_write_permission, Manifest.permission.WRITE_EXTERNAL_STORAGE)
 
-        if (currentType == type) {
-            return
-        }
-
-        when (type) {
-            MediaType.Photo -> Unit
-            MediaType.Video -> Unit
-            MediaType.Audio -> Unit
+        if (type == MediaType.Audio) {
+            view.checkPermissions(R.string.need_audio_permission, Manifest.permission.RECORD_AUDIO)
         }
 
         model.setMediaType(type)

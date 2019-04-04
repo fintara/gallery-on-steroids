@@ -10,6 +10,7 @@ buildscript {
         androidx_recyclerview    : '1.0.0',
         cameraview               : '2.0.0-beta04',
         dagger                   : '2.21',
+        easypermissions          : '3.0.0',
         espresso                 : '3.0.2',
         glide                    : '4.9.0',
         junit                    : '5.4.0',

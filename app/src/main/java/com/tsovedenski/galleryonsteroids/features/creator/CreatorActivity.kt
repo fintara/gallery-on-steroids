@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
 import android.view.animation.Animation
+import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
@@ -16,6 +17,8 @@ import com.tsovedenski.galleryonsteroids.MyApplication
 import com.tsovedenski.galleryonsteroids.R
 import com.tsovedenski.galleryonsteroids.domain.entities.Media
 import com.tsovedenski.galleryonsteroids.domain.entities.MediaType
+import com.tsovedenski.galleryonsteroids.features.common.hasPermissions
+import com.tsovedenski.galleryonsteroids.features.common.requestPermissions
 import com.tsovedenski.galleryonsteroids.features.creator.modes.CreatorMode
 import com.tsovedenski.galleryonsteroids.features.creator.modes.CreatorPhotoFragment
 import com.tsovedenski.galleryonsteroids.features.creator.modes.CreatorVideoFragment
@@ -23,6 +26,8 @@ import com.tsovedenski.galleryonsteroids.features.creator.modes.CreatorVoiceFrag
 import com.tsovedenski.galleryonsteroids.features.details.DetailsActivity
 import com.tsovedenski.galleryonsteroids.setFragment
 import kotlinx.android.synthetic.main.activity_creator.*
+import pub.devrel.easypermissions.EasyPermissions
+import pub.devrel.easypermissions.PermissionRequest
 import javax.inject.Inject
 
 /**
@@ -90,6 +95,12 @@ class CreatorActivity : AppCompatActivity(), CreatorContract.View {
         event.value = CreatorEvent.OnDestroy
     }
 
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
+    }
+
     override fun setObserver(observer: Observer<CreatorEvent>) {
         event.observeForever(observer)
     }
@@ -136,6 +147,14 @@ class CreatorActivity : AppCompatActivity(), CreatorContract.View {
         finish()
     }
 
+    override fun checkPermissions(@StringRes rationaleResId: Int, vararg perms: String) {
+        if (hasPermissions(*perms)) {
+            return
+        }
+
+        requestPermissions(rationaleResId, RC_PERMISSIONS, *perms)
+    }
+
     private fun updateButtonHighlight(value: MediaType) {
         val transparent = resources.getColor(android.R.color.transparent, theme)
         val selected = resources.getColor(R.color.white_25t, theme)
@@ -159,5 +178,9 @@ class CreatorActivity : AppCompatActivity(), CreatorContract.View {
         }
 
         creator_action.setMainFabClosedDrawable(resources.getDrawable(icon, theme))
+    }
+
+    companion object {
+        private const val RC_PERMISSIONS = 10
     }
 }

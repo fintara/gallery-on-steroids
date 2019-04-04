@@ -1,5 +1,6 @@
 package com.tsovedenski.galleryonsteroids.features.medialist
 
+import android.Manifest
 import com.tsovedenski.galleryonsteroids.common.CoroutineContextProvider
 import com.tsovedenski.galleryonsteroids.domain.entities.MediaType
 import com.tsovedenski.galleryonsteroids.features.common.Presenter
@@ -33,6 +34,8 @@ class MediaListPresenter (
     private fun onStart() {
         adapter.setObserver(this)
         view.setAdapter(adapter)
+
+        view.checkPermissions(Manifest.permission.READ_EXTERNAL_STORAGE)
     }
 
     private fun onResume() {
