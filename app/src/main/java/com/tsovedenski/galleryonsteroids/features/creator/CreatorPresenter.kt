@@ -36,21 +36,21 @@ class CreatorPresenter (
     }
 
     private fun recordPressed() {
-        if (model.isRecording()) {
-            stopRecording()
-        } else {
-            startRecording()
+        when (model.getRecordingState()) {
+            RecordingState.Idle -> startRecording()
+            RecordingState.Recording -> stopRecording()
+            RecordingState.Finishing -> Unit
         }
     }
 
     private fun startRecording() {
         view.startRecording()
-        model.setRecording(true)
+        model.setRecordingState(RecordingState.Recording)
     }
 
     private fun stopRecording() {
         view.stopRecording()
-        model.setRecording(false)
+        model.setRecordingState(RecordingState.Finishing)
     }
 
     private fun recorded(media: Media) {
@@ -60,6 +60,8 @@ class CreatorPresenter (
 //        if (media.type == MediaType.Video || media.type == MediaType.Audio) {
             view.openDetails(media)
 //        }
+
+        model.setRecordingState(RecordingState.Idle)
     }
 
     private fun onChangeType(type: MediaType) {

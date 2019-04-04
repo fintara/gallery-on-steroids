@@ -9,12 +9,12 @@ import com.tsovedenski.galleryonsteroids.domain.entities.MediaType
  */
 class CreatorViewModel (
     private val mediaType: MutableLiveData<MediaType> = MutableLiveData(),
-    private val isRecording: MutableLiveData<Boolean> = MutableLiveData()
+    private val recordingState: MutableLiveData<RecordingState> = MutableLiveData()
 ) : ViewModel(),
     CreatorContract.ViewModel {
 
     init {
-        isRecording.value = false
+        recordingState.value = RecordingState.Idle
     }
 
     override fun getMediaType(): MediaType? = mediaType.value
@@ -23,9 +23,9 @@ class CreatorViewModel (
         mediaType.value = value
     }
 
-    override fun isRecording(): Boolean = isRecording.value!!
+    override fun getRecordingState(): RecordingState = recordingState.value!!
 
-    override fun setRecording(value: Boolean) {
-        isRecording.value = value
+    override fun setRecordingState(value: RecordingState) {
+        recordingState.value = value
     }
 }

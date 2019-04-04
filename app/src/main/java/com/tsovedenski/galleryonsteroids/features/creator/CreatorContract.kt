@@ -26,7 +26,13 @@ interface CreatorContract {
         fun getMediaType(): MediaType?
         fun setMediaType(value: MediaType)
 
-        fun isRecording(): Boolean
-        fun setRecording(value: Boolean)
+        fun getRecordingState(): RecordingState
+        fun setRecordingState(value: RecordingState)
     }
+}
+
+sealed class RecordingState {
+    object Idle : RecordingState()
+    object Recording : RecordingState()
+    object Finishing : RecordingState()
 }
