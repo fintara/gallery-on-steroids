@@ -8,13 +8,11 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.tsovedenski.galleryonsteroids.R
 import com.tsovedenski.galleryonsteroids.common.createDiffCallback
 import com.tsovedenski.galleryonsteroids.domain.entities.Media
-import kotlinx.android.synthetic.main.media_row_card.view.*
 
 /**
  * Created by Tsvetan Ovedenski on 30/03/19.
@@ -64,7 +62,7 @@ class MediaListAdapter (
         }
 
         class CardViewHolder(view: View) : ViewHolder(view) {
-            private val thumbnail: ImageView = view.findViewById(R.id.thumbnail)
+            private val thumbnail: ImageView = view.findViewById(R.id.media_thumbnail)
             private val title: TextView = view.findViewById(R.id.media_title)
 
             override fun bindTo(item: Media, position: Int, event: MutableLiveData<MediaListEvent>, context: Context) {
