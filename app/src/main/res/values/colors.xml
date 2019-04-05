@@ -10,6 +10,8 @@
     <color name="white">#ffffff</color>
     <color name="white_25t">#3FFFFFFF</color>
 
+    <color name="lightGray">#fff3f3f3</color>
+
     <color name="black_overlay">#66000000</color>
     <color name="black">#000</color>
 </resources>

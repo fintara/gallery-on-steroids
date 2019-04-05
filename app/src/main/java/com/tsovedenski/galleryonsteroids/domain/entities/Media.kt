@@ -24,6 +24,9 @@ data class Media (
     @ColumnInfo(name = "media_type")
     val type: MediaType,
 
+    @ColumnInfo(name = "duration")
+    val duration: Long? = null,
+
     @ColumnInfo(name = "created_at")
     val createdAt: Instant = Instant.now()
 ) : Parcelable {
@@ -38,6 +41,7 @@ data class Media (
         parcel.readString()!!,
         parcel.readString()!!,
         MediaType.fromString(parcel.readString() ?: "") ?: throw RuntimeException("Bad media type"),
+        with(parcel.readLong()) { if (this < 1) null else this },
         Instant.ofEpochSecond(parcel.readLong())
     )
 
@@ -45,6 +49,7 @@ data class Media (
         parcel.writeString(id)
         parcel.writeString(title)
         parcel.writeString(type.asString)
+        parcel.writeLong(duration ?: -1)
         parcel.writeLong(createdAt.epochSecond)
     }
 

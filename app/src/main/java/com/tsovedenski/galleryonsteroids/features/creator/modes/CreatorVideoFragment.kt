@@ -1,5 +1,6 @@
 package com.tsovedenski.galleryonsteroids.features.creator.modes
 
+import android.media.MediaMetadataRetriever
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -31,7 +32,13 @@ class CreatorVideoFragment : Fragment(), CreatorMode {
         cameraview.setLifecycleOwner(viewLifecycleOwner)
         cameraview.addCameraListener(object : CameraListener() {
             override fun onVideoTaken(result: VideoResult) {
-                onRecordingFinished?.let { it(media) }
+                val retriever = MediaMetadataRetriever().apply {
+                    setDataSource(media.path)
+                }
+                val duration = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)?.toLong()
+                onRecordingFinished?.let { it(media.copy(
+                    duration = duration
+                )) }
             }
         })
     }

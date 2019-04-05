@@ -8,7 +8,7 @@ import com.tsovedenski.galleryonsteroids.domain.entities.Media
  */
 @Dao
 interface MediaRepository {
-    @Query("SELECT * FROM media ORDER BY created_at")
+    @Query("SELECT * FROM media ORDER BY created_at DESC")
     suspend fun getMedia(): List<Media>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

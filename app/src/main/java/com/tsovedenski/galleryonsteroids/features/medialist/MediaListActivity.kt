@@ -29,6 +29,8 @@ class MediaListActivity : AppCompatActivity(), MediaListContract.View {
 
     private val event = MutableLiveData<MediaListEvent>()
 
+    private var menu: Menu? = null
+
     private val gridLayoutManager by lazy {
         GridLayoutManager(this, 2, RecyclerView.VERTICAL, false)
     }
@@ -64,14 +66,20 @@ class MediaListActivity : AppCompatActivity(), MediaListContract.View {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        this.menu = menu
         menuInflater.inflate(R.menu.media_list, menu)
+        event.value = MediaListEvent.OnResume
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val next = when (item.itemId) {
-            R.id.viewtype_card -> MediaListEvent.ChangeViewType(ViewType.Card)
-            R.id.viewtype_grid -> MediaListEvent.ChangeViewType(ViewType.Grid)
+            R.id.viewtype_card -> {
+                MediaListEvent.ChangeViewType(ViewType.Card)
+            }
+            R.id.viewtype_grid -> {
+                MediaListEvent.ChangeViewType(ViewType.Grid)
+            }
             else -> null
         }
 
@@ -95,9 +103,19 @@ class MediaListActivity : AppCompatActivity(), MediaListContract.View {
     }
 
     override fun setViewType(value: ViewType) {
-        items.layoutManager = when (value) {
-            ViewType.Grid -> gridLayoutManager
-            ViewType.Card -> cardLayoutManager
+        when (value) {
+            ViewType.Grid -> {
+                items.layoutManager = gridLayoutManager
+                items.setBackgroundColor(resources.getColor(R.color.black, theme))
+                menu?.findItem(R.id.viewtype_grid)?.isVisible = false
+                menu?.findItem(R.id.viewtype_card)?.isVisible = true
+            }
+            ViewType.Card -> {
+                items.layoutManager = cardLayoutManager
+                items.setBackgroundColor(resources.getColor(R.color.lightGray, theme))
+                menu?.findItem(R.id.viewtype_grid)?.isVisible = true
+                menu?.findItem(R.id.viewtype_card)?.isVisible = false
+            }
         }
     }
 

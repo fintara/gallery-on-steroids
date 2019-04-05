@@ -18,6 +18,7 @@ import com.tsovedenski.galleryonsteroids.domain.entities.Media
 import com.tsovedenski.galleryonsteroids.domain.entities.MediaType
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
+import java.util.concurrent.TimeUnit
 
 /**
  * Created by Tsvetan Ovedenski on 30/03/19.
@@ -76,6 +77,7 @@ class MediaListAdapter (
             GlideApp
                 .with(context)
                 .load(typeIconId)
+                .fitCenter()
                 .into(type)
         }
 
@@ -92,11 +94,20 @@ class MediaListAdapter (
                 title.text = item.title
                 date.text = formatter.format(item.createdAt)
 
-                if (item.type == MediaType.Photo) {
+                if (item.type == MediaType.Photo || item.duration == null) {
                     duration.visibility = View.GONE
                 } else {
                     duration.visibility = View.VISIBLE
-                    duration.text = "01:23"
+
+
+                    val minutes = (item.duration / 1000 / 60)
+                    var minutesStr = minutes.toString()
+                    if (minutesStr.length == 1) minutesStr = "0$minutesStr"
+
+                    val seconds = (item.duration / 1000 - minutes * 60)
+                    var secondsStr = seconds.toString()
+                    if (secondsStr.length == 1) secondsStr = "0$secondsStr"
+                    duration.text = "$minutesStr:$secondsStr"
                 }
             }
 

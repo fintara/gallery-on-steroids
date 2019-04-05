@@ -44,14 +44,16 @@ class DetailsPresenter (
 
     private fun save(data: DetailsEvent.Save) {
         // todo: validate
-        val media = model.getMedia()!!.copy(
-            title = data.title
-        )
+        model.getMedia()?.let { media ->
+            val toSave = media.copy(
+                title = data.title
+            )
 
-        launch {
-            service.save(media)
-            view.close()
-            model.setMedia(null)
+            launch {
+                service.save(toSave)
+                view.close()
+                model.setMedia(null)
+            }
         }
     }
 }
