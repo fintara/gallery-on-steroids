@@ -1,6 +1,7 @@
 package com.tsovedenski.galleryonsteroids.features.medialist
 
 import android.content.Context
+import android.icu.text.SimpleDateFormat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +15,9 @@ import com.tsovedenski.galleryonsteroids.GlideApp
 import com.tsovedenski.galleryonsteroids.R
 import com.tsovedenski.galleryonsteroids.common.createDiffCallback
 import com.tsovedenski.galleryonsteroids.domain.entities.Media
+import com.tsovedenski.galleryonsteroids.domain.entities.MediaType
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 
 /**
  * Created by Tsvetan Ovedenski on 30/03/19.
@@ -49,29 +53,56 @@ class MediaListAdapter (
     }
 
     sealed class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        abstract fun bindTo(
+        private val thumbnail: ImageView = view.findViewById(R.id.media_thumbnail)
+        private val type: ImageView = view.findViewById(R.id.media_type)
+
+        open fun bindTo(
             item: Media,
             position: Int,
             event: MutableLiveData<MediaListEvent>,
             context: Context
-        )
+        ) {
+            GlideApp
+                .with(context)
+                .load(item.path)
+                .into(thumbnail)
 
-        class GridViewHolder(view: View) : ViewHolder(view) {
-            override fun bindTo(item: Media, position: Int, event: MutableLiveData<MediaListEvent>, context: Context) {
-
+            val typeIconId = when (item.type) {
+                MediaType.Photo -> R.drawable.camera
+                MediaType.Video -> R.drawable.video
+                MediaType.Audio -> R.drawable.microphone
             }
+
+            GlideApp
+                .with(context)
+                .load(typeIconId)
+                .into(type)
         }
 
+        class GridViewHolder(view: View) : ViewHolder(view)
+
         class CardViewHolder(view: View) : ViewHolder(view) {
-            private val thumbnail: ImageView = view.findViewById(R.id.media_thumbnail)
             private val title: TextView = view.findViewById(R.id.media_title)
+            private val date: TextView = view.findViewById(R.id.media_date)
+            private val duration: TextView = view.findViewById(R.id.media_duration)
 
             override fun bindTo(item: Media, position: Int, event: MutableLiveData<MediaListEvent>, context: Context) {
-                GlideApp
-                    .with(context)
-                    .load(item.path)
-                    .into(thumbnail)
-                title.text = "${item.title} (${item.id})"
+                super.bindTo(item, position, event, context)
+
+                title.text = item.title
+                date.text = formatter.format(item.createdAt)
+
+                if (item.type == MediaType.Photo) {
+                    duration.visibility = View.GONE
+                } else {
+                    duration.visibility = View.VISIBLE
+                    duration.text = "01:23"
+                }
+            }
+
+            companion object {
+                private val formatter = DateTimeFormatter.ofPattern("d MMM yyyy, HH:mm")
+                    .withZone(ZoneId.systemDefault())
             }
         }
     }
