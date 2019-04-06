@@ -15,7 +15,7 @@ abstract class Presenter <T> (
     private val job = Job()
     override val coroutineContext by lazy { coroutineContextProvider.provide() + job }
 
-    protected fun onDestroy() {
+    protected open fun onDestroy() {
         job.cancel()
     }
 }

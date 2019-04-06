@@ -7,12 +7,13 @@ import com.tsovedenski.galleryonsteroids.features.common.Presenter
 import com.tsovedenski.galleryonsteroids.services.MediaService
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import java.io.File
 
 class FormPresenter (
     private val view: FormContract.View,
     private val model: FormContract.ViewModel,
     private val service: MediaService,
-    private val contextProvider: CoroutineContextProvider
+    contextProvider: CoroutineContextProvider
 ): Presenter<FormEvent>(contextProvider) {
 
     init {
@@ -22,7 +23,9 @@ class FormPresenter (
     override fun onChanged(e: FormEvent) = when (e) {
         is FormEvent.OnStart -> onStart(e.media)
         FormEvent.OnResume -> onResume()
+        FormEvent.OnPause -> onPause()
         FormEvent.OnDestroy -> onDestroy()
+        FormEvent.Discard -> discard()
         is FormEvent.Save -> save(e)
     }
 
@@ -40,7 +43,23 @@ class FormPresenter (
         }
     }
 
-    private fun save(data: FormEvent.Save) {
+    private fun onPause() {
+        // save unsaved just in case
+//        Timber.i("Saving media onPause")
+//        save(FormEvent.Save("Unnamed"), removeFromModel = false)
+    }
+
+    private fun discard() {
+        Timber.i("About to discard media")
+        model.getMedia()?.let { media ->
+            Timber.i("Discarding ${media.id}")
+            launch {
+                service.delete(media)
+            }
+        }
+    }
+
+    private fun save(data: FormEvent.Save, removeFromModel: Boolean = true) {
         if (!isTitleValid(data.title)) {
             view.showMessage(R.string.invalid_title)
             return
@@ -54,7 +73,9 @@ class FormPresenter (
             launch {
                 service.save(toSave)
                 view.close()
-                model.setMedia(null)
+                if (removeFromModel) {
+                    model.setMedia(null)
+                }
             }
         }
     }

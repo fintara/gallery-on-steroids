@@ -20,4 +20,7 @@
     <string name="replay">Replay</string>
     <string name="invalid_title">Title: max 20 letters/numbers/space</string>
     <string name="save_new">Save new</string>
+    <string name="discard">Discard</string>
+    <string name="stay">Stay</string>
+    <string name="discard_title">Discard this item?</string>
 </resources>

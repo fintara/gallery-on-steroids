@@ -1,8 +1,11 @@
 package com.tsovedenski.galleryonsteroids.features.form
 
+import android.content.DialogInterface
 import android.os.Bundle
+import android.os.Handler
 import android.view.Menu
 import android.view.MenuItem
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
@@ -57,6 +60,11 @@ class FormActivity : AppCompatActivity(), FormContract.View {
         event.value = FormEvent.OnResume
     }
 
+    override fun onPause() {
+        event.value = FormEvent.OnPause
+        super.onPause()
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         event.value = FormEvent.OnDestroy
@@ -74,6 +82,21 @@ class FormActivity : AppCompatActivity(), FormContract.View {
         }
 
         return false
+    }
+
+    override fun onBackPressed() {
+        AlertDialog.Builder(this).apply {
+            setTitle(R.string.discard_title)
+
+            setPositiveButton(R.string.discard) { _, _ ->
+                event.value = FormEvent.Discard
+                super.onBackPressed()
+            }
+
+            setNegativeButton(R.string.stay) { dialog, _ ->
+                dialog.cancel()
+            }
+        }.show()
     }
 
     override fun setThumbnail(media: Media) {
