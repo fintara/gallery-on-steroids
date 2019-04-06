@@ -2,13 +2,21 @@ package com.tsovedenski.galleryonsteroids.features.creator
 
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
+import android.content.Context
 import android.content.Intent
+import android.hardware.Sensor
+import android.hardware.SensorEvent
+import android.hardware.SensorEventListener
+import android.hardware.SensorManager
 import android.os.Bundle
+import android.view.Surface
 import android.view.View
 import android.view.WindowManager
 import android.view.animation.Animation
+import android.view.animation.OvershootInterpolator
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
@@ -27,14 +35,26 @@ import com.tsovedenski.galleryonsteroids.features.form.FormActivity
 import com.tsovedenski.galleryonsteroids.setFragment
 import kotlinx.android.synthetic.main.activity_creator.*
 import pub.devrel.easypermissions.EasyPermissions
+import timber.log.Timber
+import java.util.*
 import javax.inject.Inject
+import kotlin.math.abs
 
 /**
  * Created by Tsvetan Ovedenski on 30/03/19.
  */
-class CreatorActivity : AppCompatActivity(), CreatorContract.View {
+class CreatorActivity : AppCompatActivity(), CreatorContract.View, SensorEventListener {
 
     @Inject lateinit var injector: CreatorInjector
+
+    private lateinit var sensorManager: SensorManager
+    private val accelerometerReading = FloatArray(3)
+    private val magnetometerReading = FloatArray(3)
+
+    private val rotationMatrix = FloatArray(9)
+    private val rotationMatrix2 = FloatArray(9)
+    private val orientationAngles = FloatArray(3)
+    private val azimuts = LinkedList<Float>()
 
     private val event = MutableLiveData<CreatorEvent>()
 
@@ -75,6 +95,8 @@ class CreatorActivity : AppCompatActivity(), CreatorContract.View {
             }
             override fun onToggleChanged(isOpen: Boolean) = Unit
         })
+
+        sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
     }
 
     override fun onStart() {
@@ -87,11 +109,54 @@ class CreatorActivity : AppCompatActivity(), CreatorContract.View {
     override fun onResume() {
         super.onResume()
         event.value = CreatorEvent.OnResume
+
+        sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)?.also { accelerometer ->
+            sensorManager.registerListener(
+                this,
+                accelerometer,
+                SensorManager.SENSOR_DELAY_NORMAL,
+                SensorManager.SENSOR_DELAY_UI
+            )
+        }
+        sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD)?.also { magneticField ->
+            sensorManager.registerListener(
+                this,
+                magneticField,
+                SensorManager.SENSOR_DELAY_NORMAL,
+                SensorManager.SENSOR_DELAY_UI
+            )
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        sensorManager.unregisterListener(this)
     }
 
     override fun onDestroy() {
         super.onDestroy()
         event.value = CreatorEvent.OnDestroy
+    }
+
+    override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) = Unit
+
+    override fun onSensorChanged(event: SensorEvent) {
+        if (event.sensor.type == Sensor.TYPE_ACCELEROMETER) {
+            System.arraycopy(event.values, 0, accelerometerReading, 0, accelerometerReading.size)
+        } else if (event.sensor.type == Sensor.TYPE_MAGNETIC_FIELD) {
+            System.arraycopy(event.values, 0, magnetometerReading, 0, magnetometerReading.size)
+        }
+
+        val somec = 57.2957795f
+        updateOrientationAngles()
+        azimuts.addFirst(orientationAngles[1])
+        if (azimuts.size > 5) {
+            azimuts.removeAt(5)
+        }
+        val rot = somec * azimuts.average().toFloat()
+//        Timber.i("Rotation: $rot, azimuts.length = ${azimuts.size}")
+        creator_action.rotation = -rot
+        creator_action.invalidate()
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
@@ -178,6 +243,26 @@ class CreatorActivity : AppCompatActivity(), CreatorContract.View {
 
         creator_action.setMainFabClosedDrawable(resources.getDrawable(icon, theme))
     }
+
+    private fun updateOrientationAngles() {
+        // Update rotation matrix, which is needed to update orientation angles.
+        SensorManager.getRotationMatrix(
+            rotationMatrix,
+            null,
+            accelerometerReading,
+            magnetometerReading
+        )
+
+        // "mRotationMatrix" now has up-to-date information.
+        SensorManager.remapCoordinateSystem(rotationMatrix2, SensorManager.AXIS_X, SensorManager.AXIS_Z, rotationMatrix)
+        SensorManager.remapCoordinateSystem(rotationMatrix2, SensorManager.AXIS_Z, SensorManager.AXIS_Y, rotationMatrix)
+        SensorManager.remapCoordinateSystem(rotationMatrix, SensorManager.AXIS_Y, SensorManager.AXIS_X, rotationMatrix2)
+
+        SensorManager.getOrientation(rotationMatrix, orientationAngles)
+
+        // "mOrientationAngles" now has up-to-date information.
+    }
+
 
     companion object {
         private const val RC_PERMISSIONS = 10
