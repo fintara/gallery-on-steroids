@@ -13,5 +13,6 @@ sealed class ViewerTypeEvent {
     object SeekStarted : ViewerTypeEvent()
     object SeekEnded : ViewerTypeEvent()
     object TogglePlaying : ViewerTypeEvent()
+    object Replay : ViewerTypeEvent()
     data class ProgressChanged(val value: Int, val force: Boolean) : ViewerTypeEvent()
 }

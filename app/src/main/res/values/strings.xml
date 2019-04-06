@@ -16,4 +16,6 @@
     <string name="need_read_permission">Need to read from storage</string>
     <string name="need_write_permission">Need to write to storage</string>
     <string name="need_audio_permission">Need to use the microphone</string>
+    <string name="play_pause">Play/Pause</string>
+    <string name="replay">Replay</string>
 </resources>

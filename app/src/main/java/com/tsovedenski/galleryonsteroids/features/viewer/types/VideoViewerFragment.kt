@@ -55,6 +55,15 @@ class VideoViewerFragment : ViewerFragment() {
             handler.postDelayed(::checkVideoTime, 100)
         }
 
+        video_view.setOnCompletionListener {
+            playpause.visibility = View.INVISIBLE
+            replay.visibility = View.VISIBLE
+        }
+
+        replay.setOnClickListener {
+            event.value = ViewerTypeEvent.Replay
+        }
+
         seekbar.setOnSeekBarChangeListener(seekbarListener)
     }
 
@@ -65,6 +74,9 @@ class VideoViewerFragment : ViewerFragment() {
     }
 
     override fun play() {
+        replay.visibility = View.GONE
+        playpause.visibility = View.VISIBLE
+
         playpause.setImageResource(R.drawable.pause)
         video_view.start()
     }

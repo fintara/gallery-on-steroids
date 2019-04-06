@@ -24,20 +24,36 @@
 
         <ImageButton
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:id="@+id/playpause"
+            android:layout_height="24dp"
+            android:id="@+id/playpause"
+            android:src="@drawable/play"
             style="?android:buttonBarButtonStyle"
-            tools:srcCompat="@drawable/play"
+            android:contentDescription="@string/play_pause"
             app:layout_constraintTop_toTopOf="parent"
             android:tint="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="24dp"
+            android:id="@+id/replay"
+            style="?android:buttonBarButtonStyle"
+            android:visibility="gone"
+            android:src="@drawable/replay"
+            android:contentDescription="@string/replay"
+            app:layout_constraintTop_toTopOf="parent"
+            android:tint="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/duration_current" tools:text="01:23" android:textColor="@color/white"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/seekbar" app:layout_constraintBottom_toBottomOf="@+id/seekbar"
-            android:textSize="18sp" android:fontFamily="sans-serif-condensed-light"/>
+            android:textSize="14sp" android:fontFamily="sans-serif-condensed-light"/>
         <SeekBar
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -52,7 +68,7 @@
             android:id="@+id/duration_total" tools:text="02:34" android:textColor="@color/white"
             app:layout_constraintTop_toTopOf="@+id/playpause" app:layout_constraintBottom_toBottomOf="@+id/playpause"
             app:layout_constraintEnd_toStartOf="@+id/playpause" android:layout_marginEnd="8dp"
-            android:fontFamily="sans-serif-condensed-light" android:textSize="18sp"/>
+            android:fontFamily="sans-serif-condensed-light" android:textSize="14sp"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

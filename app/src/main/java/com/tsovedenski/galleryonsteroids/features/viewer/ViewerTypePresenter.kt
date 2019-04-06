@@ -20,11 +20,13 @@ class ViewerTypePresenter (
         ViewerTypeEvent.SeekStarted -> seekStarted()
         ViewerTypeEvent.SeekEnded -> seekEnded()
         ViewerTypeEvent.TogglePlaying -> togglePlaying()
+        ViewerTypeEvent.Replay -> replay()
         is ViewerTypeEvent.ProgressChanged -> progressChanged(e.value, e.force)
     }
 
     private fun onStart(media: Media) {
         view.prepare(media)
+        progressChanged(model.getProgress()+1, true)
     }
 
     private fun onResume() {
@@ -65,7 +67,13 @@ class ViewerTypePresenter (
         }
     }
 
+    private fun replay() {
+        progressChanged(0, true)
+        startPlaying()
+    }
+
     private fun progressChanged(value: Int, force: Boolean) {
         view.seek(value, force)
+        model.setProgress(value)
     }
 }
