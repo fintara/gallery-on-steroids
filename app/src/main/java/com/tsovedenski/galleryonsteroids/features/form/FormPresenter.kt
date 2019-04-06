@@ -1,5 +1,6 @@
 package com.tsovedenski.galleryonsteroids.features.form
 
+import com.tsovedenski.galleryonsteroids.R
 import com.tsovedenski.galleryonsteroids.common.CoroutineContextProvider
 import com.tsovedenski.galleryonsteroids.domain.entities.Media
 import com.tsovedenski.galleryonsteroids.features.common.Presenter
@@ -40,7 +41,11 @@ class FormPresenter (
     }
 
     private fun save(data: FormEvent.Save) {
-        // todo: validate
+        if (!isTitleValid(data.title)) {
+            view.showMessage(R.string.invalid_title)
+            return
+        }
+
         model.getMedia()?.let { media ->
             val toSave = media.copy(
                 title = data.title
@@ -52,5 +57,11 @@ class FormPresenter (
                 model.setMedia(null)
             }
         }
+    }
+
+    private fun isTitleValid(value: String): Boolean = value.trim().matches(lettersNumbersSpace)
+
+    companion object {
+        private val lettersNumbersSpace = "[a-zA-Z0-9 ]{1,20}".toRegex()
     }
 }

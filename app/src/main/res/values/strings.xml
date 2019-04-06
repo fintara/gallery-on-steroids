@@ -18,4 +18,6 @@
     <string name="need_audio_permission">Need to use the microphone</string>
     <string name="play_pause">Play/Pause</string>
     <string name="replay">Replay</string>
+    <string name="invalid_title">Title: max 20 letters/numbers/space</string>
+    <string name="save_new">Save new</string>
 </resources>

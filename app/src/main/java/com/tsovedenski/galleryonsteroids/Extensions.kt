@@ -13,6 +13,10 @@ fun AppCompatActivity.setFragment(fragment: Fragment, tag: String, containerView
         .replace(containerViewId, fragment, tag)
         .commitNowAllowingStateLoss()
 
+fun AppCompatActivity.showToast(@StringRes resId: Int) {
+    Toast.makeText(this, resId, Toast.LENGTH_SHORT).show()
+}
+
 fun AppCompatActivity.showToast(value: String) {
     Toast.makeText(this, value, Toast.LENGTH_SHORT).show()
 }

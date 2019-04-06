@@ -51,11 +51,8 @@ class VideoViewerFragment : ViewerFragment() {
             event.value = ViewerTypeEvent.TogglePlaying
         }
 
-        video_view.setOnPreparedListener {
-            handler.postDelayed(::checkVideoTime, 100)
-        }
-
         video_view.setOnCompletionListener {
+            handler.removeCallbacksAndMessages(null)
             playpause.visibility = View.INVISIBLE
             replay.visibility = View.VISIBLE
         }
@@ -77,6 +74,8 @@ class VideoViewerFragment : ViewerFragment() {
         replay.visibility = View.GONE
         playpause.visibility = View.VISIBLE
 
+        handler.removeCallbacksAndMessages(null)
+        handler.postDelayed(::checkVideoTime, SEEKBAR_REFRESH_RATE)
         playpause.setImageResource(R.drawable.pause)
         video_view.start()
     }
@@ -84,6 +83,7 @@ class VideoViewerFragment : ViewerFragment() {
     override fun pause() {
         playpause.setImageResource(R.drawable.play)
         video_view.pause()
+        handler.removeCallbacksAndMessages(null)
     }
 
     override fun seek(msec: Int, force: Boolean) {
@@ -100,10 +100,12 @@ class VideoViewerFragment : ViewerFragment() {
             event.value = ViewerTypeEvent.ProgressChanged(position, false)
         }
 
-        handler.postDelayed(::checkVideoTime, 200)
+        handler.postDelayed(::checkVideoTime, SEEKBAR_REFRESH_RATE)
     }
 
     companion object {
+        private const val SEEKBAR_REFRESH_RATE = 250L
+
         fun newInstance(media: Media) = VideoViewerFragment().apply {
             arguments = Bundle().apply {
                 putParcelable(ViewerActivity.INTENT_EXTRA_MEDIA, media)

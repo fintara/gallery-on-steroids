@@ -10,8 +10,9 @@ import com.tsovedenski.galleryonsteroids.GlideApp
 import com.tsovedenski.galleryonsteroids.MyApplication
 import com.tsovedenski.galleryonsteroids.R
 import com.tsovedenski.galleryonsteroids.domain.entities.Media
+import com.tsovedenski.galleryonsteroids.domain.entities.MediaType
 import com.tsovedenski.galleryonsteroids.showToast
-import kotlinx.android.synthetic.main.activity_details.*
+import kotlinx.android.synthetic.main.activity_form.*
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -22,12 +23,13 @@ class FormActivity : AppCompatActivity(), FormContract.View {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_details)
+        setContentView(R.layout.activity_form)
 
         Timber.tag(FormActivity::class.java.name)
         (application as MyApplication).appComponent.inject(this)
 
         injector.attachPresenter(this)
+
     }
 
     override fun onStart() {
@@ -42,6 +44,12 @@ class FormActivity : AppCompatActivity(), FormContract.View {
         }
 
         event.value = FormEvent.OnStart(media)
+
+        title = "${resources.getString(R.string.save_new)} ${resources.getString(when (media.type) {
+            MediaType.Photo -> R.string.photo
+            MediaType.Video -> R.string.video
+            MediaType.Audio -> R.string.voice
+        })}"
     }
 
     override fun onResume() {
@@ -73,6 +81,10 @@ class FormActivity : AppCompatActivity(), FormContract.View {
             .with(this)
             .load(media.path)
             .into(media_thumbnail)
+    }
+
+    override fun showMessage(resId: Int) {
+        showToast(resId)
     }
 
     override fun setObserver(observer: Observer<FormEvent>) {
