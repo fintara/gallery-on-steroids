@@ -23,11 +23,10 @@ import com.tsovedenski.galleryonsteroids.features.creator.modes.CreatorMode
 import com.tsovedenski.galleryonsteroids.features.creator.modes.CreatorPhotoFragment
 import com.tsovedenski.galleryonsteroids.features.creator.modes.CreatorVideoFragment
 import com.tsovedenski.galleryonsteroids.features.creator.modes.CreatorVoiceFragment
-import com.tsovedenski.galleryonsteroids.features.details.DetailsActivity
+import com.tsovedenski.galleryonsteroids.features.form.FormActivity
 import com.tsovedenski.galleryonsteroids.setFragment
 import kotlinx.android.synthetic.main.activity_creator.*
 import pub.devrel.easypermissions.EasyPermissions
-import pub.devrel.easypermissions.PermissionRequest
 import javax.inject.Inject
 
 /**
@@ -140,7 +139,7 @@ class CreatorActivity : AppCompatActivity(), CreatorContract.View {
     }
 
     override fun openDetails(media: Media) {
-        val intent = Intent(this, DetailsActivity::class.java).apply {
+        val intent = Intent(this, FormActivity::class.java).apply {
             putExtra("media", media)
         }
         startActivity(intent)

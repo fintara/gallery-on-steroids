@@ -17,12 +17,9 @@ import com.tsovedenski.galleryonsteroids.domain.entities.MediaType
 import com.tsovedenski.galleryonsteroids.features.common.hasPermissions
 import com.tsovedenski.galleryonsteroids.features.common.requestPermissions
 import com.tsovedenski.galleryonsteroids.features.creator.CreatorActivity
-import com.tsovedenski.galleryonsteroids.features.details.DetailsEvent
 import com.tsovedenski.galleryonsteroids.features.viewer.ViewerActivity
-import kotlinx.android.synthetic.main.activity_details.*
 import kotlinx.android.synthetic.main.activity_media_list.*
 import pub.devrel.easypermissions.EasyPermissions
-import pub.devrel.easypermissions.PermissionRequest
 import javax.inject.Inject
 
 class MediaListActivity : AppCompatActivity(), MediaListContract.View {

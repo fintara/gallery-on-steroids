@@ -1,11 +1,11 @@
-package com.tsovedenski.galleryonsteroids.features.details
+package com.tsovedenski.galleryonsteroids.features.form
 
 import androidx.lifecycle.Observer
 import com.tsovedenski.galleryonsteroids.domain.entities.Media
 
-interface DetailsContract {
+interface FormContract {
     interface View {
-        fun setObserver(observer: Observer<DetailsEvent>)
+        fun setObserver(observer: Observer<FormEvent>)
         fun setThumbnail(media: Media)
         fun close()
     }

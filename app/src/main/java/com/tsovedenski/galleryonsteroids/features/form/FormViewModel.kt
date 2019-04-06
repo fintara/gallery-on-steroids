@@ -1,12 +1,12 @@
-package com.tsovedenski.galleryonsteroids.features.details
+package com.tsovedenski.galleryonsteroids.features.form
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.tsovedenski.galleryonsteroids.domain.entities.Media
 
-class DetailsViewModel (
+class FormViewModel (
     private val media: MutableLiveData<Media> = MutableLiveData()
-) : ViewModel(), DetailsContract.ViewModel {
+) : ViewModel(), FormContract.ViewModel {
 
     override fun getMedia(): Media? = media.value
 

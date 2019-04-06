@@ -2,12 +2,10 @@ package com.tsovedenski.galleryonsteroids.dagger.modules
 
 import android.content.Context
 import com.tsovedenski.galleryonsteroids.common.CoroutineContextProvider
-import com.tsovedenski.galleryonsteroids.domain.repositories.MediaRepository
 import com.tsovedenski.galleryonsteroids.features.creator.CreatorInjector
-import com.tsovedenski.galleryonsteroids.features.details.DetailsInjector
+import com.tsovedenski.galleryonsteroids.features.form.FormInjector
 import com.tsovedenski.galleryonsteroids.features.medialist.MediaListInjector
 import com.tsovedenski.galleryonsteroids.features.viewer.ViewerTypeInjector
-import com.tsovedenski.galleryonsteroids.features.viewer.ViewerTypePresenter
 import com.tsovedenski.galleryonsteroids.services.MediaService
 import dagger.Module
 import dagger.Provides
@@ -38,7 +36,7 @@ class InjectorModule {
     fun provideDetailsInjector(
         mediaService: MediaService,
         coroutineContextProvider: CoroutineContextProvider
-    ) = DetailsInjector(mediaService, coroutineContextProvider)
+    ) = FormInjector(mediaService, coroutineContextProvider)
 
     @Provides
     @Singleton

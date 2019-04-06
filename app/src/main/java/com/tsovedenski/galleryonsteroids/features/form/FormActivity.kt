@@ -1,9 +1,6 @@
-package com.tsovedenski.galleryonsteroids.features.details
+package com.tsovedenski.galleryonsteroids.features.form
 
-import android.media.ThumbnailUtils
 import android.os.Bundle
-import android.os.Handler
-import android.provider.MediaStore
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
@@ -16,19 +13,18 @@ import com.tsovedenski.galleryonsteroids.domain.entities.Media
 import com.tsovedenski.galleryonsteroids.showToast
 import kotlinx.android.synthetic.main.activity_details.*
 import timber.log.Timber
-import java.io.File
 import javax.inject.Inject
 
-class DetailsActivity : AppCompatActivity(), DetailsContract.View {
+class FormActivity : AppCompatActivity(), FormContract.View {
 
-    @Inject lateinit var injector: DetailsInjector
-    private val event = MutableLiveData<DetailsEvent>()
+    @Inject lateinit var injector: FormInjector
+    private val event = MutableLiveData<FormEvent>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_details)
 
-        Timber.tag(DetailsActivity::class.java.name)
+        Timber.tag(FormActivity::class.java.name)
         (application as MyApplication).appComponent.inject(this)
 
         injector.attachPresenter(this)
@@ -45,17 +41,17 @@ class DetailsActivity : AppCompatActivity(), DetailsContract.View {
             return
         }
 
-        event.value = DetailsEvent.OnStart(media)
+        event.value = FormEvent.OnStart(media)
     }
 
     override fun onResume() {
         super.onResume()
-        event.value = DetailsEvent.OnResume
+        event.value = FormEvent.OnResume
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        event.value = DetailsEvent.OnDestroy
+        event.value = FormEvent.OnDestroy
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -65,7 +61,7 @@ class DetailsActivity : AppCompatActivity(), DetailsContract.View {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.save) {
-            event.value = DetailsEvent.Save(media_title.text.toString())
+            event.value = FormEvent.Save(media_title.text.toString())
             return true
         }
 
@@ -79,7 +75,7 @@ class DetailsActivity : AppCompatActivity(), DetailsContract.View {
             .into(media_thumbnail)
     }
 
-    override fun setObserver(observer: Observer<DetailsEvent>) {
+    override fun setObserver(observer: Observer<FormEvent>) {
         event.observeForever(observer)
     }
 

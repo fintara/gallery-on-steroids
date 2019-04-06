@@ -26,7 +26,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".features.creator.CreatorActivity" />
-        <activity android:name=".features.details.DetailsActivity" />
+        <activity android:name=".features.form.FormActivity" />
         <activity android:name=".features.viewer.ViewerActivity" />
     </application>
 
