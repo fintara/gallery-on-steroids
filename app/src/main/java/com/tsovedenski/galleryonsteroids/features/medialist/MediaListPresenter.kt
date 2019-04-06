@@ -2,6 +2,7 @@ package com.tsovedenski.galleryonsteroids.features.medialist
 
 import android.Manifest
 import com.tsovedenski.galleryonsteroids.common.CoroutineContextProvider
+import com.tsovedenski.galleryonsteroids.domain.entities.Media
 import com.tsovedenski.galleryonsteroids.domain.entities.MediaType
 import com.tsovedenski.galleryonsteroids.features.common.Presenter
 import com.tsovedenski.galleryonsteroids.services.MediaService
@@ -29,6 +30,7 @@ class MediaListPresenter (
         MediaListEvent.CreateAudio -> createAudio()
 
         is MediaListEvent.ChangeViewType -> changeViewType(e.value)
+        is MediaListEvent.ItemSelected -> itemSelected(e.value)
     }
 
     private fun onStart() {
@@ -64,5 +66,9 @@ class MediaListPresenter (
         view.setViewType(value)
         model.setViewType(value)
         adapter.viewType = value
+    }
+
+    private fun itemSelected(value: Media) {
+        view.openViewer(value)
     }
 }

@@ -12,11 +12,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.tsovedenski.galleryonsteroids.MyApplication
 import com.tsovedenski.galleryonsteroids.R
+import com.tsovedenski.galleryonsteroids.domain.entities.Media
 import com.tsovedenski.galleryonsteroids.domain.entities.MediaType
 import com.tsovedenski.galleryonsteroids.features.common.hasPermissions
 import com.tsovedenski.galleryonsteroids.features.common.requestPermissions
 import com.tsovedenski.galleryonsteroids.features.creator.CreatorActivity
 import com.tsovedenski.galleryonsteroids.features.details.DetailsEvent
+import com.tsovedenski.galleryonsteroids.features.viewer.ViewerActivity
 import kotlinx.android.synthetic.main.activity_details.*
 import kotlinx.android.synthetic.main.activity_media_list.*
 import pub.devrel.easypermissions.EasyPermissions
@@ -123,6 +125,14 @@ class MediaListActivity : AppCompatActivity(), MediaListContract.View {
         fab_create.close()
         val intent = Intent(this, CreatorActivity::class.java).apply {
             putExtra("type", type.asString)
+        }
+        startActivity(intent)
+    }
+
+    override fun openViewer(media: Media) {
+        fab_create.close()
+        val intent = Intent(this, ViewerActivity::class.java).apply {
+            putExtra(ViewerActivity.INTENT_EXTRA_MEDIA, media)
         }
         startActivity(intent)
     }

@@ -6,6 +6,8 @@ import com.tsovedenski.galleryonsteroids.domain.repositories.MediaRepository
 import com.tsovedenski.galleryonsteroids.features.creator.CreatorInjector
 import com.tsovedenski.galleryonsteroids.features.details.DetailsInjector
 import com.tsovedenski.galleryonsteroids.features.medialist.MediaListInjector
+import com.tsovedenski.galleryonsteroids.features.viewer.ViewerTypeInjector
+import com.tsovedenski.galleryonsteroids.features.viewer.ViewerTypePresenter
 import com.tsovedenski.galleryonsteroids.services.MediaService
 import dagger.Module
 import dagger.Provides
@@ -37,4 +39,10 @@ class InjectorModule {
         mediaService: MediaService,
         coroutineContextProvider: CoroutineContextProvider
     ) = DetailsInjector(mediaService, coroutineContextProvider)
+
+    @Provides
+    @Singleton
+    fun provideViewerTypeInjector(
+        coroutineContextProvider: CoroutineContextProvider
+    ) = ViewerTypeInjector(coroutineContextProvider)
 }

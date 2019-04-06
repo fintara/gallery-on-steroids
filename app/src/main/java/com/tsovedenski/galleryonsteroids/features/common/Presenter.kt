@@ -9,11 +9,11 @@ import kotlinx.coroutines.Job
  * Created by Tsvetan Ovedenski on 10/03/19.
  */
 abstract class Presenter <T> (
-    contextProvider: CoroutineContextProvider
+    coroutineContextProvider: CoroutineContextProvider
 ) : CoroutineScope, Observer<T> {
 
-    val job = Job()
-    override val coroutineContext by lazy { contextProvider.provide() + job }
+    private val job = Job()
+    override val coroutineContext by lazy { coroutineContextProvider.provide() + job }
 
     protected fun onDestroy() {
         job.cancel()

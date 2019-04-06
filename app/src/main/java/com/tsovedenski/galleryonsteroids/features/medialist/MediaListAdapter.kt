@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.tsovedenski.galleryonsteroids.GlideApp
 import com.tsovedenski.galleryonsteroids.R
 import com.tsovedenski.galleryonsteroids.common.createDiffCallback
+import com.tsovedenski.galleryonsteroids.common.toDurationString
 import com.tsovedenski.galleryonsteroids.domain.entities.Media
 import com.tsovedenski.galleryonsteroids.domain.entities.MediaType
 import java.time.ZoneId
@@ -53,7 +54,7 @@ class MediaListAdapter (
         holder.bindTo(item, position, event, context)
     }
 
-    sealed class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    sealed class ViewHolder(protected val view: View) : RecyclerView.ViewHolder(view) {
         private val thumbnail: ImageView = view.findViewById(R.id.media_thumbnail)
         private val type: ImageView = view.findViewById(R.id.media_type)
 
@@ -79,6 +80,10 @@ class MediaListAdapter (
                 .load(typeIconId)
                 .fitCenter()
                 .into(type)
+
+            view.setOnClickListener {
+                event.value = MediaListEvent.ItemSelected(item)
+            }
         }
 
         class GridViewHolder(view: View) : ViewHolder(view)
@@ -98,16 +103,7 @@ class MediaListAdapter (
                     duration.visibility = View.GONE
                 } else {
                     duration.visibility = View.VISIBLE
-
-
-                    val minutes = (item.duration / 1000 / 60)
-                    var minutesStr = minutes.toString()
-                    if (minutesStr.length == 1) minutesStr = "0$minutesStr"
-
-                    val seconds = (item.duration / 1000 - minutes * 60)
-                    var secondsStr = seconds.toString()
-                    if (secondsStr.length == 1) secondsStr = "0$secondsStr"
-                    duration.text = "$minutesStr:$secondsStr"
+                    duration.text = item.duration.toDurationString()
                 }
             }
 
