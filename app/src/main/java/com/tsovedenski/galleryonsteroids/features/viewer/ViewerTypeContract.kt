@@ -15,6 +15,9 @@ interface ViewerTypeContract {
         fun play()
         fun pause()
         fun seek(msec: Int, force: Boolean)
+
+        fun showControls()
+        fun hideControls()
     }
 
     interface ViewModel {
@@ -26,5 +29,8 @@ interface ViewerTypeContract {
 
         fun getProgress(): Int
         fun setProgress(value: Int)
+
+        fun isControlShown(): Boolean
+        fun setControlShown(value: Boolean)
     }
 }

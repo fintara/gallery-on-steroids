@@ -1,8 +1,8 @@
 package com.tsovedenski.galleryonsteroids.features.viewer
 
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.tsovedenski.galleryonsteroids.common.CoroutineContextProvider
+import com.tsovedenski.galleryonsteroids.features.viewer.types.ViewerFragment
 
 /**
  * Created by Tsvetan Ovedenski on 06/04/19.

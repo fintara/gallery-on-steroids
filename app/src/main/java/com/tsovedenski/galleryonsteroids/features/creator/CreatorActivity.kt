@@ -7,7 +7,6 @@ import android.content.pm.ActivityInfo
 import android.content.res.Configuration
 import android.os.Bundle
 import android.os.Handler
-import android.view.Surface
 import android.view.View
 import android.view.WindowManager
 import android.view.animation.Animation
@@ -127,7 +126,7 @@ class CreatorActivity : AppCompatActivity(), CreatorContract.View {
             event.value = CreatorEvent.RecordedMedia(media)
         }
 
-        setFragment(mode as Fragment, "mode", R.id.container)
+        setFragment(mode as Fragment, "mode", R.id.imageview)
     }
 
     override fun startRecording() {
@@ -147,7 +146,7 @@ class CreatorActivity : AppCompatActivity(), CreatorContract.View {
         handler.removeCallbacksAndMessages(null)
 
         spinner.visibility = View.VISIBLE
-        container.visibility = View.GONE
+        imageview.visibility = View.GONE
 
         recordAnimation.cancel()
         creator_action.mainFabClosedBackgroundColor = resources.getColor(R.color.record, theme)

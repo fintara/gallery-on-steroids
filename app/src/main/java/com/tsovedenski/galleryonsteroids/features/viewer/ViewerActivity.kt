@@ -3,12 +3,13 @@ package com.tsovedenski.galleryonsteroids.features.viewer
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import com.tsovedenski.galleryonsteroids.MyApplication
 import com.tsovedenski.galleryonsteroids.R
 import com.tsovedenski.galleryonsteroids.domain.entities.Media
 import com.tsovedenski.galleryonsteroids.domain.entities.MediaType
+import com.tsovedenski.galleryonsteroids.features.viewer.types.PhotoViewerFragment
 import com.tsovedenski.galleryonsteroids.features.viewer.types.VideoViewerFragment
+import com.tsovedenski.galleryonsteroids.features.viewer.types.ViewerFragment
 import com.tsovedenski.galleryonsteroids.setFragment
 import com.tsovedenski.galleryonsteroids.showToast
 import timber.log.Timber
@@ -31,22 +32,22 @@ class ViewerActivity : AppCompatActivity() {
         supportActionBar?.hide()
         window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
 
-        if (savedInstanceState == null) {
-            val media = intent.getParcelableExtra<Media>(INTENT_EXTRA_MEDIA) ?: return intentMediaKeyMissing()
-            initFragment(media)
-        }
+        val media = intent.getParcelableExtra<Media>(INTENT_EXTRA_MEDIA) ?: return intentMediaKeyMissing()
+        initFragment(media)
     }
 
     private fun initFragment(media: Media) {
         val fragment = supportFragmentManager.findFragmentByTag(CONTAINER_TAG) as? ViewerFragment
             ?: media.resolveFragment()
 
-        setFragment(fragment, CONTAINER_TAG, R.id.container)
+        Timber.i("Resolved fragment ${fragment.javaClass.name}")
+
+        setFragment(fragment, CONTAINER_TAG, R.id.imageview)
         injector.attachPresenter(fragment)
     }
 
     private fun Media.resolveFragment(): ViewerFragment = when (type) {
-        MediaType.Photo -> VideoViewerFragment.newInstance(this)
+        MediaType.Photo -> PhotoViewerFragment.newInstance(this)
         MediaType.Video -> VideoViewerFragment.newInstance(this)
         MediaType.Audio -> VideoViewerFragment.newInstance(this)
     }

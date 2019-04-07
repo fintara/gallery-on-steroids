@@ -18,6 +18,7 @@ import com.tsovedenski.galleryonsteroids.common.createDiffCallback
 import com.tsovedenski.galleryonsteroids.common.toDurationString
 import com.tsovedenski.galleryonsteroids.domain.entities.Media
 import com.tsovedenski.galleryonsteroids.domain.entities.MediaType
+import com.tsovedenski.galleryonsteroids.prettyFormat
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.concurrent.TimeUnit
@@ -99,7 +100,7 @@ class MediaListAdapter (
                 super.bindTo(item, position, event, context)
 
                 title.text = item.title
-                date.text = formatter.format(item.createdAt)
+                date.text = item.createdAt.prettyFormat()
 
                 if (item.type == MediaType.Photo || item.duration == null) {
                     duration.visibility = View.GONE
@@ -107,11 +108,6 @@ class MediaListAdapter (
                     duration.visibility = View.VISIBLE
                     duration.text = item.duration.toDurationString()
                 }
-            }
-
-            companion object {
-                private val formatter = DateTimeFormatter.ofPattern("d MMM yyyy, HH:mm")
-                    .withZone(ZoneId.systemDefault())
             }
         }
     }

@@ -5,17 +5,11 @@ import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.MediaController
 import android.widget.SeekBar
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
 import com.tsovedenski.galleryonsteroids.R
 import com.tsovedenski.galleryonsteroids.common.toDurationString
 import com.tsovedenski.galleryonsteroids.domain.entities.Media
 import com.tsovedenski.galleryonsteroids.features.viewer.ViewerActivity
-import com.tsovedenski.galleryonsteroids.features.viewer.ViewerFragment
-import com.tsovedenski.galleryonsteroids.features.viewer.ViewerTypeContract
 import com.tsovedenski.galleryonsteroids.features.viewer.ViewerTypeEvent
 import kotlinx.android.synthetic.main.fragment_viewer_video.*
 
@@ -49,6 +43,10 @@ class VideoViewerFragment : ViewerFragment() {
 
         playpause.setOnClickListener {
             event.value = ViewerTypeEvent.TogglePlaying
+        }
+
+        video_view.setOnClickListener {
+            event.value = ViewerTypeEvent.MediaClicked
         }
 
         video_view.setOnCompletionListener {
@@ -92,6 +90,14 @@ class VideoViewerFragment : ViewerFragment() {
         }
         seekbar.progress = msec
         duration_current.text = msec.toLong().toDurationString()
+    }
+
+    override fun showControls() {
+
+    }
+
+    override fun hideControls() {
+
     }
 
     private fun checkVideoTime() {

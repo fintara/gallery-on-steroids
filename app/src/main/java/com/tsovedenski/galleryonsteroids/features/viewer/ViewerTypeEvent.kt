@@ -10,6 +10,8 @@ sealed class ViewerTypeEvent {
     object OnResume : ViewerTypeEvent()
     object OnDestroy : ViewerTypeEvent()
 
+    object MediaClicked : ViewerTypeEvent()
+
     object SeekStarted : ViewerTypeEvent()
     object SeekEnded : ViewerTypeEvent()
     object TogglePlaying : ViewerTypeEvent()

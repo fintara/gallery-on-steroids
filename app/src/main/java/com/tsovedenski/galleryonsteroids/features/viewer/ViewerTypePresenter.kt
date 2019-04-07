@@ -2,7 +2,9 @@ package com.tsovedenski.galleryonsteroids.features.viewer
 
 import com.tsovedenski.galleryonsteroids.common.CoroutineContextProvider
 import com.tsovedenski.galleryonsteroids.domain.entities.Media
+import com.tsovedenski.galleryonsteroids.domain.entities.MediaType
 import com.tsovedenski.galleryonsteroids.features.common.Presenter
+import timber.log.Timber
 
 /**
  * Created by Tsvetan Ovedenski on 06/04/19.
@@ -12,10 +14,12 @@ class ViewerTypePresenter (
     private val model: ViewerTypeContract.ViewModel,
     coroutineContextProvider: CoroutineContextProvider
 ) : Presenter<ViewerTypeEvent>(coroutineContextProvider) {
+
     override fun onChanged(e: ViewerTypeEvent) = when (e) {
         is ViewerTypeEvent.OnStart -> onStart(e.media)
         ViewerTypeEvent.OnResume -> onResume()
         ViewerTypeEvent.OnDestroy -> onDestroy()
+        ViewerTypeEvent.MediaClicked -> mediaClicked()
 
         ViewerTypeEvent.SeekStarted -> seekStarted()
         ViewerTypeEvent.SeekEnded -> seekEnded()
@@ -25,16 +29,41 @@ class ViewerTypePresenter (
     }
 
     private fun onStart(media: Media) {
+        model.setMedia(media)
         view.prepare(media)
-        progressChanged(model.getProgress()+1, true)
+        if (media.type != MediaType.Photo) {
+            progressChanged(model.getProgress() + 1, true)
+        }
     }
 
     private fun onResume() {
-        view.seek(model.getProgress(), true)
-        if (model.isPlaying()) {
-            view.play()
+        model.getMedia()?.let { media ->
+            Timber.i("onResume(media=${media.id})")
+            view.prepare(media)
+
+            if (media.type != MediaType.Photo) {
+                view.seek(model.getProgress(), true)
+                if (model.isPlaying()) {
+                    view.play()
+                } else {
+                    view.pause()
+                }
+            }
+        }
+        showControls(model.isControlShown())
+    }
+
+    private fun mediaClicked() {
+        val shown = model.isControlShown()
+        showControls(!shown)
+        model.setControlShown(!shown)
+    }
+
+    private fun showControls(show: Boolean) {
+        if (show) {
+            view.showControls()
         } else {
-            view.pause()
+            view.hideControls()
         }
     }
 
