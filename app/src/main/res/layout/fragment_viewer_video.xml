@@ -8,35 +8,46 @@
     android:layout_height="match_parent">
 
     <VideoView
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:id="@+id/video_view" app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_width="wrap_content" app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/media_controls"/>
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:background="@color/colorPrimary"
+        android:background="@color/black_overlay"
         android:padding="8dp"
+        android:elevation="30dp"
         android:layout_height="wrap_content" android:id="@+id/media_controls"
         app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" android:id="@+id/media_title" android:textColor="@color/white"
+            android:fontFamily="sans-serif-medium" android:textSize="18sp" tools:text="Media title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintTop_toTopOf="parent" android:layout_marginStart="8dp" android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"/>
         <ImageButton
             android:layout_width="wrap_content"
-            android:layout_height="24dp"
+            android:layout_height="wrap_content"
             android:id="@+id/playpause"
             android:src="@drawable/play"
             style="?android:buttonBarButtonStyle"
             android:contentDescription="@string/play_pause"
-            app:layout_constraintTop_toTopOf="parent"
             android:tint="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            android:layout_marginStart="8dp"
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@+id/media_title"
+            android:layout_marginTop="8dp"/>
 
         <ImageButton
             android:layout_width="wrap_content"
-            android:layout_height="24dp"
+            android:layout_height="wrap_content"
             android:id="@+id/replay"
             style="?android:buttonBarButtonStyle"
             android:visibility="gone"
@@ -45,30 +56,37 @@
             app:layout_constraintTop_toTopOf="parent"
             android:tint="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintBottom_toBottomOf="parent" android:layout_marginStart="8dp"
+            app:layout_constraintStart_toStartOf="parent"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/duration_current" tools:text="01:23" android:textColor="@color/white"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/seekbar" app:layout_constraintBottom_toBottomOf="@+id/seekbar"
-            android:textSize="14sp" android:fontFamily="sans-serif-condensed-light"/>
+            android:textSize="14sp" android:fontFamily="sans-serif-condensed-light"
+            app:layout_constraintBottom_toTopOf="@+id/seekbar"
+            app:layout_constraintStart_toStartOf="@+id/seekbar" android:layout_marginStart="16dp"/>
+
         <SeekBar
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="17dp"
             android:id="@+id/seekbar"
-            app:layout_constraintStart_toEndOf="@+id/duration_current" android:layout_marginStart="8dp"
-            app:layout_constraintEnd_toStartOf="@+id/duration_total" android:layout_marginEnd="8dp"
-            app:layout_constraintBottom_toBottomOf="@+id/duration_total"
-            app:layout_constraintTop_toTopOf="@+id/duration_total"/>
+            android:progressTint="@color/white"
+            android:thumbTint="@color/white"
+            android:secondaryProgressTint="@color/white_25t"
+            tools:progress="50"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/playpause"
+            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginTop="8dp" android:layout_marginBottom="8dp"/>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/duration_total" tools:text="02:34" android:textColor="@color/white"
-            app:layout_constraintTop_toTopOf="@+id/playpause" app:layout_constraintBottom_toBottomOf="@+id/playpause"
-            app:layout_constraintEnd_toStartOf="@+id/playpause" android:layout_marginEnd="8dp"
-            android:fontFamily="sans-serif-condensed-light" android:textSize="14sp"/>
+            android:fontFamily="sans-serif-condensed-light" android:textSize="14sp"
+            app:layout_constraintBottom_toTopOf="@+id/seekbar"
+            app:layout_constraintEnd_toEndOf="@+id/seekbar" android:layout_marginEnd="16dp"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

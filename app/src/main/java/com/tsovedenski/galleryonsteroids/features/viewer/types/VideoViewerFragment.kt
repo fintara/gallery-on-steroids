@@ -25,14 +25,17 @@ class VideoViewerFragment : ViewerFragment() {
 
         override fun onStartTrackingTouch(seekBar: SeekBar) {
             event.value = ViewerTypeEvent.SeekStarted
+            controlsUiHandler.removeCallbacksAndMessages(null)
         }
 
         override fun onStopTrackingTouch(seekBar: SeekBar) {
             event.value = ViewerTypeEvent.SeekEnded
+            showControls()
         }
     }
 
-    private val handler by lazy { Handler() }
+    private val progressUiHandler by lazy { Handler() }
+    private val controlsUiHandler by lazy { Handler() }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_viewer_video, container, false)
@@ -46,11 +49,12 @@ class VideoViewerFragment : ViewerFragment() {
         }
 
         video_view.setOnClickListener {
+            controlsUiHandler.removeCallbacksAndMessages(null)
             event.value = ViewerTypeEvent.MediaClicked
         }
 
         video_view.setOnCompletionListener {
-            handler.removeCallbacksAndMessages(null)
+            progressUiHandler.removeCallbacksAndMessages(null)
             playpause.visibility = View.INVISIBLE
             replay.visibility = View.VISIBLE
         }
@@ -63,6 +67,7 @@ class VideoViewerFragment : ViewerFragment() {
     }
 
     override fun prepare(media: Media) {
+        media_title.text = media.title
         video_view.setVideoPath(media.path)
         seekbar.max = media.duration?.toInt() ?: 0
         duration_total.text = media.duration.toDurationString()
@@ -72,8 +77,8 @@ class VideoViewerFragment : ViewerFragment() {
         replay.visibility = View.GONE
         playpause.visibility = View.VISIBLE
 
-        handler.removeCallbacksAndMessages(null)
-        handler.postDelayed(::checkVideoTime, SEEKBAR_REFRESH_RATE)
+        progressUiHandler.removeCallbacksAndMessages(null)
+        progressUiHandler.postDelayed(::checkVideoTime, SEEKBAR_REFRESH_RATE)
         playpause.setImageResource(R.drawable.pause)
         video_view.start()
     }
@@ -81,7 +86,7 @@ class VideoViewerFragment : ViewerFragment() {
     override fun pause() {
         playpause.setImageResource(R.drawable.play)
         video_view.pause()
-        handler.removeCallbacksAndMessages(null)
+        progressUiHandler.removeCallbacksAndMessages(null)
     }
 
     override fun seek(msec: Int, force: Boolean) {
@@ -93,11 +98,12 @@ class VideoViewerFragment : ViewerFragment() {
     }
 
     override fun showControls() {
-
+        media_controls?.animate()?.alpha(1f)?.start()
+        controlsUiHandler.postDelayed({ event.value = ViewerTypeEvent.MediaClicked }, CONTROLS_AUTOHIDE_DELAY)
     }
 
     override fun hideControls() {
-
+        media_controls?.animate()?.alpha(0f)?.start()
     }
 
     private fun checkVideoTime() {
@@ -106,11 +112,12 @@ class VideoViewerFragment : ViewerFragment() {
             event.value = ViewerTypeEvent.ProgressChanged(position, false)
         }
 
-        handler.postDelayed(::checkVideoTime, SEEKBAR_REFRESH_RATE)
+        progressUiHandler.postDelayed(::checkVideoTime, SEEKBAR_REFRESH_RATE)
     }
 
     companion object {
-        private const val SEEKBAR_REFRESH_RATE = 250L
+        private const val SEEKBAR_REFRESH_RATE = 250L // ms
+        private const val CONTROLS_AUTOHIDE_DELAY = 3500L // ms
 
         fun newInstance(media: Media) = VideoViewerFragment().apply {
             arguments = Bundle().apply {
