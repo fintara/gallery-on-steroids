@@ -50,10 +50,6 @@ class PhotoViewerFragment : ViewerFragment() {
         details_container.animate().alpha(0f).start()
     }
 
-    override fun play() = Unit
-    override fun pause() = Unit
-    override fun seek(msec: Int, force: Boolean) = Unit
-
     companion object {
         fun newInstance(media: Media) = PhotoViewerFragment().apply {
             arguments = Bundle().apply {

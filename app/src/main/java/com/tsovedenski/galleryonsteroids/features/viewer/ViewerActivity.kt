@@ -7,6 +7,7 @@ import com.tsovedenski.galleryonsteroids.MyApplication
 import com.tsovedenski.galleryonsteroids.R
 import com.tsovedenski.galleryonsteroids.domain.entities.Media
 import com.tsovedenski.galleryonsteroids.domain.entities.MediaType
+import com.tsovedenski.galleryonsteroids.features.viewer.types.AudioViewerFragment
 import com.tsovedenski.galleryonsteroids.features.viewer.types.PhotoViewerFragment
 import com.tsovedenski.galleryonsteroids.features.viewer.types.VideoViewerFragment
 import com.tsovedenski.galleryonsteroids.features.viewer.types.ViewerFragment
@@ -49,7 +50,7 @@ class ViewerActivity : AppCompatActivity() {
     private fun Media.resolveFragment(): ViewerFragment = when (type) {
         MediaType.Photo -> PhotoViewerFragment.newInstance(this)
         MediaType.Video -> VideoViewerFragment.newInstance(this)
-        MediaType.Audio -> VideoViewerFragment.newInstance(this)
+        MediaType.Audio -> AudioViewerFragment.newInstance(this)
     }
 
     private fun intentMediaKeyMissing() {

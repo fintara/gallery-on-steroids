@@ -1,5 +1,6 @@
 package com.tsovedenski.galleryonsteroids.features.creator.modes
 
+import android.media.MediaMetadataRetriever
 import android.media.MediaRecorder
 import android.os.Bundle
 import android.os.Handler
@@ -63,7 +64,14 @@ class CreatorVoiceFragment : Fragment(), CreatorMode {
         recorder.stop()
         recorder.release()
         handler.removeCallbacksAndMessages(null)
-        onRecordingFinished?.let { it(media) }
+
+        val retriever = MediaMetadataRetriever().apply {
+            setDataSource(media.path)
+        }
+        val duration = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)?.toLong()
+        onRecordingFinished?.let { it(media.copy(
+            duration = duration
+        )) }
     }
 
     private fun updateWave() {

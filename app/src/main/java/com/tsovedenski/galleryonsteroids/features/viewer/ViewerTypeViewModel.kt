@@ -9,14 +9,14 @@ import com.tsovedenski.galleryonsteroids.domain.entities.Media
  */
 class ViewerTypeViewModel (
     private val media: MutableLiveData<Media> = MutableLiveData(),
-    private val playing: MutableLiveData<Boolean> = MutableLiveData(),
+    private val playingState: MutableLiveData<PlayingState> = MutableLiveData(),
     private val progress: MutableLiveData<Int> = MutableLiveData(),
     private val controlShown: MutableLiveData<Boolean> = MutableLiveData()
 ) : ViewModel(),
     ViewerTypeContract.ViewModel {
 
     init {
-        setPlaying(false)
+        setPlayingState(PlayingState.Paused)
         setProgress(0)
         setControlShown(true)
     }
@@ -27,10 +27,10 @@ class ViewerTypeViewModel (
         media.value = value
     }
 
-    override fun isPlaying(): Boolean = playing.value!!
+    override fun getPlayingState(): PlayingState = playingState.value!!
 
-    override fun setPlaying(value: Boolean) {
-        playing.value = value
+    override fun setPlayingState(value: PlayingState) {
+        playingState.value = value
     }
 
     override fun getProgress(): Int = progress.value!!

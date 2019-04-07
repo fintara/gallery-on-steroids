@@ -1,5 +1,8 @@
 package com.tsovedenski.galleryonsteroids.features.viewer.types
 
+import android.media.AudioAttributes
+import android.media.MediaPlayer
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.view.LayoutInflater
@@ -11,12 +14,15 @@ import com.tsovedenski.galleryonsteroids.common.toDurationString
 import com.tsovedenski.galleryonsteroids.domain.entities.Media
 import com.tsovedenski.galleryonsteroids.features.viewer.ViewerActivity
 import com.tsovedenski.galleryonsteroids.features.viewer.ViewerTypeEvent
+import com.tsovedenski.galleryonsteroids.showToast
 import kotlinx.android.synthetic.main.fragment_viewer_videoaudio.*
+import timber.log.Timber
+import java.io.File
 
 /**
- * Created by Tsvetan Ovedenski on 06/04/19.
+ * Created by Tsvetan Ovedenski on 07/04/19.
  */
-class VideoViewerFragment : ViewerFragment() {
+class AudioViewerFragment : ViewerFragment() {
 
     private val seekbarListener = object : SeekBar.OnSeekBarChangeListener {
         override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
@@ -25,7 +31,6 @@ class VideoViewerFragment : ViewerFragment() {
 
         override fun onStartTrackingTouch(seekBar: SeekBar) {
             event.value = ViewerTypeEvent.SeekStarted
-            controlsUiHandler.removeCallbacksAndMessages(null)
         }
 
         override fun onStopTrackingTouch(seekBar: SeekBar) {
@@ -35,7 +40,8 @@ class VideoViewerFragment : ViewerFragment() {
     }
 
     private val progressUiHandler by lazy { Handler() }
-    private val controlsUiHandler by lazy { Handler() }
+
+    private lateinit var player: MediaPlayer
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_viewer_videoaudio, container, false)
@@ -44,17 +50,10 @@ class VideoViewerFragment : ViewerFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        video_view.visibility = View.GONE
+
         playpause.setOnClickListener {
             event.value = ViewerTypeEvent.TogglePlaying
-        }
-
-        video_view.setOnClickListener {
-            controlsUiHandler.removeCallbacksAndMessages(null)
-            event.value = ViewerTypeEvent.MediaClicked
-        }
-
-        video_view.setOnCompletionListener {
-            event.value = ViewerTypeEvent.PlayingCompleted
         }
 
         replay.setOnClickListener {
@@ -64,29 +63,50 @@ class VideoViewerFragment : ViewerFragment() {
         seekbar.setOnSeekBarChangeListener(seekbarListener)
     }
 
+    override fun onDestroy() {
+        player.release()
+        super.onDestroy()
+    }
+
     override fun prepare(media: Media) {
+        val file = File(media.path)
+        if (!file.exists()) {
+            showToast("File does not exist")
+            requireActivity().finish()
+            return
+        }
+        player = MediaPlayer.create(requireContext(), Uri.fromFile(file))
+
+        player.setOnCompletionListener {
+            event.value = ViewerTypeEvent.PlayingCompleted
+        }
+
         media_title.text = media.title
-        video_view.setVideoPath(media.path)
         seekbar.max = media.duration?.toInt() ?: 0
         duration_total.text = media.duration.toDurationString()
     }
 
     override fun play() {
+        Timber.i("Start playing")
         progressUiHandler.removeCallbacksAndMessages(null)
-        progressUiHandler.postDelayed(::checkVideoTime, SEEKBAR_REFRESH_RATE)
+        progressUiHandler.postDelayed(::checkTime, SEEKBAR_REFRESH_RATE)
         playpause.setImageResource(R.drawable.pause)
-        video_view.start()
+
+        player.start()
     }
 
     override fun pause() {
+        Timber.i("Pause playing")
         playpause.setImageResource(R.drawable.play)
-        video_view.pause()
         progressUiHandler.removeCallbacksAndMessages(null)
+
+        player.pause()
     }
 
     override fun seek(msec: Int, force: Boolean) {
+        Timber.i("Seek to $msec ($force)")
         if (force) {
-            video_view.seekTo(msec)
+            player.seekTo(msec)
         }
         seekbar.progress = msec
         duration_current.text = msec.toLong().toDurationString()
@@ -94,7 +114,6 @@ class VideoViewerFragment : ViewerFragment() {
 
     override fun showControls() {
         media_controls?.animate()?.alpha(1f)?.start()
-        controlsUiHandler.postDelayed({ event.value = ViewerTypeEvent.MediaClicked }, CONTROLS_AUTOHIDE_DELAY)
     }
 
     override fun hideControls() {
@@ -112,20 +131,19 @@ class VideoViewerFragment : ViewerFragment() {
         playpause.visibility = View.VISIBLE
     }
 
-    private fun checkVideoTime() {
+    private fun checkTime() {
         if (video_view != null) {
-            val position = video_view.currentPosition
+            val position = player.currentPosition
             event.value = ViewerTypeEvent.ProgressChanged(position, false)
         }
 
-        progressUiHandler.postDelayed(::checkVideoTime, SEEKBAR_REFRESH_RATE)
+        progressUiHandler.postDelayed(::checkTime, SEEKBAR_REFRESH_RATE)
     }
 
     companion object {
         private const val SEEKBAR_REFRESH_RATE = 250L // ms
-        private const val CONTROLS_AUTOHIDE_DELAY = 3500L // ms
 
-        fun newInstance(media: Media) = VideoViewerFragment().apply {
+        fun newInstance(media: Media) = AudioViewerFragment().apply {
             arguments = Bundle().apply {
                 putParcelable(ViewerActivity.INTENT_EXTRA_MEDIA, media)
             }

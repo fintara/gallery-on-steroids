@@ -12,20 +12,23 @@ interface ViewerTypeContract {
 
         fun prepare(media: Media)
 
-        fun play()
-        fun pause()
-        fun seek(msec: Int, force: Boolean)
+        fun play() = Unit
+        fun pause() = Unit
+        fun seek(msec: Int, force: Boolean) = Unit
 
         fun showControls()
         fun hideControls()
+
+        fun showReplayButton() = Unit
+        fun hideReplayButton() = Unit
     }
 
     interface ViewModel {
         fun getMedia(): Media?
         fun setMedia(value: Media?)
 
-        fun isPlaying(): Boolean
-        fun setPlaying(value: Boolean)
+        fun getPlayingState(): PlayingState
+        fun setPlayingState(value: PlayingState)
 
         fun getProgress(): Int
         fun setProgress(value: Int)
@@ -33,4 +36,10 @@ interface ViewerTypeContract {
         fun isControlShown(): Boolean
         fun setControlShown(value: Boolean)
     }
+}
+
+sealed class PlayingState {
+    object Paused : PlayingState()
+    object Playing : PlayingState()
+    object Completed : PlayingState()
 }
