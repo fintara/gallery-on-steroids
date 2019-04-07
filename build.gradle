@@ -8,6 +8,7 @@ buildscript {
         androidx_fragment        : '1.0.0',
         androidx_lifecycle       : '2.0.0',
         androidx_recyclerview    : '1.0.0',
+        androidx_exifinterface   : '1.0.0',
         cameraview               : '2.0.0-beta04',
         dagger                   : '2.21',
         easypermissions          : '3.0.0',

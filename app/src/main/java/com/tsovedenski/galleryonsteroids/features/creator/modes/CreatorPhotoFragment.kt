@@ -36,18 +36,14 @@ class CreatorPhotoFragment : Fragment(), CreatorMode {
         cameraview.setLifecycleOwner(viewLifecycleOwner)
         cameraview.addCameraListener(object : CameraListener() {
             override fun onPictureTaken(result: PictureResult) {
-                onRecordingFinished?.let { it(media) }
+                result.toFile(File(media.path)) {
+                    onRecordingFinished?.let { it(media) }
+                }
             }
         })
     }
 
     override fun startRecording() {
-        val file = File(media.path)
-        
-        if (!file.exists()) {
-            file.createNewFile()
-        }
-
         cameraview.takePicture()
     }
 

@@ -133,7 +133,11 @@ public class PCMEncoder {
                         totalBytesRead += bytesRead;
                         currentBatchRead += bytesRead;
                         buffer.put(tempBuffer, 0, bytesRead);
-                        mediaCodec.queueInputBuffer(inputBufferIndex, 0, bytesRead, (long) presentationTimeUs, 0);
+                        try {
+                            mediaCodec.queueInputBuffer(inputBufferIndex, 0, bytesRead, (long) presentationTimeUs, 0);
+                        } catch (Exception e) {
+                            Log.e(TAG, e.getMessage());
+                        }
                         presentationTimeUs = 1000000L * (totalBytesRead / 2) / sampleRate;
                     }
                 }
