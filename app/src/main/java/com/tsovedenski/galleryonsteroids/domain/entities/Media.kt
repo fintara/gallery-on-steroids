@@ -37,6 +37,11 @@ data class Media (
         MediaType.Audio -> "/$id.m4a"
     }
 
+    val thumbnailPath: String get() = when (type) {
+        MediaType.Audio -> "file:///android_asset/voice_thumbnail.jpg"
+        else -> path
+    }
+
     constructor(parcel: Parcel) : this(
         parcel.readString()!!,
         parcel.readString()!!,

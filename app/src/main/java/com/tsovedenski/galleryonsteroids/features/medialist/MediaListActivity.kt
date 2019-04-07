@@ -38,6 +38,15 @@ class MediaListActivity : AppCompatActivity(), MediaListContract.View {
         LinearLayoutManager(this, RecyclerView.VERTICAL, false)
     }
 
+    private val itemsScrollListener = object : RecyclerView.OnScrollListener() {
+        override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+            when (newState) {
+                RecyclerView.SCROLL_STATE_IDLE -> fab_create.show()
+                else -> fab_create.hide()
+            }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_media_list)
@@ -47,6 +56,8 @@ class MediaListActivity : AppCompatActivity(), MediaListContract.View {
         injector.attachPresenter(this)
 
         initFab()
+
+        items.addOnScrollListener(itemsScrollListener)
     }
 
     override fun onStart() {

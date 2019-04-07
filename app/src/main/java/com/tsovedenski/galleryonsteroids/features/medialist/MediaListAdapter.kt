@@ -11,6 +11,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.tsovedenski.galleryonsteroids.GlideApp
 import com.tsovedenski.galleryonsteroids.R
 import com.tsovedenski.galleryonsteroids.common.createDiffCallback
@@ -66,7 +67,8 @@ class MediaListAdapter (
         ) {
             GlideApp
                 .with(context)
-                .load(item.path)
+                .load(item.thumbnailPath)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(thumbnail)
 
             val typeIconId = when (item.type) {

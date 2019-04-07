@@ -9,6 +9,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.tsovedenski.galleryonsteroids.GlideApp
 import com.tsovedenski.galleryonsteroids.MyApplication
 import com.tsovedenski.galleryonsteroids.R
@@ -102,7 +103,8 @@ class FormActivity : AppCompatActivity(), FormContract.View {
     override fun setThumbnail(media: Media) {
         GlideApp
             .with(this)
-            .load(media.path)
+            .load(media.thumbnailPath)
+            .diskCacheStrategy(DiskCacheStrategy.ALL)
             .into(media_thumbnail)
     }
 
