@@ -100,7 +100,7 @@ public class WaveformView extends SurfaceView {
      */
     private void drawWaveform(Canvas canvas) {
         // Clear the screen each time because SurfaceView won't do this for us.
-        canvas.drawColor(Color.WHITE);
+        canvas.drawColor(Color.BLACK);
 
         float width = getWidth();
         float height = getHeight();

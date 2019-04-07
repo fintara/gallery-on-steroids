@@ -13,9 +13,9 @@ interface CreatorContract {
         fun setObserver(observer: Observer<CreatorEvent>)
         fun setMediaType(value: MediaType)
 
-        // todo: not really part of view
         fun startRecording()
         fun stopRecording()
+        fun startStopwatch()
 
         fun openDetails(media: Media)
 

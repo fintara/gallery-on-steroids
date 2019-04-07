@@ -3,7 +3,11 @@ package com.tsovedenski.galleryonsteroids.features.creator
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import android.content.Intent
+import android.content.pm.ActivityInfo
+import android.content.res.Configuration
 import android.os.Bundle
+import android.os.Handler
+import android.view.Surface
 import android.view.View
 import android.view.WindowManager
 import android.view.animation.Animation
@@ -15,6 +19,7 @@ import androidx.lifecycle.Observer
 import com.leinardi.android.speeddial.SpeedDialView
 import com.tsovedenski.galleryonsteroids.MyApplication
 import com.tsovedenski.galleryonsteroids.R
+import com.tsovedenski.galleryonsteroids.common.toDurationString
 import com.tsovedenski.galleryonsteroids.domain.entities.Media
 import com.tsovedenski.galleryonsteroids.domain.entities.MediaType
 import com.tsovedenski.galleryonsteroids.features.common.hasPermissions
@@ -39,6 +44,10 @@ class CreatorActivity : AppCompatActivity(), CreatorContract.View {
     private val event = MutableLiveData<CreatorEvent>()
 
     private lateinit var mode: CreatorMode
+
+    private val handler by lazy { Handler() }
+
+    private var time = 0L
 
     private val recordAnimation by lazy {
         ObjectAnimator.ofArgb(
@@ -126,16 +135,26 @@ class CreatorActivity : AppCompatActivity(), CreatorContract.View {
 
         recordAnimation.start()
         types_container.visibility = View.GONE
+        requestedOrientation = when (resources.configuration.orientation) {
+            Configuration.ORIENTATION_PORTRAIT -> ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+            Configuration.ORIENTATION_LANDSCAPE -> ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+            else -> requestedOrientation
+        }
     }
 
     override fun stopRecording() {
         mode.stopRecording()
+        handler.removeCallbacksAndMessages(null)
 
         spinner.visibility = View.VISIBLE
         container.visibility = View.GONE
 
         recordAnimation.cancel()
         creator_action.mainFabClosedBackgroundColor = resources.getColor(R.color.record, theme)
+    }
+
+    override fun startStopwatch() {
+        stopwatchUpdate()
     }
 
     override fun openDetails(media: Media) {
@@ -179,7 +198,14 @@ class CreatorActivity : AppCompatActivity(), CreatorContract.View {
         creator_action.setMainFabClosedDrawable(resources.getDrawable(icon, theme))
     }
 
+    private fun stopwatchUpdate() {
+        stopwatch.text = time.toDurationString()
+        time += STOPWATCH_UPDATE_RATE
+        handler.postDelayed(::stopwatchUpdate, STOPWATCH_UPDATE_RATE)
+    }
+
     companion object {
         private const val RC_PERMISSIONS = 10
+        private const val STOPWATCH_UPDATE_RATE = 500L
     }
 }

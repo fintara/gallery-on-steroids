@@ -20,6 +20,14 @@
         app:layout_constraintEnd_toEndOf="@+id/creator_action" android:layout_marginTop="2dp"
         android:layout_marginStart="2dp" android:layout_marginBottom="2dp" android:layout_marginEnd="2dp"/>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:id="@+id/stopwatch" tools:text="00:05"
+        android:textColor="@color/white" android:textSize="18sp" android:fontFamily="sans-serif-light"
+        android:layout_marginEnd="8dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginStart="8dp"
+        app:layout_constraintStart_toStartOf="parent" android:layout_marginTop="16dp"
+        app:layout_constraintTop_toTopOf="parent"/>
+
     <FrameLayout
         android:id="@+id/container"
         android:background="@color/sd_label_text_color"

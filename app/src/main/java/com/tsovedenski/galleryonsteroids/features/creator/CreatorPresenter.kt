@@ -46,6 +46,11 @@ class CreatorPresenter (
     private fun startRecording() {
         view.startRecording()
         model.setRecordingState(RecordingState.Recording)
+        model.getMediaType()?.let { type ->
+            if (type != MediaType.Photo) {
+                view.startStopwatch()
+            }
+        }
     }
 
     private fun stopRecording() {
