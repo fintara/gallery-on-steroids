@@ -43,7 +43,7 @@ class ViewerTypePresenter (
             Timber.i("onResume(media=${media.id})")
             view.prepare(media)
 
-            if (media.type != MediaType.Photo) {
+            if (media.type == MediaType.Video) {
                 view.seek(model.getProgress(), true)
                 when (model.getPlayingState()) {
                     PlayingState.Playing -> view.play()
