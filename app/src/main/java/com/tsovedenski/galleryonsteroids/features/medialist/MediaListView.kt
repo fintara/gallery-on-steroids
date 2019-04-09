@@ -2,41 +2,32 @@ package com.tsovedenski.galleryonsteroids.features.medialist
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
-import androidx.appcompat.app.AppCompatActivity
+import android.view.*
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.tsovedenski.galleryonsteroids.MyApplication
-import com.tsovedenski.galleryonsteroids.R
+import com.tsovedenski.galleryonsteroids.*
 import com.tsovedenski.galleryonsteroids.domain.entities.Media
 import com.tsovedenski.galleryonsteroids.domain.entities.MediaType
 import com.tsovedenski.galleryonsteroids.features.common.hasPermissions
 import com.tsovedenski.galleryonsteroids.features.common.requestPermissions
-import com.tsovedenski.galleryonsteroids.features.creator.CreatorActivity
-import com.tsovedenski.galleryonsteroids.features.viewer.ViewerActivity
+import com.tsovedenski.galleryonsteroids.features.viewer.ViewerView
 import kotlinx.android.synthetic.main.activity_media_list.*
 import pub.devrel.easypermissions.EasyPermissions
+import timber.log.Timber
 import javax.inject.Inject
 
-class MediaListActivity : AppCompatActivity(), MediaListContract.View {
+class MediaListView : Fragment(), MediaListContract.View {
 
     @Inject lateinit var injector: MediaListInjector
 
     private val event = MutableLiveData<MediaListEvent>()
 
     private var menu: Menu? = null
-
-    private val gridLayoutManager by lazy {
-        GridLayoutManager(this, 2, RecyclerView.VERTICAL, false)
-    }
-
-    private val cardLayoutManager by lazy {
-        LinearLayoutManager(this, RecyclerView.VERTICAL, false)
-    }
 
     private val itemsScrollListener = object : RecyclerView.OnScrollListener() {
         override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
@@ -49,37 +40,44 @@ class MediaListActivity : AppCompatActivity(), MediaListContract.View {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_media_list)
-
-        (application as MyApplication).appComponent.inject(this)
-
+        setHasOptionsMenu(true)
+        application.appComponent.inject(this)
         injector.attachPresenter(this)
+        Timber.tag(MediaListView::class.java.simpleName)
+    }
 
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.activity_media_list, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initFab()
-
+        items.clearOnScrollListeners()
         items.addOnScrollListener(itemsScrollListener)
     }
 
     override fun onStart() {
         super.onStart()
+        Timber.i("onStart")
         event.value = MediaListEvent.OnStart
     }
 
     override fun onResume() {
         super.onResume()
+        Timber.i("onResume")
         event.value = MediaListEvent.OnResume
     }
 
     override fun onDestroy() {
         super.onDestroy()
+        Timber.i("onDestroy")
         event.value = MediaListEvent.OnDestroy
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         this.menu = menu
-        menuInflater.inflate(R.menu.media_list, menu)
-        event.value = MediaListEvent.OnResume
-        return true
+        inflater.inflate(R.menu.media_list, menu)
+        event.value = MediaListEvent.OnOptionsReady
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -115,13 +113,13 @@ class MediaListActivity : AppCompatActivity(), MediaListContract.View {
     override fun setViewType(value: ViewType) {
         when (value) {
             ViewType.Grid -> {
-                items.layoutManager = gridLayoutManager
+                items.layoutManager = value.toLayoutManager()
                 items.setBackgroundColor(resources.getColor(R.color.black, theme))
                 menu?.findItem(R.id.viewtype_grid)?.isVisible = false
                 menu?.findItem(R.id.viewtype_card)?.isVisible = true
             }
             ViewType.Card -> {
-                items.layoutManager = cardLayoutManager
+                items.layoutManager = value.toLayoutManager()
                 items.setBackgroundColor(resources.getColor(R.color.lightGray, theme))
                 menu?.findItem(R.id.viewtype_grid)?.isVisible = true
                 menu?.findItem(R.id.viewtype_card)?.isVisible = false
@@ -130,19 +128,12 @@ class MediaListActivity : AppCompatActivity(), MediaListContract.View {
     }
 
     override fun openCreator(type: MediaType) {
-        fab_create.close()
-        val intent = Intent(this, CreatorActivity::class.java).apply {
-            putExtra("type", type.asString)
-        }
-        startActivity(intent)
+        findNavController().navigate(MediaListViewDirections.actionMediaListViewToCreatorView(type.asString))
     }
 
     override fun openViewer(media: Media) {
         fab_create.close()
-        val intent = Intent(this, ViewerActivity::class.java).apply {
-            putExtra(ViewerActivity.INTENT_EXTRA_MEDIA, media)
-        }
-        startActivity(intent)
+        findNavController().navigate(MediaListViewDirections.actionMediaListViewToViewerView(media))
     }
 
     override fun checkPermissions(vararg perms: String) {
@@ -163,6 +154,11 @@ class MediaListActivity : AppCompatActivity(), MediaListContract.View {
                 else -> false
             }
         }
+    }
+
+    private fun ViewType.toLayoutManager() = when (this) {
+        ViewType.Grid -> GridLayoutManager(requireContext(), 2, RecyclerView.VERTICAL, false)
+        ViewType.Card -> LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
     }
 
     companion object {

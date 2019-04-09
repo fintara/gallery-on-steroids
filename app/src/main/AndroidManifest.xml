@@ -18,16 +18,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".features.medialist.MediaListActivity">
+        <activity android:name=".RootActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
-
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".features.creator.CreatorActivity" />
-        <activity android:name=".features.form.FormActivity" />
-        <activity android:name=".features.viewer.ViewerActivity" />
     </application>
 
 </manifest>

@@ -32,7 +32,13 @@ interface CreatorContract {
 }
 
 sealed class RecordingState {
-    object Idle : RecordingState()
-    object Recording : RecordingState()
-    object Finishing : RecordingState()
+    object Idle : RecordingState() {
+        override fun toString() = "Idle"
+    }
+    object Recording : RecordingState() {
+        override fun toString() = "Recording"
+    }
+    object Finishing : RecordingState() {
+        override fun toString() = "Finishing"
+    }
 }

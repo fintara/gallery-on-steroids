@@ -9,7 +9,7 @@ import com.tsovedenski.galleryonsteroids.common.CoroutineContextProvider
 class CreatorInjector (
     private val coroutineContextProvider: CoroutineContextProvider
 ) {
-    fun attachPresenter(view: CreatorActivity) {
+    fun attachPresenter(view: CreatorView) {
         val presenter = CreatorPresenter(
             view,
             ViewModelProviders.of(view).get(CreatorViewModel::class.java),

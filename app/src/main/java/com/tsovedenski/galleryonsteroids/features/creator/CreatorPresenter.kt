@@ -6,6 +6,7 @@ import com.tsovedenski.galleryonsteroids.common.CoroutineContextProvider
 import com.tsovedenski.galleryonsteroids.domain.entities.Media
 import com.tsovedenski.galleryonsteroids.domain.entities.MediaType
 import com.tsovedenski.galleryonsteroids.features.common.Presenter
+import timber.log.Timber
 
 /**
  * Created by Tsvetan Ovedenski on 30/03/19.
@@ -16,13 +17,20 @@ class CreatorPresenter (
     contextProvider: CoroutineContextProvider
 ) : Presenter<CreatorEvent>(contextProvider) {
 
-    override fun onChanged(e: CreatorEvent) = when (e) {
-        is CreatorEvent.OnStart -> onStart(e.initialMediaType)
-        CreatorEvent.OnResume -> onResume()
-        CreatorEvent.OnDestroy -> onDestroy()
-        CreatorEvent.RecordPressed -> recordPressed()
-        is CreatorEvent.ChangeType -> onChangeType(e.value)
-        is CreatorEvent.RecordedMedia -> recorded(e.value)
+    init {
+        Timber.tag(CreatorPresenter::class.java.simpleName)
+    }
+
+    override fun onChanged(e: CreatorEvent) {
+        Timber.i("Received event: $e")
+        when (e) {
+            is CreatorEvent.OnStart -> onStart(e.initialMediaType)
+            CreatorEvent.OnResume -> onResume()
+            CreatorEvent.OnDestroy -> onDestroy()
+            CreatorEvent.RecordPressed -> recordPressed()
+            is CreatorEvent.ChangeType -> onChangeType(e.value)
+            is CreatorEvent.RecordedMedia -> recorded(e.value)
+        }
     }
 
     private fun onStart(initialMediaType: MediaType) {
@@ -36,7 +44,7 @@ class CreatorPresenter (
     }
 
     private fun recordPressed() {
-        when (model.getRecordingState()) {
+        when (model.getRecordingState().also { Timber.i("Recording state: $it") }) {
             RecordingState.Idle -> startRecording()
             RecordingState.Recording -> stopRecording()
             RecordingState.Finishing -> Unit
@@ -49,21 +57,27 @@ class CreatorPresenter (
         model.getMediaType()?.let { type ->
             if (type != MediaType.Photo) {
                 view.startStopwatch()
+            } else {
+                stopRecording()
             }
         }
     }
 
     private fun stopRecording() {
-        view.stopRecording()
         model.setRecordingState(RecordingState.Finishing)
+        view.stopRecording()
     }
 
     private fun recorded(media: Media) {
+//        if (model.getRecordingState() != RecordingState.Finishing) {
+//            return
+//        }
         // save in database?
         // open details view?
 
 //        if (media.type == MediaType.Video || media.type == MediaType.Audio) {
-            view.openDetails(media)
+        Timber.i("Opening details for ${media.id}")
+        view.openDetails(media)
 //        }
 
         model.setRecordingState(RecordingState.Idle)

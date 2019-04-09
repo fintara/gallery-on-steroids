@@ -9,7 +9,10 @@ interface FormContract {
         fun setObserver(observer: Observer<FormEvent>)
         fun setThumbnail(media: Media)
         fun showMessage(@StringRes resId: Int)
-        fun close()
+        fun confirmDiscard()
+
+        fun openCreator()
+        fun openMediaList()
     }
 
     interface ViewModel {

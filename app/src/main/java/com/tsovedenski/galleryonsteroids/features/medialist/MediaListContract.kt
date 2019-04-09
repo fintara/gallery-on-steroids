@@ -28,6 +28,19 @@ interface MediaListContract {
 }
 
 sealed class ViewType (val asInt: Int) {
-    object Grid : ViewType(1)
-    object Card : ViewType(2)
+    object Grid : ViewType(1) {
+        override fun toString() = "Grid"
+    }
+
+    object Card : ViewType(2) {
+        override fun toString() = "Card"
+    }
+
+    companion object {
+        fun fromInt(value: Int): ViewType? = when (value) {
+            Grid.asInt -> Grid
+            Card.asInt -> Card
+            else -> null
+        }
+    }
 }

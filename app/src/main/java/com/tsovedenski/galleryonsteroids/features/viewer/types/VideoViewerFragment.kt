@@ -9,7 +9,7 @@ import android.widget.SeekBar
 import com.tsovedenski.galleryonsteroids.R
 import com.tsovedenski.galleryonsteroids.common.toDurationString
 import com.tsovedenski.galleryonsteroids.domain.entities.Media
-import com.tsovedenski.galleryonsteroids.features.viewer.ViewerActivity
+import com.tsovedenski.galleryonsteroids.features.viewer.ViewerView
 import com.tsovedenski.galleryonsteroids.features.viewer.ViewerTypeEvent
 import kotlinx.android.synthetic.main.fragment_viewer_videoaudio.*
 
@@ -127,7 +127,7 @@ class VideoViewerFragment : ViewerFragment() {
 
         fun newInstance(media: Media) = VideoViewerFragment().apply {
             arguments = Bundle().apply {
-                putParcelable(ViewerActivity.INTENT_EXTRA_MEDIA, media)
+                putParcelable(ViewerView.INTENT_EXTRA_MEDIA, media)
             }
         }
     }

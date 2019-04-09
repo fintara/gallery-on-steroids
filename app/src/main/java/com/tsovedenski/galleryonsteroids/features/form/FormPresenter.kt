@@ -7,7 +7,6 @@ import com.tsovedenski.galleryonsteroids.features.common.Presenter
 import com.tsovedenski.galleryonsteroids.services.MediaService
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import java.io.File
 
 class FormPresenter (
     private val view: FormContract.View,
@@ -17,7 +16,7 @@ class FormPresenter (
 ): Presenter<FormEvent>(contextProvider) {
 
     init {
-        Timber.tag(FormPresenter::class.java.name)
+        Timber.tag(FormPresenter::class.java.simpleName)
     }
 
     override fun onChanged(e: FormEvent) = when (e) {
@@ -25,14 +24,15 @@ class FormPresenter (
         FormEvent.OnResume -> onResume()
         FormEvent.OnPause -> onPause()
         FormEvent.OnDestroy -> onDestroy()
-        FormEvent.Discard -> discard()
+        FormEvent.BackPressed -> backPressed()
+        FormEvent.DiscardConfirmed -> discardConfirmed()
         is FormEvent.Save -> save(e)
     }
 
     private fun onStart(media: Media) {
         if (model.getMedia() == null) {
             model.setMedia(media)
-            view.setThumbnail(media)
+//            view.setThumbnail(media)
         }
     }
 
@@ -49,12 +49,13 @@ class FormPresenter (
 //        save(FormEvent.Save("Unnamed"), removeFromModel = false)
     }
 
-    private fun discard() {
+    private fun discardConfirmed() {
         Timber.i("About to discard media")
         model.getMedia()?.let { media ->
             Timber.i("Discarding ${media.id}")
             launch {
                 service.delete(media)
+                view.openCreator()
             }
         }
     }
@@ -72,12 +73,16 @@ class FormPresenter (
 
             launch {
                 service.save(toSave)
-                view.close()
+                view.openMediaList()
                 if (removeFromModel) {
                     model.setMedia(null)
                 }
             }
         }
+    }
+
+    private fun backPressed() {
+        view.confirmDiscard()
     }
 
     private fun isTitleValid(value: String): Boolean = value.trim().matches(lettersNumbersSpace)

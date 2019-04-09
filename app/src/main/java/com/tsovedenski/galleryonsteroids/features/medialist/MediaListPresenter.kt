@@ -8,6 +8,7 @@ import com.tsovedenski.galleryonsteroids.features.common.Presenter
 import com.tsovedenski.galleryonsteroids.services.MediaService
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import timber.log.Timber
 
 /**
  * Created by Tsvetan Ovedenski on 10/03/19.
@@ -17,31 +18,41 @@ class MediaListPresenter (
     private val model: MediaListContract.ViewModel,
     private val service: MediaService,
     private val adapter: MediaListAdapter,
-    private val contextProvider: CoroutineContextProvider
+    contextProvider: CoroutineContextProvider
 ) : Presenter<MediaListEvent>(contextProvider)
 {
-    override fun onChanged(e: MediaListEvent) = when (e) {
-        MediaListEvent.OnStart -> onStart()
-        MediaListEvent.OnResume -> onResume()
-        MediaListEvent.OnDestroy -> onDestroy()
+    init {
+        Timber.tag(MediaListPresenter::class.java.simpleName)
+    }
 
-        MediaListEvent.CreatePhoto -> createPhoto()
-        MediaListEvent.CreateVideo -> createVideo()
-        MediaListEvent.CreateAudio -> createAudio()
+    override fun onChanged(e: MediaListEvent) {
+        Timber.i("Received event: $e")
+        when (e) {
+            MediaListEvent.OnStart -> onStart()
+            MediaListEvent.OnResume -> onResume()
+            MediaListEvent.OnOptionsReady -> onOptionsReady()
+            MediaListEvent.OnDestroy -> onDestroy()
 
-        is MediaListEvent.ChangeViewType -> changeViewType(e.value)
-        is MediaListEvent.ItemSelected -> itemSelected(e.value)
+            MediaListEvent.CreatePhoto -> createPhoto()
+            MediaListEvent.CreateVideo -> createVideo()
+            MediaListEvent.CreateAudio -> createAudio()
+
+            is MediaListEvent.ChangeViewType -> changeViewType(e.value)
+            is MediaListEvent.ItemSelected -> itemSelected(e.value)
+        }
     }
 
     private fun onStart() {
         adapter.setObserver(this)
         view.setAdapter(adapter)
-
         view.checkPermissions(Manifest.permission.READ_EXTERNAL_STORAGE)
     }
 
     private fun onResume() {
         loadItems()
+    }
+
+    private fun onOptionsReady() {
         changeViewType(model.getViewType())
     }
 
@@ -66,6 +77,7 @@ class MediaListPresenter (
         view.setViewType(value)
         model.setViewType(value)
         adapter.viewType = value
+        Timber.i("Set view type: ${model.getViewType()}")
     }
 
     private fun itemSelected(value: Media) {

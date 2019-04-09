@@ -8,6 +8,7 @@ import com.tsovedenski.galleryonsteroids.domain.entities.Media
 sealed class MediaListEvent {
     object OnStart : MediaListEvent()
     object OnResume : MediaListEvent()
+    object OnOptionsReady : MediaListEvent()
     object OnDestroy : MediaListEvent()
 
     object CreatePhoto : MediaListEvent()

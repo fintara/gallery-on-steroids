@@ -8,7 +8,7 @@ class FormInjector (
     private val mediaService: MediaService,
     private val coroutineContextProvider: CoroutineContextProvider
 ) {
-    fun attachPresenter(view: FormActivity) {
+    fun attachPresenter(view: FormView) {
         val presenter = FormPresenter(
             view,
             ViewModelProviders.of(view).get(FormViewModel::class.java),

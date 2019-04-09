@@ -1,6 +1,5 @@
 package com.tsovedenski.galleryonsteroids.features.viewer.types
 
-import android.media.AudioAttributes
 import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
@@ -12,7 +11,7 @@ import android.widget.SeekBar
 import com.tsovedenski.galleryonsteroids.R
 import com.tsovedenski.galleryonsteroids.common.toDurationString
 import com.tsovedenski.galleryonsteroids.domain.entities.Media
-import com.tsovedenski.galleryonsteroids.features.viewer.ViewerActivity
+import com.tsovedenski.galleryonsteroids.features.viewer.ViewerView
 import com.tsovedenski.galleryonsteroids.features.viewer.ViewerTypeEvent
 import com.tsovedenski.galleryonsteroids.showToast
 import kotlinx.android.synthetic.main.fragment_viewer_videoaudio.*
@@ -145,7 +144,7 @@ class AudioViewerFragment : ViewerFragment() {
 
         fun newInstance(media: Media) = AudioViewerFragment().apply {
             arguments = Bundle().apply {
-                putParcelable(ViewerActivity.INTENT_EXTRA_MEDIA, media)
+                putParcelable(ViewerView.INTENT_EXTRA_MEDIA, media)
             }
         }
     }

@@ -4,7 +4,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.tsovedenski.galleryonsteroids.domain.entities.Media
-import com.tsovedenski.galleryonsteroids.features.viewer.ViewerActivity
+import com.tsovedenski.galleryonsteroids.features.viewer.ViewerView
 import com.tsovedenski.galleryonsteroids.features.viewer.ViewerTypeContract
 import com.tsovedenski.galleryonsteroids.features.viewer.ViewerTypeEvent
 import timber.log.Timber
@@ -22,7 +22,7 @@ abstract class ViewerFragment : Fragment(), ViewerTypeContract.View {
 
     override fun onStart() {
         super.onStart()
-        val media = arguments?.getParcelable<Media>(ViewerActivity.INTENT_EXTRA_MEDIA)
+        val media = arguments?.getParcelable<Media>(ViewerView.INTENT_EXTRA_MEDIA)
             ?: return requireActivity().finish()
         event.value = ViewerTypeEvent.OnStart(media)
         Timber.i("onStart(mediaId=${media.id})")

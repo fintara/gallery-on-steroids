@@ -1,44 +1,66 @@
 package com.tsovedenski.galleryonsteroids.features.viewer
 
 import android.os.Bundle
+import android.os.Handler
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.view.WindowManager
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
-import com.tsovedenski.galleryonsteroids.MyApplication
-import com.tsovedenski.galleryonsteroids.R
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
+import com.tsovedenski.galleryonsteroids.*
 import com.tsovedenski.galleryonsteroids.domain.entities.Media
 import com.tsovedenski.galleryonsteroids.domain.entities.MediaType
 import com.tsovedenski.galleryonsteroids.features.viewer.types.AudioViewerFragment
 import com.tsovedenski.galleryonsteroids.features.viewer.types.PhotoViewerFragment
 import com.tsovedenski.galleryonsteroids.features.viewer.types.VideoViewerFragment
 import com.tsovedenski.galleryonsteroids.features.viewer.types.ViewerFragment
-import com.tsovedenski.galleryonsteroids.setFragment
-import com.tsovedenski.galleryonsteroids.showToast
 import timber.log.Timber
 import javax.inject.Inject
 
 /**
  * Created by Tsvetan Ovedenski on 06/04/19.
  */
-class ViewerActivity : AppCompatActivity() {
+class ViewerView : Fragment() {
 
     @Inject lateinit var injector: ViewerTypeInjector
 
+    private val handler by lazy { Handler() }
+
+    private val args by navArgs<ViewerViewArgs>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_viewer)
 
-        Timber.tag(ViewerActivity::class.java.name)
-        (application as MyApplication).appComponent.inject(this)
+        Timber.tag(ViewerView::class.java.name)
+        application.appComponent.inject(this)
+        requireActivity().onBackPressedDispatcher.addCallback(OnBackPressedCallback {
+            findNavController().navigateUp()
+        })
 
-        supportActionBar?.hide()
-        window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
-
-        val media = intent.getParcelableExtra<Media>(INTENT_EXTRA_MEDIA) ?: return intentMediaKeyMissing()
+        val media = args.media
         initFragment(media)
     }
 
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.activity_viewer, container, false)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        handler.postDelayed({ enterFullscreen() }, 350)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        exitFullscreen()
+    }
+
     private fun initFragment(media: Media) {
-        val fragment = supportFragmentManager.findFragmentByTag(CONTAINER_TAG) as? ViewerFragment
+        val fragment = childFragmentManager.findFragmentByTag(CONTAINER_TAG) as? ViewerFragment
             ?: media.resolveFragment()
 
         Timber.i("Resolved fragment ${fragment.javaClass.name}")
@@ -51,12 +73,6 @@ class ViewerActivity : AppCompatActivity() {
         MediaType.Photo -> PhotoViewerFragment.newInstance(this)
         MediaType.Video -> VideoViewerFragment.newInstance(this)
         MediaType.Audio -> AudioViewerFragment.newInstance(this)
-    }
-
-    private fun intentMediaKeyMissing() {
-        Timber.e("Intent extra '$INTENT_EXTRA_MEDIA' was null")
-        showToast("Media is required")
-        finish()
     }
 
     companion object {

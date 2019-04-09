@@ -8,7 +8,8 @@ sealed class FormEvent {
     object OnPause : FormEvent()
     object OnDestroy : FormEvent()
 
-    object Discard : FormEvent()
+    object BackPressed : FormEvent()
+    object DiscardConfirmed : FormEvent()
 
     data class Save(val title: String) : FormEvent()
 }

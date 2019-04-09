@@ -1,10 +1,10 @@
 package com.tsovedenski.galleryonsteroids.features.medialist
 
-import android.app.Application
 import android.content.Context
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.tsovedenski.galleryonsteroids.common.CoroutineContextProvider
-import com.tsovedenski.galleryonsteroids.domain.repositories.MediaRepository
 import com.tsovedenski.galleryonsteroids.services.MediaService
 
 /**
@@ -15,10 +15,17 @@ class MediaListInjector (
     private val mediaService: MediaService,
     private val coroutineContextProvider: CoroutineContextProvider
 ) {
-    fun attachPresenter(view: MediaListActivity) {
+    @Suppress("UNCHECKED_CAST")
+    private val viewModelFactory = object : ViewModelProvider.Factory {
+        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+            return MediaListViewModel(context.getSharedPreferences(MediaListPresenter::javaClass.name, Context.MODE_PRIVATE)) as T
+        }
+    }
+
+    fun attachPresenter(view: MediaListView) {
         val presenter = MediaListPresenter(
             view,
-            ViewModelProviders.of(view).get(MediaListViewModel::class.java),
+            ViewModelProviders.of(view, viewModelFactory).get(MediaListViewModel::class.java),
             mediaService,
             MediaListAdapter(context),
             coroutineContextProvider
