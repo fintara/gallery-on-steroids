@@ -4,7 +4,6 @@ import com.tsovedenski.galleryonsteroids.common.CoroutineContextProvider
 import com.tsovedenski.galleryonsteroids.domain.entities.Media
 import com.tsovedenski.galleryonsteroids.domain.entities.MediaType
 import com.tsovedenski.galleryonsteroids.features.common.Presenter
-import kotlinx.coroutines.launch
 import timber.log.Timber
 
 /**

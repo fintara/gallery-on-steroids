@@ -5,9 +5,7 @@ import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
 import androidx.activity.OnBackPressedCallback
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -27,8 +25,6 @@ import javax.inject.Inject
 class ViewerView : Fragment() {
 
     @Inject lateinit var injector: ViewerTypeInjector
-
-    private val handler by lazy { Handler() }
 
     private val args by navArgs<ViewerViewArgs>()
 
@@ -51,7 +47,7 @@ class ViewerView : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        handler.postDelayed({ enterFullscreen() }, 350)
+        enterFullscreen()
     }
 
     override fun onStop() {

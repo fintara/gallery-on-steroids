@@ -1,6 +1,5 @@
 package com.tsovedenski.galleryonsteroids.features.medialist
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
@@ -10,12 +9,13 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.tsovedenski.galleryonsteroids.*
+import com.tsovedenski.galleryonsteroids.R
+import com.tsovedenski.galleryonsteroids.application
 import com.tsovedenski.galleryonsteroids.domain.entities.Media
 import com.tsovedenski.galleryonsteroids.domain.entities.MediaType
 import com.tsovedenski.galleryonsteroids.features.common.hasPermissions
 import com.tsovedenski.galleryonsteroids.features.common.requestPermissions
-import com.tsovedenski.galleryonsteroids.features.viewer.ViewerView
+import com.tsovedenski.galleryonsteroids.theme
 import kotlinx.android.synthetic.main.activity_media_list.*
 import pub.devrel.easypermissions.EasyPermissions
 import timber.log.Timber

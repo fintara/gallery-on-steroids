@@ -1,7 +1,6 @@
 package com.tsovedenski.galleryonsteroids.services
 
 import com.tsovedenski.galleryonsteroids.domain.entities.Media
-import com.tsovedenski.galleryonsteroids.domain.entities.MediaType
 import com.tsovedenski.galleryonsteroids.domain.repositories.MediaRepository
 import java.io.File
 

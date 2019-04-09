@@ -7,7 +7,6 @@ import com.tsovedenski.galleryonsteroids.domain.entities.MediaType
 import com.tsovedenski.galleryonsteroids.features.common.Presenter
 import com.tsovedenski.galleryonsteroids.services.MediaService
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import timber.log.Timber
 
 /**

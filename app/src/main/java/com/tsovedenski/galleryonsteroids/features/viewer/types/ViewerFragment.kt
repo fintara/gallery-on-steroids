@@ -4,9 +4,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.tsovedenski.galleryonsteroids.domain.entities.Media
-import com.tsovedenski.galleryonsteroids.features.viewer.ViewerView
 import com.tsovedenski.galleryonsteroids.features.viewer.ViewerTypeContract
 import com.tsovedenski.galleryonsteroids.features.viewer.ViewerTypeEvent
+import com.tsovedenski.galleryonsteroids.features.viewer.ViewerView
 import timber.log.Timber
 
 /**

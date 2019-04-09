@@ -1,16 +1,13 @@
 package com.tsovedenski.galleryonsteroids
 
 import android.app.Application
-import android.content.Context
-import com.bumptech.glide.GlideBuilder
 import com.bumptech.glide.annotation.GlideModule
 import com.bumptech.glide.module.AppGlideModule
 import com.tsovedenski.galleryonsteroids.dagger.AppComponent
 import com.tsovedenski.galleryonsteroids.dagger.DaggerAppComponent
 import com.tsovedenski.galleryonsteroids.dagger.modules.AppModule
-import timber.log.Timber.DebugTree
 import timber.log.Timber
-
+import timber.log.Timber.DebugTree
 
 
 class MyApplication : Application() {
