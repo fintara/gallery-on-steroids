@@ -14,10 +14,10 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.tsovedenski.galleryonsteroids.GlideApp
 import com.tsovedenski.galleryonsteroids.R
 import com.tsovedenski.galleryonsteroids.common.createDiffCallback
+import com.tsovedenski.galleryonsteroids.common.prettyFormat
 import com.tsovedenski.galleryonsteroids.common.toDurationString
 import com.tsovedenski.galleryonsteroids.domain.entities.Media
 import com.tsovedenski.galleryonsteroids.domain.entities.MediaType
-import com.tsovedenski.galleryonsteroids.prettyFormat
 
 /**
  * Created by Tsvetan Ovedenski on 30/03/19.

@@ -11,9 +11,9 @@ import android.widget.SeekBar
 import com.tsovedenski.galleryonsteroids.R
 import com.tsovedenski.galleryonsteroids.common.toDurationString
 import com.tsovedenski.galleryonsteroids.domain.entities.Media
+import com.tsovedenski.galleryonsteroids.features.common.showToast
 import com.tsovedenski.galleryonsteroids.features.viewer.ViewerTypeEvent
 import com.tsovedenski.galleryonsteroids.features.viewer.ViewerView
-import com.tsovedenski.galleryonsteroids.showToast
 import kotlinx.android.synthetic.main.fragment_viewer_videoaudio.*
 import timber.log.Timber
 import java.io.File

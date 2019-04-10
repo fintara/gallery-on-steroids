@@ -13,6 +13,10 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.tsovedenski.galleryonsteroids.*
 import com.tsovedenski.galleryonsteroids.domain.entities.Media
 import com.tsovedenski.galleryonsteroids.domain.entities.MediaType
+import com.tsovedenski.galleryonsteroids.features.common.application
+import com.tsovedenski.galleryonsteroids.features.common.hideKeyboard
+import com.tsovedenski.galleryonsteroids.features.common.resetTitle
+import com.tsovedenski.galleryonsteroids.features.common.showToast
 import kotlinx.android.synthetic.main.activity_form.*
 import timber.log.Timber
 import javax.inject.Inject
@@ -72,6 +76,7 @@ class FormView : Fragment(), FormContract.View {
     override fun onDestroy() {
         super.onDestroy()
         Timber.i("onDestroy")
+        resetTitle()
         event.value = FormEvent.OnDestroy
     }
 

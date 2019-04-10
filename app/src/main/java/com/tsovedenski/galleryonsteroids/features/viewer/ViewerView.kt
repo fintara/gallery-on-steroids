@@ -12,6 +12,10 @@ import androidx.navigation.fragment.navArgs
 import com.tsovedenski.galleryonsteroids.*
 import com.tsovedenski.galleryonsteroids.domain.entities.Media
 import com.tsovedenski.galleryonsteroids.domain.entities.MediaType
+import com.tsovedenski.galleryonsteroids.features.common.application
+import com.tsovedenski.galleryonsteroids.features.common.enterFullscreen
+import com.tsovedenski.galleryonsteroids.features.common.exitFullscreen
+import com.tsovedenski.galleryonsteroids.features.common.setFragment
 import com.tsovedenski.galleryonsteroids.features.viewer.types.AudioViewerFragment
 import com.tsovedenski.galleryonsteroids.features.viewer.types.PhotoViewerFragment
 import com.tsovedenski.galleryonsteroids.features.viewer.types.VideoViewerFragment

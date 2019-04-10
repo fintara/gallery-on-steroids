@@ -22,8 +22,7 @@ import com.tsovedenski.galleryonsteroids.*
 import com.tsovedenski.galleryonsteroids.common.toDurationString
 import com.tsovedenski.galleryonsteroids.domain.entities.Media
 import com.tsovedenski.galleryonsteroids.domain.entities.MediaType
-import com.tsovedenski.galleryonsteroids.features.common.hasPermissions
-import com.tsovedenski.galleryonsteroids.features.common.requestPermissions
+import com.tsovedenski.galleryonsteroids.features.common.*
 import com.tsovedenski.galleryonsteroids.features.creator.modes.CreatorMode
 import com.tsovedenski.galleryonsteroids.features.creator.modes.CreatorPhotoFragment
 import com.tsovedenski.galleryonsteroids.features.creator.modes.CreatorVideoFragment

@@ -1,4 +1,4 @@
-package com.tsovedenski.galleryonsteroids
+package com.tsovedenski.galleryonsteroids.features.common
 
 import android.content.res.Resources
 import android.view.View
@@ -10,30 +10,16 @@ import androidx.annotation.StringRes
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import java.time.Instant
-import java.time.ZoneId
-import java.time.format.DateTimeFormatter
+import com.tsovedenski.galleryonsteroids.MyApplication
+import com.tsovedenski.galleryonsteroids.R
 
 /**
- * Created by Tsvetan Ovedenski on 10/03/19.
+ * Created by Tsvetan Ovedenski on 10/04/2019.
  */
-fun AppCompatActivity.setFragment(fragment: Fragment, tag: String, containerViewId: Int) =
-    supportFragmentManager.beginTransaction()
-        .replace(containerViewId, fragment, tag)
-        .commitNowAllowingStateLoss()
-
 fun Fragment.setFragment(fragment: Fragment, tag: String, containerViewId: Int) =
     childFragmentManager.beginTransaction()
         .replace(containerViewId, fragment, tag)
         .commitNowAllowingStateLoss()
-
-fun AppCompatActivity.showToast(@StringRes resId: Int) {
-    Toast.makeText(this, resId, Toast.LENGTH_SHORT).show()
-}
-
-fun AppCompatActivity.showToast(value: String) {
-    Toast.makeText(this, value, Toast.LENGTH_SHORT).show()
-}
 
 fun Fragment.showToast(@StringRes resId: Int) {
     Toast.makeText(activity, resId, Toast.LENGTH_SHORT).show()
@@ -66,16 +52,15 @@ fun Fragment.exitFullscreen() {
 
 fun Fragment.hideKeyboard() {
     val inputMethodManager = requireActivity()
-            .getSystemService(AppCompatActivity.INPUT_METHOD_SERVICE) as InputMethodManager
+        .getSystemService(AppCompatActivity.INPUT_METHOD_SERVICE) as InputMethodManager
     inputMethodManager.hideSoftInputFromWindow(view?.windowToken, 0)
+}
+
+fun Fragment.resetTitle() {
+    requireActivity().setTitle(R.string.app_name)
 }
 
 val Fragment.application: MyApplication get() = requireActivity().application as MyApplication
 val Fragment.theme: Resources.Theme get() = requireActivity().theme
 val Fragment.window: Window get() = requireActivity().window
 val Fragment.actionBar: ActionBar? get() = (requireActivity() as AppCompatActivity).supportActionBar
-
-fun Instant.prettyFormat(): String = formatter.format(this)
-
-private val formatter = DateTimeFormatter.ofPattern("d MMM yyyy, HH:mm")
-    .withZone(ZoneId.systemDefault())

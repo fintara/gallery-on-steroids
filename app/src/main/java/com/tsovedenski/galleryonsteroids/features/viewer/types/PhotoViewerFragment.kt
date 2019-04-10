@@ -6,10 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import com.tsovedenski.galleryonsteroids.GlideApp
 import com.tsovedenski.galleryonsteroids.R
+import com.tsovedenski.galleryonsteroids.common.prettyFormat
 import com.tsovedenski.galleryonsteroids.domain.entities.Media
 import com.tsovedenski.galleryonsteroids.features.viewer.ViewerTypeEvent
 import com.tsovedenski.galleryonsteroids.features.viewer.ViewerView
-import com.tsovedenski.galleryonsteroids.prettyFormat
 import kotlinx.android.synthetic.main.fragment_viewer_photo.*
 import timber.log.Timber
 
