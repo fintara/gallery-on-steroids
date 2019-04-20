@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/photoeditor_crop"
+        android:icon="@drawable/crop"
+        android:title="@string/crop" />
+
+    <item
+        android:id="@+id/photoeditor_tune"
+        android:icon="@drawable/tune"
+        android:title="@string/tune_image" />
+
+    <item
+        android:id="@+id/photoeditor_style"
+        android:icon="@drawable/palette_swatch"
+        android:title="@string/style" />
+
+</menu>

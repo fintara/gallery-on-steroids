@@ -51,6 +51,7 @@ dependencies {
     implementation "androidx.recyclerview:recyclerview:$versions.androidx_recyclerview"
     implementation "androidx.cardview:cardview:$versions.androidx_cardview"
     implementation "androidx.constraintlayout:constraintlayout:$versions.androidx_constraintlayout"
+    implementation "com.google.android.material:material:$versions.androidx_material"
 
     implementation "com.leinardi.android:speed-dial:$versions.speed_dial"
 
