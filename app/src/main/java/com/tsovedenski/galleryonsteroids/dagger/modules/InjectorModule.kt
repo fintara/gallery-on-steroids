@@ -48,6 +48,7 @@ class InjectorModule {
     @Provides
     @Singleton
     fun providePhotoEditorInjector(
+        service: MediaService,
         coroutineContextProvider: CoroutineContextProvider
-    ) = PhotoEditorInjector(coroutineContextProvider)
+    ) = PhotoEditorInjector(service, coroutineContextProvider)
 }

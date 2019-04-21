@@ -9,12 +9,14 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.appcompat.app.ActionBar
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.navigation.fragment.findNavController
 import com.tsovedenski.galleryonsteroids.MyApplication
 import com.tsovedenski.galleryonsteroids.R
+import com.tsovedenski.galleryonsteroids.features.form.FormEvent
 import timber.log.Timber
 import kotlin.properties.Delegates
 
@@ -80,6 +82,20 @@ fun <T> Fragment.navigateBackWithResult(payload: T) {
     }
     fm?.addOnBackStackChangedListener(backStackListener)
     findNavController().popBackStack()
+}
+
+fun Fragment.discardDialog(action: () -> Unit) {
+    AlertDialog.Builder(requireContext()).apply {
+        setTitle(R.string.discard_title)
+
+        setPositiveButton(R.string.discard) { _, _ ->
+            action()
+        }
+
+        setNegativeButton(R.string.stay) { dialog, _ ->
+            dialog.cancel()
+        }
+    }.show()
 }
 
 val Fragment.application: MyApplication get() = requireActivity().application as MyApplication

@@ -19,6 +19,10 @@ sealed class PhotoEditorEvent {
 
     data class ToolSelected(val value: Tool) : PhotoEditorEvent()
     data class PhotoModified(val value: PhotoModification?) : PhotoEditorEvent()
+
+    object BackPressed : PhotoEditorEvent()
+    object Confirmed : PhotoEditorEvent()
+    object Discarded : PhotoEditorEvent()
 }
 
 sealed class Tool {

@@ -2,9 +2,8 @@ package com.tsovedenski.galleryonsteroids.features.photoeditor
 
 import android.graphics.Bitmap
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import androidx.activity.OnBackPressedCallback
 import com.bumptech.glide.request.target.Target
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
@@ -15,10 +14,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.tsovedenski.galleryonsteroids.GlideApp
 import com.tsovedenski.galleryonsteroids.R
 import com.tsovedenski.galleryonsteroids.domain.entities.Media
-import com.tsovedenski.galleryonsteroids.features.common.NavigationResult
-import com.tsovedenski.galleryonsteroids.features.common.application
-import com.tsovedenski.galleryonsteroids.features.common.resetTitle
-import com.tsovedenski.galleryonsteroids.features.common.setTitle
+import com.tsovedenski.galleryonsteroids.features.common.*
 import kotlinx.android.synthetic.main.fragment_photoeditor.*
 import timber.log.Timber
 import javax.inject.Inject
@@ -34,11 +30,18 @@ class PhotoEditorView : Fragment(), PhotoEditorContract.View, NavigationResult<P
 
     private val args by navArgs<PhotoEditorViewArgs>()
 
+    private val onBackPressedListener = OnBackPressedCallback {
+        event.value = PhotoEditorEvent.BackPressed
+        true
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
         application.appComponent.inject(this)
         injector.attachPresenter(this)
         Timber.tag(PhotoEditorView::class.java.simpleName)
+        requireActivity().onBackPressedDispatcher.addCallback(onBackPressedListener)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -54,6 +57,19 @@ class PhotoEditorView : Fragment(), PhotoEditorContract.View, NavigationResult<P
             }
             true
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.tool, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.confirm) {
+            event.value = PhotoEditorEvent.Confirmed
+            return true
+        }
+
+        return false
     }
 
     override fun onStart() {
@@ -91,16 +107,28 @@ class PhotoEditorView : Fragment(), PhotoEditorContract.View, NavigationResult<P
     }
 
     override fun openTune(mediaUri: String) {
-        TODO("not implemented")
+        showToast("Not implemented yet")
     }
 
     override fun openStyle(mediaUri: String) {
         findNavController().navigate(PhotoEditorViewDirections.actionPhotoEditorViewToStyleTool(mediaUri))
     }
 
+    override fun openDetails(media: Media) {
+        findNavController().navigate(PhotoEditorViewDirections.actionPhotoEditorViewToFormView(media))
+    }
+
+    override fun openCreator() {
+        findNavController().navigateUp()
+    }
+
     override fun onNavigationResult(payload: PhotoModification?) {
         Timber.i("Got payload: ${payload?.javaClass?.simpleName}")
         event.value = PhotoEditorEvent.PhotoModified(payload)
+    }
+
+    override fun confirmDiscard() {
+        discardDialog { event.value = PhotoEditorEvent.Discarded }
     }
 
     override fun showLoader() {

@@ -43,7 +43,9 @@
             app:popUpTo="@+id/creatorView"/>
         <action
             android:id="@+id/action_creatorView_to_photoEditorView"
-            app:destination="@id/photoEditorView"/>
+            app:destination="@id/photoEditorView"
+            app:popUpTo="@+id/creatorView"
+            />
     </fragment>
     <fragment
         android:id="@+id/formView"
@@ -75,7 +77,9 @@
         tools:layout="@layout/fragment_photoeditor">
         <action
             android:id="@+id/action_photoEditorView_to_formView"
-            app:destination="@id/formView"/>
+            app:destination="@id/formView"
+            app:popUpTo="@+id/photoEditorView"
+            app:popUpToInclusive="true"/>
         <argument
             android:name="media"
             app:argType="com.tsovedenski.galleryonsteroids.domain.entities.Media"/>

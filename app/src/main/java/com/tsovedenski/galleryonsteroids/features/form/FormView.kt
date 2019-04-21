@@ -13,10 +13,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.tsovedenski.galleryonsteroids.*
 import com.tsovedenski.galleryonsteroids.domain.entities.Media
 import com.tsovedenski.galleryonsteroids.domain.entities.MediaType
-import com.tsovedenski.galleryonsteroids.features.common.application
-import com.tsovedenski.galleryonsteroids.features.common.hideKeyboard
-import com.tsovedenski.galleryonsteroids.features.common.resetTitle
-import com.tsovedenski.galleryonsteroids.features.common.showToast
+import com.tsovedenski.galleryonsteroids.features.common.*
 import kotlinx.android.synthetic.main.activity_form.*
 import timber.log.Timber
 import javax.inject.Inject
@@ -106,17 +103,7 @@ class FormView : Fragment(), FormContract.View {
     }
 
     override fun confirmDiscard() {
-        AlertDialog.Builder(requireContext()).apply {
-            setTitle(R.string.discard_title)
-
-            setPositiveButton(R.string.discard) { _, _ ->
-                event.value = FormEvent.DiscardConfirmed
-            }
-
-            setNegativeButton(R.string.stay) { dialog, _ ->
-                dialog.cancel()
-            }
-        }.show()
+        discardDialog { event.value = FormEvent.DiscardConfirmed }
     }
 
     override fun setObserver(observer: Observer<FormEvent>) {

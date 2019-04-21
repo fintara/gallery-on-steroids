@@ -19,6 +19,10 @@ interface PhotoEditorContract {
         fun openTune(mediaUri: String)
         fun openStyle(mediaUri: String)
 
+        fun openDetails(media: Media)
+        fun openCreator()
+        fun confirmDiscard()
+
         fun showLoader()
         fun hideLoader()
     }
