@@ -1,5 +1,6 @@
 package com.tsovedenski.galleryonsteroids.features.photoeditor
 
+import android.graphics.Bitmap
 import androidx.lifecycle.Observer
 import com.tsovedenski.galleryonsteroids.domain.entities.Media
 import java.io.File
@@ -11,7 +12,8 @@ interface PhotoEditorContract {
     interface View {
         fun setObserver(observer: Observer<PhotoEditorEvent>)
 
-        fun setMedia(media: Media)
+        fun setImage(media: Media)
+        fun setImage(bitmap: Bitmap)
 
         fun openCrop(mediaUri: String)
         fun openTune(mediaUri: String)
@@ -22,6 +24,7 @@ interface PhotoEditorContract {
     }
 
     interface ViewModel {
+        var loaded: Boolean
         var media: Media?
         var tempFile: File?
     }

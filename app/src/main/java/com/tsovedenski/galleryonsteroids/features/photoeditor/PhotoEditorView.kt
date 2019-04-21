@@ -1,5 +1,6 @@
 package com.tsovedenski.galleryonsteroids.features.photoeditor
 
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -68,13 +69,17 @@ class PhotoEditorView : Fragment(), PhotoEditorContract.View, NavigationResult<P
         event.value = PhotoEditorEvent.OnDestroy
     }
 
-    override fun setMedia(media: Media) {
+    override fun setImage(media: Media) {
         GlideApp.with(this)
             .load(media.path)
             .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
             .diskCacheStrategy(DiskCacheStrategy.NONE)
             .skipMemoryCache(true)
             .into(preview)
+    }
+
+    override fun setImage(bitmap: Bitmap) {
+        preview.setImageBitmap(bitmap)
     }
 
     override fun openCrop(mediaUri: String) {

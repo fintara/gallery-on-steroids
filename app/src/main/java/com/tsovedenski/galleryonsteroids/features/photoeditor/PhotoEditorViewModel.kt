@@ -21,4 +21,10 @@ class PhotoEditorViewModel : ViewModel(), PhotoEditorContract.ViewModel {
     override var tempFile: File?
         get() = _tempFile.value
         set(value) { _tempFile.value = value }
+
+    private val _loaded = MutableLiveData<Boolean>()
+
+    override var loaded: Boolean
+        get() = _loaded.value ?: false
+        set(value) { _loaded.value = value }
 }

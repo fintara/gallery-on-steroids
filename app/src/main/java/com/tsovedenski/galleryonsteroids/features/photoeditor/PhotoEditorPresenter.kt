@@ -29,7 +29,10 @@ class PhotoEditorPresenter (
     }
 
     private fun onResume() {
-        model.media?.let(view::setMedia)
+        if (!model.loaded) {
+            model.media?.let(view::setImage)
+            model.loaded = true
+        }
     }
 
     private fun toolSelected(tool: Tool) {
@@ -59,15 +62,16 @@ class PhotoEditorPresenter (
             }
 
             else -> launch {
-                view.showLoader()
+//                view.showLoader()
+                if (modification is PhotoModification.Cropped) {
+                    view.setImage(modification.bitmap)
+                }
                 Timber.i("About to save temp file")
                 modification.toFile(tempFile)
                 Timber.i("Saved temp file")
                 toolApplied(tempFile)
                 Timber.i("Applied tool")
-                delay(1000) // TODO: remove this
-                model.media?.let(view::setMedia)
-                view.hideLoader()
+//                view.hideLoader()
             }
         }
     }
@@ -81,15 +85,14 @@ class PhotoEditorPresenter (
         // delete temp
         tempFile.delete()
         model.tempFile = null
-
-        // update view
-//        view.setMedia(media)
     }
 
     private fun toolDiscarded(tempFile: File) {
         // delete temp
         tempFile.delete()
         model.tempFile = null
+
+        view.setImage(model.media ?: return)
     }
 
     private fun Media.tempFile() = File.createTempFile(id, "preview")
