@@ -75,6 +75,8 @@ dependencies {
 
     implementation "com.github.MikeOrtiz:TouchImageView:$versions.touch_imageview"
 
+    implementation "com.theartofdev.edmodo:android-image-cropper:$versions.image_cropper"
+
     implementation "com.otaliastudios:cameraview:$versions.cameraview"
     implementation "androidx.exifinterface:exifinterface:$versions.androidx_exifinterface"
 

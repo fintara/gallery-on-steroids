@@ -18,6 +18,7 @@ interface CreatorContract {
         fun startStopwatch()
 
         fun openDetails(media: Media)
+        fun openPhotoEditor(media: Media)
 
         fun checkPermissions(@StringRes rationaleResId: Int, vararg perms: String)
     }

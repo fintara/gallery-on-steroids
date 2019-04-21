@@ -186,6 +186,10 @@ class CreatorView : Fragment(), CreatorContract.View {
         findNavController().navigate(CreatorViewDirections.actionCreatorViewToFormView(media))
     }
 
+    override fun openPhotoEditor(media: Media) {
+        findNavController().navigate(CreatorViewDirections.actionCreatorViewToPhotoEditorView(media))
+    }
+
     override fun checkPermissions(@StringRes rationaleResId: Int, vararg perms: String) {
         if (hasPermissions(*perms)) {
             return

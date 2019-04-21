@@ -1,6 +1,7 @@
 package com.tsovedenski.galleryonsteroids.features.common
 
 import android.content.res.Resources
+import android.os.Bundle
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
@@ -10,8 +11,12 @@ import androidx.annotation.StringRes
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.navigation.fragment.findNavController
 import com.tsovedenski.galleryonsteroids.MyApplication
 import com.tsovedenski.galleryonsteroids.R
+import timber.log.Timber
+import kotlin.properties.Delegates
 
 /**
  * Created by Tsvetan Ovedenski on 10/04/2019.
@@ -58,6 +63,18 @@ fun Fragment.hideKeyboard() {
 
 fun Fragment.resetTitle() {
     requireActivity().setTitle(R.string.app_name)
+}
+
+fun <T> Fragment.navigateBackWithResult(payload: T) {
+    Timber.i("Navigating back with result: $payload")
+    val fm = requireActivity().supportFragmentManager.findFragmentById(R.id.nav_host)?.childFragmentManager
+    lateinit var backStackListener: FragmentManager.OnBackStackChangedListener
+    backStackListener = FragmentManager.OnBackStackChangedListener {
+        (fm?.fragments?.get(0) as? NavigationResult<T>)?.onNavigationResult(payload)
+        fm?.removeOnBackStackChangedListener(backStackListener)
+    }
+    fm?.addOnBackStackChangedListener(backStackListener)
+    findNavController().popBackStack()
 }
 
 val Fragment.application: MyApplication get() = requireActivity().application as MyApplication

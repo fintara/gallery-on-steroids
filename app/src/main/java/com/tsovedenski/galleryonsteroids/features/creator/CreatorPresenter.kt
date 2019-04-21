@@ -72,13 +72,19 @@ class CreatorPresenter (
 //        if (model.getRecordingState() != RecordingState.Finishing) {
 //            return
 //        }
-        // save in database?
-        // open details view?
 
-//        if (media.type == MediaType.Video || media.type == MediaType.Audio) {
-        Timber.i("Opening details for ${media.id}")
-        view.openDetails(media)
-//        }
+        when (media.type) {
+            MediaType.Photo -> {
+                Timber.i("Opening photo editor for ${media.id}")
+                view.openPhotoEditor(media)
+            }
+
+            MediaType.Video,
+            MediaType.Audio -> {
+                Timber.i("Opening details for ${media.id}")
+                view.openDetails(media)
+            }
+        }
 
         model.setRecordingState(RecordingState.Idle)
     }
