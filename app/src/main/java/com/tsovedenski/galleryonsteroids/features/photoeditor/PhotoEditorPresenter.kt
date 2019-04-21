@@ -16,6 +16,10 @@ class PhotoEditorPresenter (
     coroutineContextProvider: CoroutineContextProvider
 ) : Presenter<PhotoEditorEvent>(coroutineContextProvider) {
 
+    init {
+        Timber.tag(PhotoEditorPresenter::class.java.simpleName)
+    }
+
     override fun onChanged(e: PhotoEditorEvent) = when (e) {
         is PhotoEditorEvent.OnStart -> onStart(e.media)
         PhotoEditorEvent.OnResume -> onResume()
@@ -26,9 +30,11 @@ class PhotoEditorPresenter (
 
     private fun onStart(media: Media) {
         model.media = media
+        Timber.i("onStart")
     }
 
     private fun onResume() {
+        Timber.i("onResume")
         if (!model.loaded) {
             model.media?.let(view::setImage)
             model.loaded = true
@@ -53,25 +59,23 @@ class PhotoEditorPresenter (
         open(tempFileUri)
     }
 
-    private fun photoModified(modification: PhotoModification) {
+    private fun photoModified(modification: PhotoModification?) {
         val tempFile = model.tempFile ?: return
 
         when (modification) {
-            PhotoModification.Noop -> {
+            null -> {
                 toolDiscarded(tempFile)
             }
 
-            else -> launch {
-//                view.showLoader()
-                if (modification is PhotoModification.Cropped) {
-                    view.setImage(modification.bitmap)
-                }
+            else -> {
+                view.setImage(modification.bitmap)
+
                 Timber.i("About to save temp file")
                 modification.toFile(tempFile)
                 Timber.i("Saved temp file")
+
                 toolApplied(tempFile)
                 Timber.i("Applied tool")
-//                view.hideLoader()
             }
         }
     }

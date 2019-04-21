@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.View
 import androidx.navigation.fragment.navArgs
 import com.tsovedenski.galleryonsteroids.R
+import com.tsovedenski.galleryonsteroids.features.common.resetTitle
+import com.tsovedenski.galleryonsteroids.features.common.setTitle
 import com.tsovedenski.galleryonsteroids.features.photoeditor.PhotoModification
 import kotlinx.android.synthetic.main.fragment_tool_crop.*
 
@@ -19,6 +21,7 @@ class CropTool : ToolFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         cropper.setImageUriAsync(Uri.parse(args.mediaUri))
+        setTitle(R.string.crop)
     }
 
     override val modification: PhotoModification

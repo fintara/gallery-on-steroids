@@ -61,10 +61,15 @@ fun Fragment.hideKeyboard() {
     inputMethodManager.hideSoftInputFromWindow(view?.windowToken, 0)
 }
 
+fun Fragment.setTitle(@StringRes resId: Int) {
+    requireActivity().setTitle(resId)
+}
+
 fun Fragment.resetTitle() {
     requireActivity().setTitle(R.string.app_name)
 }
 
+@Suppress("UNCHECKED_CAST")
 fun <T> Fragment.navigateBackWithResult(payload: T) {
     Timber.i("Navigating back with result: $payload")
     val fm = requireActivity().supportFragmentManager.findFragmentById(R.id.nav_host)?.childFragmentManager

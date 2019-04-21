@@ -17,6 +17,8 @@ import com.tsovedenski.galleryonsteroids.R
 import com.tsovedenski.galleryonsteroids.domain.entities.Media
 import com.tsovedenski.galleryonsteroids.features.common.NavigationResult
 import com.tsovedenski.galleryonsteroids.features.common.application
+import com.tsovedenski.galleryonsteroids.features.common.resetTitle
+import com.tsovedenski.galleryonsteroids.features.common.setTitle
 import kotlinx.android.synthetic.main.fragment_photoeditor.*
 import timber.log.Timber
 import javax.inject.Inject
@@ -24,7 +26,7 @@ import javax.inject.Inject
 /**
  * Created by Tsvetan Ovedenski on 20/04/2019.
  */
-class PhotoEditorView : Fragment(), PhotoEditorContract.View, NavigationResult<PhotoModification> {
+class PhotoEditorView : Fragment(), PhotoEditorContract.View, NavigationResult<PhotoModification?> {
 
     @Inject lateinit var injector: PhotoEditorInjector
 
@@ -57,6 +59,7 @@ class PhotoEditorView : Fragment(), PhotoEditorContract.View, NavigationResult<P
     override fun onStart() {
         super.onStart()
         event.value = PhotoEditorEvent.OnStart(args.media)
+        setTitle(R.string.edit_photo)
     }
 
     override fun onResume() {
@@ -67,6 +70,7 @@ class PhotoEditorView : Fragment(), PhotoEditorContract.View, NavigationResult<P
     override fun onDestroy() {
         super.onDestroy()
         event.value = PhotoEditorEvent.OnDestroy
+        resetTitle()
     }
 
     override fun setImage(media: Media) {
@@ -91,11 +95,11 @@ class PhotoEditorView : Fragment(), PhotoEditorContract.View, NavigationResult<P
     }
 
     override fun openStyle(mediaUri: String) {
-        TODO("not implemented")
+        findNavController().navigate(PhotoEditorViewDirections.actionPhotoEditorViewToStyleTool(mediaUri))
     }
 
-    override fun onNavigationResult(payload: PhotoModification) {
-        Timber.i("Got payload: ${payload.javaClass.simpleName}")
+    override fun onNavigationResult(payload: PhotoModification?) {
+        Timber.i("Got payload: ${payload?.javaClass?.simpleName}")
         event.value = PhotoEditorEvent.PhotoModified(payload)
     }
 

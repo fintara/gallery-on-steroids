@@ -22,7 +22,7 @@ abstract class ToolFragment : Fragment() {
         setHasOptionsMenu(true)
 
         requireActivity().onBackPressedDispatcher.addCallback(OnBackPressedCallback {
-            navigateBackWithResult(PhotoModification.Noop)
+            navigateBackWithResult(null)
             true
         })
     }

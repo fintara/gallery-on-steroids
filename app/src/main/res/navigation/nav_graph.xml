@@ -82,12 +82,24 @@
         <action
             android:id="@+id/action_photoEditorView_to_cropTool"
             app:destination="@id/cropTool"/>
+        <action
+            android:id="@+id/action_photoEditorView_to_styleTool"
+            app:destination="@id/styleTool"/>
     </fragment>
     <fragment
         android:id="@+id/cropTool"
         android:name="com.tsovedenski.galleryonsteroids.features.photoeditor.tools.CropTool"
         android:label="CropTool"
         tools:layout="@layout/fragment_tool_crop">
+        <argument
+            android:name="mediaUri"
+            app:argType="string"/>
+    </fragment>
+    <fragment
+        android:id="@+id/styleTool"
+        android:name="com.tsovedenski.galleryonsteroids.features.photoeditor.tools.StyleTool"
+        android:label="StyleTool"
+        tools:layout="@layout/fragment_tool_style">
         <argument
             android:name="mediaUri"
             app:argType="string"/>

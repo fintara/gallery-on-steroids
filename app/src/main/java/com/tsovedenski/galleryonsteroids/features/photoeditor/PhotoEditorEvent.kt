@@ -18,7 +18,7 @@ sealed class PhotoEditorEvent {
     object OnDestroy : PhotoEditorEvent()
 
     data class ToolSelected(val value: Tool) : PhotoEditorEvent()
-    data class PhotoModified(val value: PhotoModification) : PhotoEditorEvent()
+    data class PhotoModified(val value: PhotoModification?) : PhotoEditorEvent()
 }
 
 sealed class Tool {
@@ -27,18 +27,15 @@ sealed class Tool {
     object Style : Tool()
 }
 
-sealed class PhotoModification {
-    abstract fun toFile(file: File)
-
-    object Noop : PhotoModification() {
-        override fun toFile(file: File) = Unit
-    }
-
-    data class Cropped(val bitmap: Bitmap) : PhotoModification() {
-        override fun toFile(file: File) {
-            BufferedOutputStream(FileOutputStream(file)).use { os ->
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 95, os)
-            }
+sealed class PhotoModification (val bitmap: Bitmap) {
+    fun toFile(file: File) {
+        BufferedOutputStream(FileOutputStream(file)).use { os ->
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 95, os)
         }
     }
+
+    class Cropped(bitmap: Bitmap) : PhotoModification(bitmap)
+
+    class Styled(bitmap: Bitmap) : PhotoModification(bitmap)
+
 }
