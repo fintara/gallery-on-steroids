@@ -6,6 +6,7 @@ import com.tsovedenski.galleryonsteroids.dagger.modules.InjectorModule
 import com.tsovedenski.galleryonsteroids.features.creator.CreatorView
 import com.tsovedenski.galleryonsteroids.features.form.FormView
 import com.tsovedenski.galleryonsteroids.features.medialist.MediaListView
+import com.tsovedenski.galleryonsteroids.features.photoeditor.PhotoEditorView
 import com.tsovedenski.galleryonsteroids.features.viewer.ViewerView
 import dagger.Component
 import javax.inject.Singleton
@@ -20,4 +21,5 @@ interface AppComponent {
     fun inject(view: CreatorView)
     fun inject(view: FormView)
     fun inject(view: ViewerView)
+    fun inject(view: PhotoEditorView)
 }

@@ -51,6 +51,7 @@ dependencies {
     implementation "androidx.recyclerview:recyclerview:$versions.androidx_recyclerview"
     implementation "androidx.cardview:cardview:$versions.androidx_cardview"
     implementation "androidx.constraintlayout:constraintlayout:$versions.androidx_constraintlayout"
+    implementation "com.google.android.material:material:$versions.androidx_material"
 
     implementation "com.leinardi.android:speed-dial:$versions.speed_dial"
 
@@ -71,8 +72,12 @@ dependencies {
 
     implementation "com.github.bumptech.glide:glide:$versions.glide"
     kapt "com.github.bumptech.glide:compiler:$versions.glide"
+    implementation "jp.wasabeef:glide-transformations:$versions.glide_transformations"
+    implementation "jp.co.cyberagent.android:gpuimage:$versions.glide_gpuimage"
 
     implementation "com.github.MikeOrtiz:TouchImageView:$versions.touch_imageview"
+
+    implementation "com.theartofdev.edmodo:android-image-cropper:$versions.image_cropper"
 
     implementation "com.otaliastudios:cameraview:$versions.cameraview"
     implementation "androidx.exifinterface:exifinterface:$versions.androidx_exifinterface"

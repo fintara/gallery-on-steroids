@@ -5,6 +5,7 @@ import com.tsovedenski.galleryonsteroids.common.CoroutineContextProvider
 import com.tsovedenski.galleryonsteroids.features.creator.CreatorInjector
 import com.tsovedenski.galleryonsteroids.features.form.FormInjector
 import com.tsovedenski.galleryonsteroids.features.medialist.MediaListInjector
+import com.tsovedenski.galleryonsteroids.features.photoeditor.PhotoEditorInjector
 import com.tsovedenski.galleryonsteroids.features.viewer.ViewerTypeInjector
 import com.tsovedenski.galleryonsteroids.services.MediaService
 import dagger.Module
@@ -43,4 +44,11 @@ class InjectorModule {
     fun provideViewerTypeInjector(
         coroutineContextProvider: CoroutineContextProvider
     ) = ViewerTypeInjector(coroutineContextProvider)
+
+    @Provides
+    @Singleton
+    fun providePhotoEditorInjector(
+        service: MediaService,
+        coroutineContextProvider: CoroutineContextProvider
+    ) = PhotoEditorInjector(service, coroutineContextProvider)
 }

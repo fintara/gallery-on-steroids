@@ -23,4 +23,13 @@
     <string name="discard">Discard</string>
     <string name="stay">Stay</string>
     <string name="discard_title">Discard this item?</string>
+    <string name="preview">Preview</string>
+    <string name="crop">Crop</string>
+    <string name="tune_image">Tune image</string>
+    <string name="style">Style</string>
+    <string name="confirm">Confirm</string>
+    <string name="edit_photo">Edit photo</string>
+    <string name="brightness">Brightness</string>
+    <string name="contrast">Contrast</string>
+    <string name="saturation">Saturation</string>
 </resources>

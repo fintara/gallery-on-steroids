@@ -1,6 +1,7 @@
 package com.tsovedenski.galleryonsteroids.features.common
 
 import android.content.res.Resources
+import android.os.Bundle
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
@@ -8,10 +9,16 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.appcompat.app.ActionBar
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.navigation.fragment.findNavController
 import com.tsovedenski.galleryonsteroids.MyApplication
 import com.tsovedenski.galleryonsteroids.R
+import com.tsovedenski.galleryonsteroids.features.form.FormEvent
+import timber.log.Timber
+import kotlin.properties.Delegates
 
 /**
  * Created by Tsvetan Ovedenski on 10/04/2019.
@@ -56,8 +63,39 @@ fun Fragment.hideKeyboard() {
     inputMethodManager.hideSoftInputFromWindow(view?.windowToken, 0)
 }
 
+fun Fragment.setTitle(@StringRes resId: Int) {
+    requireActivity().setTitle(resId)
+}
+
 fun Fragment.resetTitle() {
     requireActivity().setTitle(R.string.app_name)
+}
+
+@Suppress("UNCHECKED_CAST")
+fun <T> Fragment.navigateBackWithResult(payload: T) {
+    Timber.i("Navigating back with result: $payload")
+    val fm = requireActivity().supportFragmentManager.findFragmentById(R.id.nav_host)?.childFragmentManager
+    lateinit var backStackListener: FragmentManager.OnBackStackChangedListener
+    backStackListener = FragmentManager.OnBackStackChangedListener {
+        (fm?.fragments?.get(0) as? NavigationResult<T>)?.onNavigationResult(payload)
+        fm?.removeOnBackStackChangedListener(backStackListener)
+    }
+    fm?.addOnBackStackChangedListener(backStackListener)
+    findNavController().popBackStack()
+}
+
+fun Fragment.discardDialog(action: () -> Unit) {
+    AlertDialog.Builder(requireContext()).apply {
+        setTitle(R.string.discard_title)
+
+        setPositiveButton(R.string.discard) { _, _ ->
+            action()
+        }
+
+        setNegativeButton(R.string.stay) { dialog, _ ->
+            dialog.cancel()
+        }
+    }.show()
 }
 
 val Fragment.application: MyApplication get() = requireActivity().application as MyApplication
