@@ -72,6 +72,8 @@ dependencies {
 
     implementation "com.github.bumptech.glide:glide:$versions.glide"
     kapt "com.github.bumptech.glide:compiler:$versions.glide"
+    implementation "jp.wasabeef:glide-transformations:$versions.glide_transformations"
+    implementation "jp.co.cyberagent.android:gpuimage:$versions.glide_gpuimage"
 
     implementation "com.github.MikeOrtiz:TouchImageView:$versions.touch_imageview"
 

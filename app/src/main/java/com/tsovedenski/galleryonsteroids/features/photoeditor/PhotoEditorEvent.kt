@@ -42,4 +42,6 @@ sealed class PhotoModification (val bitmap: Bitmap) {
 
     class Styled(bitmap: Bitmap) : PhotoModification(bitmap)
 
+    class Tuned(bitmap: Bitmap) : PhotoModification(bitmap)
+
 }

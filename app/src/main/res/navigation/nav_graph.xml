@@ -89,6 +89,9 @@
         <action
             android:id="@+id/action_photoEditorView_to_styleTool"
             app:destination="@id/styleTool"/>
+        <action
+            android:id="@+id/action_photoEditorView_to_tuneTool"
+            app:destination="@id/tuneTool"/>
     </fragment>
     <fragment
         android:id="@+id/cropTool"
@@ -104,6 +107,15 @@
         android:name="com.tsovedenski.galleryonsteroids.features.photoeditor.tools.StyleTool"
         android:label="StyleTool"
         tools:layout="@layout/fragment_tool_style">
+        <argument
+            android:name="mediaUri"
+            app:argType="string"/>
+    </fragment>
+    <fragment
+        android:id="@+id/tuneTool"
+        android:name="com.tsovedenski.galleryonsteroids.features.photoeditor.tools.TuneTool"
+        android:label="TuneTool"
+        tools:layout="@layout/fragment_tool_tune">
         <argument
             android:name="mediaUri"
             app:argType="string"/>

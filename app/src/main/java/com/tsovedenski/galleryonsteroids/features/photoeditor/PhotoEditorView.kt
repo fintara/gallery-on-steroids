@@ -107,7 +107,7 @@ class PhotoEditorView : Fragment(), PhotoEditorContract.View, NavigationResult<P
     }
 
     override fun openTune(mediaUri: String) {
-        showToast("Not implemented yet")
+        findNavController().navigate(PhotoEditorViewDirections.actionPhotoEditorViewToTuneTool(mediaUri))
     }
 
     override fun openStyle(mediaUri: String) {
