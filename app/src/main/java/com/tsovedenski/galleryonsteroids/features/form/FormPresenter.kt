@@ -30,14 +30,14 @@ class FormPresenter (
     }
 
     private fun onStart(media: Media) {
-        if (model.getMedia() == null) {
-            model.setMedia(media)
+        if (model.media == null) {
+            model.media = media
 //            view.setThumbnail(media)
         }
     }
 
     private fun onResume() {
-        model.getMedia()?.let { media ->
+        model.media?.let { media ->
             Timber.i(media.toString())
             view.setThumbnail(media)
         }
@@ -51,7 +51,7 @@ class FormPresenter (
 
     private fun discardConfirmed() {
         Timber.i("About to discard media")
-        model.getMedia()?.let { media ->
+        model.media?.let { media ->
             Timber.i("Discarding ${media.id}")
             launch {
                 service.delete(media)
@@ -66,7 +66,7 @@ class FormPresenter (
             return
         }
 
-        model.getMedia()?.let { media ->
+        model.media?.let { media ->
             val toSave = media.copy(
                 title = data.title
             )
@@ -75,7 +75,7 @@ class FormPresenter (
                 service.save(toSave)
                 view.openMediaList()
                 if (removeFromModel) {
-                    model.setMedia(null)
+                    model.media = null
                 }
             }
         }

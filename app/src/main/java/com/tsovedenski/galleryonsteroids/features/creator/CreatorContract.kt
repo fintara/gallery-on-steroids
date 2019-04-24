@@ -24,11 +24,8 @@ interface CreatorContract {
     }
 
     interface ViewModel {
-        fun getMediaType(): MediaType?
-        fun setMediaType(value: MediaType)
-
-        fun getRecordingState(): RecordingState
-        fun setRecordingState(value: RecordingState)
+        var mediaType: MediaType?
+        var recordingState: RecordingState
     }
 }
 

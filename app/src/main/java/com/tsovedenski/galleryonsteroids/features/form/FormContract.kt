@@ -16,7 +16,6 @@ interface FormContract {
     }
 
     interface ViewModel {
-        fun getMedia(): Media?
-        fun setMedia(value: Media?)
+        var media: Media?
     }
 }

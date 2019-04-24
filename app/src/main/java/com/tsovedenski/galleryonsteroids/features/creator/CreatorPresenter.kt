@@ -34,17 +34,17 @@ class CreatorPresenter (
     }
 
     private fun onStart(initialMediaType: MediaType) {
-        if (model.getMediaType() == null) {
-            model.setMediaType(initialMediaType)
+        if (model.mediaType == null) {
+            model.mediaType = initialMediaType
         }
     }
 
     private fun onResume() {
-        model.getMediaType()?.let(::onChangeType)
+        model.mediaType?.let(::onChangeType)
     }
 
     private fun recordPressed() {
-        when (model.getRecordingState().also { Timber.i("Recording state: $it") }) {
+        when (model.recordingState.also { Timber.i("Recording state: $it") }) {
             RecordingState.Idle -> startRecording()
             RecordingState.Recording -> stopRecording()
             RecordingState.Finishing -> Unit
@@ -53,8 +53,8 @@ class CreatorPresenter (
 
     private fun startRecording() {
         view.startRecording()
-        model.setRecordingState(RecordingState.Recording)
-        model.getMediaType()?.let { type ->
+        model.recordingState = RecordingState.Recording
+        model.mediaType?.let { type ->
             if (type != MediaType.Photo) {
                 view.startStopwatch()
             } else {
@@ -64,12 +64,12 @@ class CreatorPresenter (
     }
 
     private fun stopRecording() {
-        model.setRecordingState(RecordingState.Finishing)
+        model.recordingState = RecordingState.Finishing
         view.stopRecording()
     }
 
     private fun recorded(media: Media) {
-//        if (model.getRecordingState() != RecordingState.Finishing) {
+//        if (model.recordingState != RecordingState.Finishing) {
 //            return
 //        }
 
@@ -86,7 +86,7 @@ class CreatorPresenter (
             }
         }
 
-        model.setRecordingState(RecordingState.Idle)
+        model.recordingState = RecordingState.Idle
     }
 
     private fun onChangeType(type: MediaType) {
@@ -96,7 +96,7 @@ class CreatorPresenter (
             view.checkPermissions(R.string.need_audio_permission, Manifest.permission.RECORD_AUDIO)
         }
 
-        model.setMediaType(type)
+        model.mediaType = type
         view.setMediaType(type)
     }
 }

@@ -24,17 +24,10 @@ interface ViewerTypeContract {
     }
 
     interface ViewModel {
-        fun getMedia(): Media?
-        fun setMedia(value: Media?)
-
-        fun getPlayingState(): PlayingState
-        fun setPlayingState(value: PlayingState)
-
-        fun getProgress(): Int
-        fun setProgress(value: Int)
-
-        fun isControlShown(): Boolean
-        fun setControlShown(value: Boolean)
+        var media: Media?
+        var playingState: PlayingState
+        var progress: Int
+        var isControlShown: Boolean
     }
 }
 

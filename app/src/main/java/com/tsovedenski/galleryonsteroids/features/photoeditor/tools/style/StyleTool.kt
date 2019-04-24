@@ -14,7 +14,6 @@ import com.tsovedenski.galleryonsteroids.GlideApp
 import com.tsovedenski.galleryonsteroids.R
 import com.tsovedenski.galleryonsteroids.features.common.setTitle
 import com.tsovedenski.galleryonsteroids.features.photoeditor.PhotoModification
-import com.tsovedenski.galleryonsteroids.features.photoeditor.tools.StyleToolArgs
 import com.tsovedenski.galleryonsteroids.features.photoeditor.tools.ToolFragment
 import kotlinx.android.synthetic.main.fragment_tool_style.*
 

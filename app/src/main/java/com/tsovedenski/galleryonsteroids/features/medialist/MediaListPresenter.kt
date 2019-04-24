@@ -52,7 +52,7 @@ class MediaListPresenter (
     }
 
     private fun onOptionsReady() {
-        changeViewType(model.getViewType())
+        changeViewType(model.viewType)
     }
 
     private fun loadItems() = launch {
@@ -74,9 +74,9 @@ class MediaListPresenter (
 
     private fun changeViewType(value: ViewType) {
         view.setViewType(value)
-        model.setViewType(value)
+        model.viewType = value
         adapter.viewType = value
-        Timber.i("Set view type: ${model.getViewType()}")
+        Timber.i("Set view type: ${model.viewType}")
     }
 
     private fun itemSelected(value: Media) {

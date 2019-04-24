@@ -20,10 +20,8 @@ interface MediaListContract {
     }
 
     interface ViewModel {
-        fun isLoaded(): Boolean
-        fun setLoaded(value: Boolean)
-        fun getViewType(): ViewType
-        fun setViewType(value: ViewType)
+        var isLoaded: Boolean
+        var viewType: ViewType
     }
 }
 

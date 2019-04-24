@@ -30,34 +30,34 @@ class ViewerTypePresenter (
     }
 
     private fun onStart(media: Media) {
-        model.setMedia(media)
+        model.media = media
         view.prepare(media)
         if (media.type != MediaType.Photo) {
-            progressChanged(model.getProgress() + 1, true)
+            progressChanged(model.progress + 1, true)
         }
     }
 
     private fun onResume() {
-        model.getMedia()?.let { media ->
+        model.media?.let { media ->
             Timber.i("onResume(media=${media.id})")
             view.prepare(media)
 
             if (media.type == MediaType.Video) {
-                view.seek(model.getProgress(), true)
-                when (model.getPlayingState()) {
+                view.seek(model.progress, true)
+                when (model.playingState) {
                     PlayingState.Playing -> view.play()
                     PlayingState.Paused -> view.pause()
                     PlayingState.Completed -> playingCompleted()
                 }
             }
         }
-        showControls(model.isControlShown())
+        showControls(model.isControlShown)
     }
 
     private fun mediaClicked() {
-        val shown = model.isControlShown()
+        val shown = model.isControlShown
         showControls(!shown)
-        model.setControlShown(!shown)
+        model.isControlShown = !shown
     }
 
     private fun showControls(show: Boolean) {
@@ -68,7 +68,7 @@ class ViewerTypePresenter (
         }
     }
 
-    private fun togglePlaying() = when (model.getPlayingState()) {
+    private fun togglePlaying() = when (model.playingState) {
         PlayingState.Playing -> pausePlaying()
         PlayingState.Paused -> startPlaying()
         PlayingState.Completed -> replay()
@@ -77,13 +77,13 @@ class ViewerTypePresenter (
     private fun startPlaying() {
         view.hideReplayButton()
         view.play()
-        model.setPlayingState(PlayingState.Playing)
+        model.playingState = PlayingState.Playing
     }
 
     private fun pausePlaying() {
         view.hideReplayButton()
         view.pause()
-        model.setPlayingState(PlayingState.Paused)
+        model.playingState = PlayingState.Paused
     }
 
     private fun seekStarted() {
@@ -95,7 +95,7 @@ class ViewerTypePresenter (
     private fun seekEnded() {
         // if before seek was playing, play
         // if before seek was paused, noop
-        when (model.getPlayingState()) {
+        when (model.playingState) {
             PlayingState.Playing -> {
                 view.play()
             }
@@ -114,14 +114,14 @@ class ViewerTypePresenter (
     }
 
     private fun playingCompleted() {
-        if (model.getPlayingState() == PlayingState.Playing) {
+        if (model.playingState == PlayingState.Playing) {
             view.showReplayButton()
-            model.setPlayingState(PlayingState.Completed)
+            model.playingState = PlayingState.Completed
         }
     }
 
     private fun progressChanged(value: Int, force: Boolean) {
         view.seek(value, force)
-        model.setProgress(value)
+        model.progress = value
     }
 }

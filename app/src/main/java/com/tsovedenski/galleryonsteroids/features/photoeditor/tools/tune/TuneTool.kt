@@ -16,7 +16,6 @@ import com.tsovedenski.galleryonsteroids.GlideApp
 import com.tsovedenski.galleryonsteroids.R
 import com.tsovedenski.galleryonsteroids.features.photoeditor.PhotoModification
 import com.tsovedenski.galleryonsteroids.features.photoeditor.tools.ToolFragment
-import com.tsovedenski.galleryonsteroids.features.photoeditor.tools.TuneToolArgs
 import kotlinx.android.synthetic.main.fragment_tool_tune.*
 
 
