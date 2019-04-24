@@ -44,8 +44,9 @@ class InjectorModule {
     @Provides
     @Singleton
     fun provideViewerTypeInjector(
+        imageLabeler: ImageLabeler,
         coroutineContextProvider: CoroutineContextProvider
-    ) = ViewerTypeInjector(coroutineContextProvider)
+    ) = ViewerTypeInjector(imageLabeler, coroutineContextProvider)
 
     @Provides
     @Singleton

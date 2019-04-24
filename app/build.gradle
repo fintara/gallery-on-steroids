@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
-apply plugin: "androidx.navigation.safeargs.kotlin"
+apply plugin: 'androidx.navigation.safeargs.kotlin'
 
 android {
     compileSdkVersion 28
@@ -70,7 +70,9 @@ dependencies {
     kapt "com.google.dagger:dagger-compiler:$versions.dagger"
     kapt "com.google.dagger:dagger-android-processor:$versions.dagger"
 
+    implementation "com.google.firebase:firebase-core:$versions.firebase_core"
     implementation "com.google.firebase:firebase-ml-vision:$versions.firebase_ml_vision"
+    implementation "com.google.firebase:firebase-ml-vision-image-label-model:$versions.firebase_image_model"
 
     implementation "com.github.bumptech.glide:glide:$versions.glide"
     kapt "com.github.bumptech.glide:compiler:$versions.glide"
@@ -97,3 +99,5 @@ dependencies {
     androidTestImplementation "com.android.support.test:runner:$versions.support_test"
     androidTestImplementation "com.android.support.test.espresso:espresso-core:$versions.espresso"
 }
+
+apply plugin: 'com.google.gms.google-services'

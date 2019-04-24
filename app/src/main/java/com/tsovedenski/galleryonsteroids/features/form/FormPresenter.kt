@@ -69,11 +69,9 @@ class FormPresenter (
         }
 
         model.media?.let { media ->
-            launch {
-                val toSave = media.copy(
-                    title = "${data.title} (${imageLabeler.label(media.path)})"
-                )
+            val toSave = media.copy(title = data.title)
 
+            launch {
                 service.save(toSave)
 
                 view.openMediaList()
@@ -92,6 +90,6 @@ class FormPresenter (
     private fun isTitleValid(value: String): Boolean = value.trim().matches(lettersNumbersSpace)
 
     companion object {
-        private val lettersNumbersSpace = "[a-zA-Z0-9 ]{1,20}".toRegex()
+        private val lettersNumbersSpace = "[ąęćśóżźłĄĘĆŚÓŻŹŁa-zA-Z0-9 ]{1,20}".toRegex()
     }
 }

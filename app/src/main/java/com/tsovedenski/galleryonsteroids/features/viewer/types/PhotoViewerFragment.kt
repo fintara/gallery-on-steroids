@@ -4,12 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import com.tsovedenski.galleryonsteroids.GlideApp
 import com.tsovedenski.galleryonsteroids.R
 import com.tsovedenski.galleryonsteroids.common.prettyFormat
 import com.tsovedenski.galleryonsteroids.domain.entities.Media
+import com.tsovedenski.galleryonsteroids.features.common.theme
 import com.tsovedenski.galleryonsteroids.features.viewer.ViewerTypeEvent
 import com.tsovedenski.galleryonsteroids.features.viewer.ViewerView
+import com.tsovedenski.galleryonsteroids.services.ImageLabel
 import kotlinx.android.synthetic.main.viewer_photo.*
 import timber.log.Timber
 
@@ -48,6 +51,41 @@ class PhotoViewerFragment : ViewerFragment() {
 
     override fun hideControls() {
         details_container.animate().alpha(0f).start()
+    }
+
+    override fun showLabelSpinner() {
+        spinner.show()
+    }
+
+    override fun hideLabelSpinner() {
+        spinner.hide()
+    }
+
+    override fun setLabels(list: List<ImageLabel>) {
+        Timber.i("About to set labels: ${list.joinToString(", ", transform = { it.label })}")
+        media_labels_container.removeAllViews()
+        list.forEach {
+            TextView(requireContext())
+                .apply {
+                    text = "${it.label} (${"%.1f".format(it.confidence * 100)}%)  "
+                    setTextColor(resources.getColor(R.color.white, theme))
+                }
+                .let(media_labels_container::addView)
+        }
+    }
+
+    override fun setEmptyLabels(message: String) {
+        media_labels_container.removeAllViews()
+        TextView(requireContext())
+            .apply {
+                text = message
+                setTextColor(resources.getColor(R.color.white, theme))
+            }
+            .let(media_labels_container::addView)
+    }
+
+    override fun setEmptyLabels(messageId: Int) {
+        setEmptyLabels(resources.getString(messageId))
     }
 
     companion object {

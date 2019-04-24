@@ -2,6 +2,7 @@
 
 buildscript {
     ext.versions = [
+        android_build_gradle     : '3.4.0',
         androidx_appcompat       : '1.0.2',
         androidx_cardview        : '1.0.0',
         androidx_constraintlayout: '1.1.3',
@@ -15,13 +16,16 @@ buildscript {
         dagger                   : '2.21',
         easypermissions          : '3.0.0',
         espresso                 : '3.0.2',
+        firebase_core            : '16.0.8',
         firebase_ml_vision       : '19.0.3',
+        firebase_image_model     : '17.0.2',
+        google_services          : '4.2.0',
         glide                    : '4.9.0',
         glide_gpuimage           : '2.0.3',
         glide_transformations    : '4.0.1',
         image_cropper            : '2.8.0',
         junit                    : '5.4.0',
-        kotlin                   : '1.3.21',
+        kotlin                   : '1.3.30',
         kotlin_coroutine         : '1.1.1',
         mockk                    : '1.9.1',
         okhttp                   : '3.13.1',
@@ -39,8 +43,9 @@ buildscript {
         
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.3.2'
+        classpath "com.android.tools.build:gradle:$versions.android_build_gradle"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin"
+        classpath "com.google.gms:google-services:$versions.google_services"
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$versions.androidx_navigation"
     }
 }
