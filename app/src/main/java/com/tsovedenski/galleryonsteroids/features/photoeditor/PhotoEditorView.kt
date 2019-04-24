@@ -132,12 +132,12 @@ class PhotoEditorView : Fragment(), PhotoEditorContract.View, NavigationResult<P
     }
 
     override fun showLoader() {
-        spinner.visibility = View.VISIBLE
+        spinner.show()
         preview.visibility = View.INVISIBLE
     }
 
     override fun hideLoader() {
-        spinner.visibility = View.GONE
+        spinner.hide()
         preview.visibility = View.VISIBLE
     }
 

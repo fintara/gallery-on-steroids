@@ -104,7 +104,7 @@
     </fragment>
     <fragment
         android:id="@+id/styleTool"
-        android:name="com.tsovedenski.galleryonsteroids.features.photoeditor.tools.StyleTool"
+        android:name="com.tsovedenski.galleryonsteroids.features.photoeditor.tools.style.StyleTool"
         android:label="StyleTool"
         tools:layout="@layout/fragment_tool_style">
         <argument
@@ -113,7 +113,7 @@
     </fragment>
     <fragment
         android:id="@+id/tuneTool"
-        android:name="com.tsovedenski.galleryonsteroids.features.photoeditor.tools.TuneTool"
+        android:name="com.tsovedenski.galleryonsteroids.features.photoeditor.tools.tune.TuneTool"
         android:label="TuneTool"
         tools:layout="@layout/fragment_tool_tune">
         <argument
