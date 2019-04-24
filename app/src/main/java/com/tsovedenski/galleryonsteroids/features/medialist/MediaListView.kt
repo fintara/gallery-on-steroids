@@ -1,5 +1,6 @@
 package com.tsovedenski.galleryonsteroids.features.medialist
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
@@ -9,6 +10,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.leinardi.android.speeddial.SpeedDialActionItem
+import com.leinardi.android.speeddial.SpeedDialView
 import com.tsovedenski.galleryonsteroids.R
 import com.tsovedenski.galleryonsteroids.domain.entities.Media
 import com.tsovedenski.galleryonsteroids.domain.entities.MediaType
@@ -33,6 +36,19 @@ class MediaListView : Fragment(), MediaListContract.View {
                 else -> fab_create.hide()
             }
         }
+    }
+
+    private val fabListener = SpeedDialView.OnActionSelectedListener { actionItem ->
+        val next = when (actionItem.id) {
+            R.id.fab_photo -> { MediaListEvent.CreatePhoto }
+            R.id.fab_video -> { MediaListEvent.CreateVideo }
+            R.id.fab_audio -> { MediaListEvent.CreateAudio }
+            else -> null
+        }
+
+        next?.let { event.value = it }
+
+        true
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -79,12 +95,8 @@ class MediaListView : Fragment(), MediaListContract.View {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val next = when (item.itemId) {
-            R.id.viewtype_card -> {
-                MediaListEvent.ChangeViewType(ViewType.Card)
-            }
-            R.id.viewtype_grid -> {
-                MediaListEvent.ChangeViewType(ViewType.Grid)
-            }
+            R.id.viewtype_card -> MediaListEvent.ChangeViewType(ViewType.Card)
+            R.id.viewtype_grid -> MediaListEvent.ChangeViewType(ViewType.Grid)
             else -> null
         }
 
@@ -134,7 +146,7 @@ class MediaListView : Fragment(), MediaListContract.View {
     }
 
     override fun showOptions(media: Media) {
-        // TODO: show options dialog, since only delete is supported, ask straight away
+        // show options dialog, since only delete is supported, ask straight away
         confirmDialog(R.string.delete_title, R.string.delete, R.string.cancel) {
             event.value = MediaListEvent.DeleteItem(media)
         }
@@ -150,19 +162,23 @@ class MediaListView : Fragment(), MediaListContract.View {
 
     private fun initFab() {
         fab_create.inflate(R.menu.fab)
-        fab_create.setOnActionSelectedListener {
-            when (it.id) {
-                R.id.fab_photo -> { event.value = MediaListEvent.CreatePhoto; true }
-                R.id.fab_video -> { event.value = MediaListEvent.CreateVideo; true }
-                R.id.fab_audio -> { event.value = MediaListEvent.CreateAudio; true }
-                else -> false
-            }
-        }
+        fab_create.setOnActionSelectedListener(fabListener)
     }
 
     private fun ViewType.toLayoutManager() = when (this) {
-        ViewType.Grid -> GridLayoutManager(requireContext(), 2, RecyclerView.VERTICAL, false)
-        ViewType.Card -> LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
+        ViewType.Grid -> GridLayoutManager(
+            requireContext(),
+            resources.configuration.orientation.gridItems(),
+            RecyclerView.VERTICAL, false)
+
+        ViewType.Card -> LinearLayoutManager(
+            requireContext(),
+            RecyclerView.VERTICAL, false)
+    }
+
+    private fun Int.gridItems() = when (this) {
+        Configuration.ORIENTATION_PORTRAIT -> 2
+        else -> 4
     }
 
     companion object {
