@@ -7,7 +7,9 @@ import com.tsovedenski.galleryonsteroids.domain.entities.Media
 import com.tsovedenski.galleryonsteroids.domain.entities.MediaType
 import com.tsovedenski.galleryonsteroids.features.common.Presenter
 import com.tsovedenski.galleryonsteroids.services.ImageLabeler
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import timber.log.Timber
 
 /**
@@ -58,7 +60,7 @@ class ViewerTypePresenter (
             if (media.type == MediaType.Photo) {
                 launch {
                     view.showLabelSpinner()
-                    val list = Try { imageLabeler.label("file://${media.path}") }
+                    val list = Try { withContext(Dispatchers.IO) { imageLabeler.label("file://${media.path}") } }
                     view.hideLabelSpinner()
                     list.fold(
                         left = {
