@@ -4,6 +4,8 @@ import android.content.Context
 import com.tsovedenski.galleryonsteroids.common.CoroutineContextProvider
 import com.tsovedenski.galleryonsteroids.common.CoroutineContextProviderImpl
 import com.tsovedenski.galleryonsteroids.domain.repositories.MediaRepository
+import com.tsovedenski.galleryonsteroids.services.ImageLabeler
+import com.tsovedenski.galleryonsteroids.services.ImageLabelerImpl
 import com.tsovedenski.galleryonsteroids.services.MediaService
 import dagger.Module
 import dagger.Provides
@@ -24,6 +26,12 @@ class AppModule (private val context: Context) {
     fun provideMediaService(
         mediaRepository: MediaRepository
     ): MediaService = MediaService(mediaRepository)
+
+    @Provides
+    @Singleton
+    fun provideImageLabeler(
+        context: Context
+    ): ImageLabeler = ImageLabelerImpl(context)
 
     @Provides
     @Singleton

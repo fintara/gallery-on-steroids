@@ -15,6 +15,7 @@ buildscript {
         dagger                   : '2.21',
         easypermissions          : '3.0.0',
         espresso                 : '3.0.2',
+        firebase_ml_vision       : '19.0.3',
         glide                    : '4.9.0',
         glide_gpuimage           : '2.0.3',
         glide_transformations    : '4.0.1',

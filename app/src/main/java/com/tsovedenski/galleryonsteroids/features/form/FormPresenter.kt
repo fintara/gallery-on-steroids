@@ -4,6 +4,7 @@ import com.tsovedenski.galleryonsteroids.R
 import com.tsovedenski.galleryonsteroids.common.CoroutineContextProvider
 import com.tsovedenski.galleryonsteroids.domain.entities.Media
 import com.tsovedenski.galleryonsteroids.features.common.Presenter
+import com.tsovedenski.galleryonsteroids.services.ImageLabeler
 import com.tsovedenski.galleryonsteroids.services.MediaService
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -12,6 +13,7 @@ class FormPresenter (
     private val view: FormContract.View,
     private val model: FormContract.ViewModel,
     private val service: MediaService,
+    private val imageLabeler: ImageLabeler,
     contextProvider: CoroutineContextProvider
 ): Presenter<FormEvent>(contextProvider) {
 
@@ -67,13 +69,15 @@ class FormPresenter (
         }
 
         model.media?.let { media ->
-            val toSave = media.copy(
-                title = data.title
-            )
-
             launch {
+                val toSave = media.copy(
+                    title = "${data.title} (${imageLabeler.label(media.path)})"
+                )
+
                 service.save(toSave)
+
                 view.openMediaList()
+
                 if (removeFromModel) {
                     model.media = null
                 }
