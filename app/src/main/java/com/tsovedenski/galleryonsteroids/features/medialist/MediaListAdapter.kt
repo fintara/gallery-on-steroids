@@ -83,6 +83,11 @@ class MediaListAdapter (
             view.setOnClickListener {
                 event.value = MediaListEvent.ItemSelected(item)
             }
+
+            view.setOnLongClickListener {
+                event.value = MediaListEvent.OptionsSelected(item)
+                true
+            }
         }
 
         class GridViewHolder(view: View) : ViewHolder(view)

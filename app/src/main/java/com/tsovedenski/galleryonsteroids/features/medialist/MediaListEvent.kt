@@ -17,4 +17,7 @@ sealed class MediaListEvent {
 
     data class ChangeViewType(val value: ViewType) : MediaListEvent()
     data class ItemSelected(val value: Media) : MediaListEvent()
+    data class OptionsSelected(val value: Media): MediaListEvent()
+
+    data class DeleteItem(val value: Media) : MediaListEvent()
 }

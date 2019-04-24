@@ -16,6 +16,8 @@ interface MediaListContract {
         fun openCreator(type: MediaType)
         fun openViewer(media: Media)
 
+        fun showOptions(media: Media)
+
         fun checkPermissions(vararg perms: String)
     }
 

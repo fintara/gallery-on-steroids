@@ -12,10 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.tsovedenski.galleryonsteroids.R
 import com.tsovedenski.galleryonsteroids.domain.entities.Media
 import com.tsovedenski.galleryonsteroids.domain.entities.MediaType
-import com.tsovedenski.galleryonsteroids.features.common.application
-import com.tsovedenski.galleryonsteroids.features.common.hasPermissions
-import com.tsovedenski.galleryonsteroids.features.common.requestPermissions
-import com.tsovedenski.galleryonsteroids.features.common.theme
+import com.tsovedenski.galleryonsteroids.features.common.*
 import kotlinx.android.synthetic.main.feature_medialist.*
 import pub.devrel.easypermissions.EasyPermissions
 import timber.log.Timber
@@ -134,6 +131,13 @@ class MediaListView : Fragment(), MediaListContract.View {
     override fun openViewer(media: Media) {
         fab_create.close()
         findNavController().navigate(MediaListViewDirections.actionMediaListViewToViewerView(media))
+    }
+
+    override fun showOptions(media: Media) {
+        // TODO: show options dialog, since only delete is supported, ask straight away
+        confirmDialog(R.string.delete_title, R.string.delete, R.string.cancel) {
+            event.value = MediaListEvent.DeleteItem(media)
+        }
     }
 
     override fun checkPermissions(vararg perms: String) {

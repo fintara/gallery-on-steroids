@@ -13,7 +13,7 @@
         <com.tsovedenski.galleryonsteroids.features.common.SquareImageView
             android:layout_width="96dp"
             android:layout_height="96dp"
-            tools:srcCompat="@tools:sample/avatars"
+            tools:srcCompat="@tools:sample/backgrounds/scenic"
             android:id="@+id/media_thumbnail"
             android:scaleType="centerCrop"
             app:layout_constraintTop_toTopOf="parent"

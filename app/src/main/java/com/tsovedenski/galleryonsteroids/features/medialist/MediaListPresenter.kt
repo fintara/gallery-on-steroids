@@ -38,6 +38,8 @@ class MediaListPresenter (
 
             is MediaListEvent.ChangeViewType -> changeViewType(e.value)
             is MediaListEvent.ItemSelected -> itemSelected(e.value)
+            is MediaListEvent.OptionsSelected -> optionsSelected(e.value)
+            is MediaListEvent.DeleteItem -> deleteItem(e.value)
         }
     }
 
@@ -81,5 +83,17 @@ class MediaListPresenter (
 
     private fun itemSelected(value: Media) {
         view.openViewer(value)
+    }
+
+    private fun optionsSelected(value: Media) {
+        view.showOptions(value)
+    }
+
+    private fun deleteItem(value: Media) {
+        launch {
+            val nextList = adapter.currentList.filter { it.id != value.id }
+            adapter.submitList(nextList)
+            service.delete(value)
+        }
     }
 }

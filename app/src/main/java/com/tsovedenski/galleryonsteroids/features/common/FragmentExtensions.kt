@@ -84,15 +84,23 @@ fun <T> Fragment.navigateBackWithResult(payload: T) {
     findNavController().popBackStack()
 }
 
-fun Fragment.discardDialog(action: () -> Unit) {
-    AlertDialog.Builder(requireContext()).apply {
-        setTitle(R.string.discard_title)
+fun Fragment.discardDialog(action: () -> Unit) =
+    confirmDialog(R.string.discard_title, R.string.discard, R.string.stay, action)
 
-        setPositiveButton(R.string.discard) { _, _ ->
+fun Fragment.confirmDialog(
+    @StringRes titleId: Int,
+    @StringRes positiveId: Int,
+    @StringRes negativeId: Int,
+    action: () -> Unit
+) {
+    AlertDialog.Builder(requireContext()).apply {
+        setTitle(titleId)
+
+        setPositiveButton(positiveId) { _, _ ->
             action()
         }
 
-        setNegativeButton(R.string.stay) { dialog, _ ->
+        setNegativeButton(negativeId) { dialog, _ ->
             dialog.cancel()
         }
     }.show()
