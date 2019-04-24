@@ -1,7 +1,9 @@
 package com.tsovedenski.galleryonsteroids.features.viewer
 
+import androidx.annotation.StringRes
 import androidx.lifecycle.Observer
 import com.tsovedenski.galleryonsteroids.domain.entities.Media
+import com.tsovedenski.galleryonsteroids.services.ImageLabel
 
 /**
  * Created by Tsvetan Ovedenski on 06/04/19.
@@ -21,6 +23,13 @@ interface ViewerTypeContract {
 
         fun showReplayButton() = Unit
         fun hideReplayButton() = Unit
+
+        fun showLabelSpinner() = Unit
+        fun hideLabelSpinner() = Unit
+
+        fun setEmptyLabels(message: String) = Unit
+        fun setEmptyLabels(@StringRes messageId: Int) = Unit
+        fun setLabels(list: List<ImageLabel>) = Unit
     }
 
     interface ViewModel {

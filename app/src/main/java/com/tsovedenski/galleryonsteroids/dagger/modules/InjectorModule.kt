@@ -7,6 +7,7 @@ import com.tsovedenski.galleryonsteroids.features.form.FormInjector
 import com.tsovedenski.galleryonsteroids.features.medialist.MediaListInjector
 import com.tsovedenski.galleryonsteroids.features.photoeditor.PhotoEditorInjector
 import com.tsovedenski.galleryonsteroids.features.viewer.ViewerTypeInjector
+import com.tsovedenski.galleryonsteroids.services.ImageLabeler
 import com.tsovedenski.galleryonsteroids.services.MediaService
 import dagger.Module
 import dagger.Provides
@@ -34,16 +35,18 @@ class InjectorModule {
 
     @Provides
     @Singleton
-    fun provideDetailsInjector(
+    fun provideFormInjector(
         mediaService: MediaService,
+        imageLabeler: ImageLabeler,
         coroutineContextProvider: CoroutineContextProvider
-    ) = FormInjector(mediaService, coroutineContextProvider)
+    ) = FormInjector(mediaService, imageLabeler, coroutineContextProvider)
 
     @Provides
     @Singleton
     fun provideViewerTypeInjector(
+        imageLabeler: ImageLabeler,
         coroutineContextProvider: CoroutineContextProvider
-    ) = ViewerTypeInjector(coroutineContextProvider)
+    ) = ViewerTypeInjector(imageLabeler, coroutineContextProvider)
 
     @Provides
     @Singleton

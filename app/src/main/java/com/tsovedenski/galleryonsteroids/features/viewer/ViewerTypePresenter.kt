@@ -1,9 +1,13 @@
 package com.tsovedenski.galleryonsteroids.features.viewer
 
+import com.tsovedenski.galleryonsteroids.R
 import com.tsovedenski.galleryonsteroids.common.CoroutineContextProvider
+import com.tsovedenski.galleryonsteroids.common.Try
 import com.tsovedenski.galleryonsteroids.domain.entities.Media
 import com.tsovedenski.galleryonsteroids.domain.entities.MediaType
 import com.tsovedenski.galleryonsteroids.features.common.Presenter
+import com.tsovedenski.galleryonsteroids.services.ImageLabeler
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 /**
@@ -12,6 +16,7 @@ import timber.log.Timber
 class ViewerTypePresenter (
     private val view: ViewerTypeContract.View,
     private val model: ViewerTypeContract.ViewModel,
+    private val imageLabeler: ImageLabeler,
     coroutineContextProvider: CoroutineContextProvider
 ) : Presenter<ViewerTypeEvent>(coroutineContextProvider) {
 
@@ -48,6 +53,26 @@ class ViewerTypePresenter (
                     PlayingState.Playing -> view.play()
                     PlayingState.Paused -> view.pause()
                     PlayingState.Completed -> playingCompleted()
+                }
+            }
+            if (media.type == MediaType.Photo) {
+                launch {
+                    view.showLabelSpinner()
+                    val list = Try { imageLabeler.label("file://${media.path}") }
+                    view.hideLabelSpinner()
+                    list.fold(
+                        left = {
+                            Timber.e(it)
+                            view.setEmptyLabels(it.message ?: "Unknown error")
+                        },
+                        right = {
+                            if (it.isEmpty()) {
+                                view.setEmptyLabels(R.string.no_labels)
+                            } else {
+                                view.setLabels(it.take(3))
+                            }
+                        }
+                    )
                 }
             }
         }

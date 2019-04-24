@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "832532193514",
+    "firebase_url": "https://gallery-on-steroids.firebaseio.com",
+    "project_id": "gallery-on-steroids",
+    "storage_bucket": "gallery-on-steroids.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:832532193514:android:ac9ece185c806ed9",
+        "android_client_info": {
+          "package_name": "com.tsovedenski.galleryonsteroids"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "832532193514-l4ro7gel947f8ddcrbrqcnegnnkjsrif.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBYzkOfP7v8kczqwP-nuPeF4TtL7ejfUIA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "832532193514-l4ro7gel947f8ddcrbrqcnegnnkjsrif.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
