@@ -10,7 +10,7 @@
         android:id="@+id/mediaListView"
         android:name="com.tsovedenski.galleryonsteroids.features.medialist.MediaListView"
         android:label="MediaListView"
-        tools:layout="@layout/activity_media_list">
+        tools:layout="@layout/feature_medialist">
         <action
             android:id="@+id/action_mediaListView_to_creatorView"
             app:destination="@id/creatorView"
@@ -26,7 +26,7 @@
         android:id="@+id/creatorView"
         android:name="com.tsovedenski.galleryonsteroids.features.creator.CreatorView"
         android:label="CreatorView"
-        tools:layout="@layout/activity_creator" >
+        tools:layout="@layout/feature_creator" >
         <argument
             android:name="type"
             app:argType="string"/>
@@ -51,7 +51,7 @@
         android:id="@+id/formView"
         android:name="com.tsovedenski.galleryonsteroids.features.form.FormView"
         android:label="FormView"
-        tools:layout="@layout/activity_form">
+        tools:layout="@layout/feature_form">
         <action
             android:id="@+id/action_formView_to_mediaListView"
             app:destination="@id/mediaListView"
@@ -65,7 +65,7 @@
         android:id="@+id/viewerView"
         android:name="com.tsovedenski.galleryonsteroids.features.viewer.ViewerView"
         android:label="ViewerFragment"
-        tools:layout="@layout/fragment_viewer_videoaudio">
+        tools:layout="@layout/viewer_videoaudio">
         <argument
             android:name="media"
             app:argType="com.tsovedenski.galleryonsteroids.domain.entities.Media"/>
@@ -74,7 +74,7 @@
         android:id="@+id/photoEditorView"
         android:name="com.tsovedenski.galleryonsteroids.features.photoeditor.PhotoEditorView"
         android:label="PhotoEditorView"
-        tools:layout="@layout/fragment_photoeditor">
+        tools:layout="@layout/feature_photoeditor">
         <action
             android:id="@+id/action_photoEditorView_to_formView"
             app:destination="@id/formView"
@@ -97,7 +97,7 @@
         android:id="@+id/cropTool"
         android:name="com.tsovedenski.galleryonsteroids.features.photoeditor.tools.CropTool"
         android:label="CropTool"
-        tools:layout="@layout/fragment_tool_crop">
+        tools:layout="@layout/photoeditor_tool_crop">
         <argument
             android:name="mediaUri"
             app:argType="string"/>
@@ -106,7 +106,7 @@
         android:id="@+id/styleTool"
         android:name="com.tsovedenski.galleryonsteroids.features.photoeditor.tools.style.StyleTool"
         android:label="StyleTool"
-        tools:layout="@layout/fragment_tool_style">
+        tools:layout="@layout/photoeditor_tool_style">
         <argument
             android:name="mediaUri"
             app:argType="string"/>
@@ -115,7 +115,7 @@
         android:id="@+id/tuneTool"
         android:name="com.tsovedenski.galleryonsteroids.features.photoeditor.tools.tune.TuneTool"
         android:label="TuneTool"
-        tools:layout="@layout/fragment_tool_tune">
+        tools:layout="@layout/photoeditor_tool_tune">
         <argument
             android:name="mediaUri"
             app:argType="string"/>

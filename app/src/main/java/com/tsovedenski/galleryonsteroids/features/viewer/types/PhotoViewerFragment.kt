@@ -10,7 +10,7 @@ import com.tsovedenski.galleryonsteroids.common.prettyFormat
 import com.tsovedenski.galleryonsteroids.domain.entities.Media
 import com.tsovedenski.galleryonsteroids.features.viewer.ViewerTypeEvent
 import com.tsovedenski.galleryonsteroids.features.viewer.ViewerView
-import kotlinx.android.synthetic.main.fragment_viewer_photo.*
+import kotlinx.android.synthetic.main.viewer_photo.*
 import timber.log.Timber
 
 /**
@@ -19,7 +19,7 @@ import timber.log.Timber
 class PhotoViewerFragment : ViewerFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_viewer_photo, container, false)
+        return inflater.inflate(R.layout.viewer_photo, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

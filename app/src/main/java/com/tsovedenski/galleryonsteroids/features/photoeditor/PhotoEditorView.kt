@@ -15,7 +15,7 @@ import com.tsovedenski.galleryonsteroids.GlideApp
 import com.tsovedenski.galleryonsteroids.R
 import com.tsovedenski.galleryonsteroids.domain.entities.Media
 import com.tsovedenski.galleryonsteroids.features.common.*
-import kotlinx.android.synthetic.main.fragment_photoeditor.*
+import kotlinx.android.synthetic.main.feature_photoeditor.*
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -45,7 +45,7 @@ class PhotoEditorView : Fragment(), PhotoEditorContract.View, NavigationResult<P
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_photoeditor, container, false)
+        return inflater.inflate(R.layout.feature_photoeditor, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

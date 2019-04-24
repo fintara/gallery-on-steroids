@@ -3,7 +3,6 @@ package com.tsovedenski.galleryonsteroids.features.form
 import android.os.Bundle
 import android.view.*
 import androidx.activity.OnBackPressedCallback
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
@@ -14,7 +13,7 @@ import com.tsovedenski.galleryonsteroids.*
 import com.tsovedenski.galleryonsteroids.domain.entities.Media
 import com.tsovedenski.galleryonsteroids.domain.entities.MediaType
 import com.tsovedenski.galleryonsteroids.features.common.*
-import kotlinx.android.synthetic.main.activity_form.*
+import kotlinx.android.synthetic.main.feature_form.*
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -41,7 +40,7 @@ class FormView : Fragment(), FormContract.View {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.activity_form, container, false)
+        return inflater.inflate(R.layout.feature_form, container, false)
     }
 
     override fun onStart() {

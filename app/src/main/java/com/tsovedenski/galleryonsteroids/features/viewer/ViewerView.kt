@@ -1,7 +1,6 @@
 package com.tsovedenski.galleryonsteroids.features.viewer
 
 import android.os.Bundle
-import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -46,7 +45,7 @@ class ViewerView : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.activity_viewer, container, false)
+        return inflater.inflate(R.layout.feature_viewer, container, false)
     }
 
     override fun onResume() {

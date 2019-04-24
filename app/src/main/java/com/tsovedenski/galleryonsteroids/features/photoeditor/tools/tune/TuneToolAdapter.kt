@@ -23,7 +23,7 @@ class TuneToolAdapter (
         val inflater = LayoutInflater.from(parent.context)
         return ViewHolder(
             inflater.inflate(
-                R.layout.tool_tune_item,
+                R.layout.photoeditor_tool_tune_item,
                 parent,
                 false
             )

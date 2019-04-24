@@ -11,7 +11,7 @@ import com.otaliastudios.cameraview.PictureResult
 import com.tsovedenski.galleryonsteroids.R
 import com.tsovedenski.galleryonsteroids.domain.entities.Media
 import com.tsovedenski.galleryonsteroids.domain.entities.MediaType
-import kotlinx.android.synthetic.main.fragment_mode_photovideo.*
+import kotlinx.android.synthetic.main.creator_mode_photovideo.*
 import java.io.File
 
 class CreatorPhotoFragment : Fragment(), CreatorMode {
@@ -21,7 +21,7 @@ class CreatorPhotoFragment : Fragment(), CreatorMode {
     private val media = Media(type = MediaType.Photo)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        return inflater.inflate(R.layout.fragment_mode_photovideo, container, false)
+        return inflater.inflate(R.layout.creator_mode_photovideo, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -34,7 +34,7 @@ class StyleToolAdapter (
         val inflater = LayoutInflater.from(parent.context)
         return ViewHolder(
             inflater.inflate(
-                R.layout.tool_style_item,
+                R.layout.photoeditor_tool_style_item,
                 parent,
                 false
             )

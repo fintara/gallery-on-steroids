@@ -45,7 +45,7 @@
         android:id="@+id/styles"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:background="@color/black"
-        tools:listitem="@layout/tool_style_item"
+        tools:listitem="@layout/photoeditor_tool_style_item"
         tools:spanCount="5"
         android:orientation="horizontal"
         android:layout_width="match_parent"

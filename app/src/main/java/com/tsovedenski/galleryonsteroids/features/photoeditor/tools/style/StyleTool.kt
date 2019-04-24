@@ -15,14 +15,14 @@ import com.tsovedenski.galleryonsteroids.R
 import com.tsovedenski.galleryonsteroids.features.common.setTitle
 import com.tsovedenski.galleryonsteroids.features.photoeditor.PhotoModification
 import com.tsovedenski.galleryonsteroids.features.photoeditor.tools.ToolFragment
-import kotlinx.android.synthetic.main.fragment_tool_style.*
+import kotlinx.android.synthetic.main.photoeditor_tool_style.*
 
 /**
  * Created by Tsvetan Ovedenski on 21/04/19.
  */
 class StyleTool : ToolFragment() {
 
-    override val layoutId = R.layout.fragment_tool_style
+    override val layoutId = R.layout.photoeditor_tool_style
 
     private lateinit var _modification: PhotoModification.Styled
     override val modification: PhotoModification

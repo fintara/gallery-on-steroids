@@ -16,7 +16,7 @@ import com.tsovedenski.galleryonsteroids.GlideApp
 import com.tsovedenski.galleryonsteroids.R
 import com.tsovedenski.galleryonsteroids.features.photoeditor.PhotoModification
 import com.tsovedenski.galleryonsteroids.features.photoeditor.tools.ToolFragment
-import kotlinx.android.synthetic.main.fragment_tool_tune.*
+import kotlinx.android.synthetic.main.photoeditor_tool_tune.*
 
 
 /**
@@ -26,7 +26,7 @@ class TuneTool : ToolFragment() {
 
     private val args by navArgs<TuneToolArgs>()
 
-    override val layoutId = R.layout.fragment_tool_tune
+    override val layoutId = R.layout.photoeditor_tool_tune
 
     private lateinit var _modification: PhotoModification.Tuned
     override val modification: PhotoModification

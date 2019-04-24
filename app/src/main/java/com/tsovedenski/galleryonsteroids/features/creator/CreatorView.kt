@@ -27,7 +27,7 @@ import com.tsovedenski.galleryonsteroids.features.creator.modes.CreatorMode
 import com.tsovedenski.galleryonsteroids.features.creator.modes.CreatorPhotoFragment
 import com.tsovedenski.galleryonsteroids.features.creator.modes.CreatorVideoFragment
 import com.tsovedenski.galleryonsteroids.features.creator.modes.CreatorVoiceFragment
-import kotlinx.android.synthetic.main.activity_creator.*
+import kotlinx.android.synthetic.main.feature_creator.*
 import pub.devrel.easypermissions.EasyPermissions
 import timber.log.Timber
 import javax.inject.Inject
@@ -79,7 +79,7 @@ class CreatorView : Fragment(), CreatorContract.View {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.activity_creator, container, false)
+        return inflater.inflate(R.layout.feature_creator, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

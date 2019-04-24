@@ -40,8 +40,8 @@ class MediaListAdapter (
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val (holder, layout) = when (viewType) {
-            ViewType.Grid.asInt -> Pair(ViewHolder::GridViewHolder, R.layout.media_row_grid)
-            ViewType.Card.asInt -> Pair(ViewHolder::CardViewHolder, R.layout.media_row_card)
+            ViewType.Grid.asInt -> Pair(ViewHolder::GridViewHolder, R.layout.medialist_item_grid)
+            ViewType.Card.asInt -> Pair(ViewHolder::CardViewHolder, R.layout.medialist_item_card)
             else -> throw RuntimeException("Unknown viewType: $viewType")
         }
         return holder(inflater.inflate(layout, parent, false))

@@ -48,7 +48,7 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:orientation="vertical"
         android:background="@color/lightGray"
-        tools:listitem="@layout/tool_tune_item"
+        tools:listitem="@layout/photoeditor_tool_tune_item"
         tools:spanCount="3"/>
 
 </LinearLayout>

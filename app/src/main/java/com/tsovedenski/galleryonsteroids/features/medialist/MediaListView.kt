@@ -16,7 +16,7 @@ import com.tsovedenski.galleryonsteroids.features.common.application
 import com.tsovedenski.galleryonsteroids.features.common.hasPermissions
 import com.tsovedenski.galleryonsteroids.features.common.requestPermissions
 import com.tsovedenski.galleryonsteroids.features.common.theme
-import kotlinx.android.synthetic.main.activity_media_list.*
+import kotlinx.android.synthetic.main.feature_medialist.*
 import pub.devrel.easypermissions.EasyPermissions
 import timber.log.Timber
 import javax.inject.Inject
@@ -47,7 +47,7 @@ class MediaListView : Fragment(), MediaListContract.View {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.activity_media_list, container, false)
+        return inflater.inflate(R.layout.feature_medialist, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

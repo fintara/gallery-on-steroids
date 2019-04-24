@@ -11,7 +11,7 @@ import com.tsovedenski.galleryonsteroids.common.toDurationString
 import com.tsovedenski.galleryonsteroids.domain.entities.Media
 import com.tsovedenski.galleryonsteroids.features.viewer.ViewerTypeEvent
 import com.tsovedenski.galleryonsteroids.features.viewer.ViewerView
-import kotlinx.android.synthetic.main.fragment_viewer_videoaudio.*
+import kotlinx.android.synthetic.main.viewer_videoaudio.*
 
 /**
  * Created by Tsvetan Ovedenski on 06/04/19.
@@ -38,7 +38,7 @@ class VideoViewerFragment : ViewerFragment() {
     private val controlsUiHandler by lazy { Handler() }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_viewer_videoaudio, container, false)
+        return inflater.inflate(R.layout.viewer_videoaudio, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

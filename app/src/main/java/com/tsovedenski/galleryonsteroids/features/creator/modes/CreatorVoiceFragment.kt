@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment
 import com.tsovedenski.galleryonsteroids.R
 import com.tsovedenski.galleryonsteroids.domain.entities.Media
 import com.tsovedenski.galleryonsteroids.domain.entities.MediaType
-import kotlinx.android.synthetic.main.fragment_mode_voice.*
+import kotlinx.android.synthetic.main.creator_mode_voice.*
 import timber.log.Timber
 
 
@@ -37,7 +37,7 @@ class CreatorVoiceFragment : Fragment(), CreatorMode {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         Timber.tag(CreatorVoiceFragment::class.java.name)
-        return inflater.inflate(R.layout.fragment_mode_voice, container, false)
+        return inflater.inflate(R.layout.creator_mode_voice, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
