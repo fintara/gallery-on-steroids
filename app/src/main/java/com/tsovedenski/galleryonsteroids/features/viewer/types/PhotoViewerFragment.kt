@@ -46,31 +46,31 @@ class PhotoViewerFragment : ViewerFragment() {
     }
 
     override fun showControls() {
-        details_container.animate().alpha(1f).start()
+        details_container?.animate()?.alpha(1f)?.start()
     }
 
     override fun hideControls() {
-        details_container.animate().alpha(0f).start()
+        details_container?.animate()?.alpha(0f)?.start()
     }
 
     override fun showLabelSpinner() {
-        spinner.show()
+        spinner?.show()
     }
 
     override fun hideLabelSpinner() {
-        spinner.hide()
+        spinner?.hide()
     }
 
     override fun setLabels(list: List<ImageLabel>) {
         Timber.i("About to set labels: ${list.joinToString(", ", transform = { it.label })}")
-        media_labels_container.removeAllViews()
+        media_labels_container?.removeAllViews()
         list.forEach {
             TextView(requireContext())
                 .apply {
                     text = "${it.label} (${"%.1f".format(it.confidence * 100)}%)  "
                     setTextColor(resources.getColor(R.color.white, theme))
                 }
-                .let(media_labels_container::addView)
+                .let { media_labels_container?.addView(it) }
         }
     }
 
@@ -81,7 +81,7 @@ class PhotoViewerFragment : ViewerFragment() {
                 text = message
                 setTextColor(resources.getColor(R.color.white, theme))
             }
-            .let(media_labels_container::addView)
+            .let { media_labels_container?.addView(it) }
     }
 
     override fun setEmptyLabels(messageId: Int) {
