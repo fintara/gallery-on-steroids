@@ -20,7 +20,8 @@
             app:popUpToInclusive="true"/>
         <action
             android:id="@+id/action_mediaListView_to_viewerView"
-            app:destination="@id/viewerView"/>
+            app:destination="@id/viewerView"
+            app:popUpTo="@+id/mediaListView"/>
     </fragment>
     <fragment
         android:id="@+id/creatorView"

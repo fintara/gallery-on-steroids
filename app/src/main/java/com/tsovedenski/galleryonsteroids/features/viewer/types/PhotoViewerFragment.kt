@@ -75,13 +75,15 @@ class PhotoViewerFragment : ViewerFragment() {
     }
 
     override fun setEmptyLabels(message: String) {
-        media_labels_container.removeAllViews()
-        TextView(requireContext())
-            .apply {
-                text = message
-                setTextColor(resources.getColor(R.color.white, theme))
-            }
-            .let { media_labels_container?.addView(it) }
+        media_labels_container?.removeAllViews()
+        context?.let {
+            TextView(it)
+                .apply {
+                    text = message
+                    setTextColor(resources.getColor(R.color.white, theme))
+                }
+                .let { textView ->  media_labels_container?.addView(textView) }
+        }
     }
 
     override fun setEmptyLabels(messageId: Int) {

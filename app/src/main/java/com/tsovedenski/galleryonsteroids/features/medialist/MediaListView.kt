@@ -2,6 +2,8 @@ package com.tsovedenski.galleryonsteroids.features.medialist
 
 import android.content.res.Configuration
 import android.os.Bundle
+import android.os.Handler
+import android.os.Parcelable
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
@@ -79,6 +81,11 @@ class MediaListView : Fragment(), MediaListContract.View {
         super.onResume()
         Timber.i("onResume")
         event.value = MediaListEvent.OnResume
+    }
+
+    override fun onPause() {
+        scrollState = items.layoutManager?.onSaveInstanceState()
+        super.onPause()
     }
 
     override fun onDestroy() {
@@ -160,6 +167,10 @@ class MediaListView : Fragment(), MediaListContract.View {
         requestPermissions(R.string.need_read_permission, RC_PERMISSIONS, *perms)
     }
 
+    override fun restoreScrollPosition() {
+        items.layoutManager?.onRestoreInstanceState(scrollState)
+    }
+
     private fun initFab() {
         fab_create.inflate(R.menu.fab)
         fab_create.setOnActionSelectedListener(fabListener)
@@ -183,5 +194,6 @@ class MediaListView : Fragment(), MediaListContract.View {
 
     companion object {
         private const val RC_PERMISSIONS = 1
+        private var scrollState: Parcelable? = null
     }
 }

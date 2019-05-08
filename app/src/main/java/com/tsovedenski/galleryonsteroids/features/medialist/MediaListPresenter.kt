@@ -55,6 +55,7 @@ class MediaListPresenter (
 
     private fun onOptionsReady() {
         changeViewType(model.viewType)
+        view.restoreScrollPosition()
     }
 
     private fun loadItems() = launch {

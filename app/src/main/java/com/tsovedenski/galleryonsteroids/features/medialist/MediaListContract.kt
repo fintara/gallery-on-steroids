@@ -19,6 +19,8 @@ interface MediaListContract {
         fun showOptions(media: Media)
 
         fun checkPermissions(vararg perms: String)
+
+        fun restoreScrollPosition()
     }
 
     interface ViewModel {

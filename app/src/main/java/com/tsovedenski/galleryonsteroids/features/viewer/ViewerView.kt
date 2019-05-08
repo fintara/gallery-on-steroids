@@ -36,10 +36,7 @@ class ViewerView : Fragment() {
 
         Timber.tag(ViewerView::class.java.name)
         application.appComponent.inject(this)
-        requireActivity().onBackPressedDispatcher.addCallback(OnBackPressedCallback {
-            findNavController().navigateUp()
-        })
-
+        
         val media = args.media
         initFragment(media)
     }
