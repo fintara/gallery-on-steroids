@@ -3,10 +3,12 @@ package com.tsovedenski.galleryonsteroids.features.creator
 import android.Manifest
 import com.tsovedenski.galleryonsteroids.R
 import com.tsovedenski.galleryonsteroids.common.CoroutineContextProvider
+import com.tsovedenski.galleryonsteroids.common.getDataPath
 import com.tsovedenski.galleryonsteroids.domain.entities.Media
 import com.tsovedenski.galleryonsteroids.domain.entities.MediaType
 import com.tsovedenski.galleryonsteroids.features.common.Presenter
 import timber.log.Timber
+import java.io.File
 
 /**
  * Created by Tsvetan Ovedenski on 30/03/19.
@@ -52,6 +54,11 @@ class CreatorPresenter (
     }
 
     private fun startRecording() {
+        val dest = File(getDataPath())
+        if (!dest.exists()) {
+            dest.mkdir()
+        }
+
         view.startRecording()
         model.recordingState = RecordingState.Recording
         model.mediaType?.let { type ->

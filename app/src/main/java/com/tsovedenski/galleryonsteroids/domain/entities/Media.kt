@@ -6,6 +6,8 @@ import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.tsovedenski.galleryonsteroids.BuildConfig
+import com.tsovedenski.galleryonsteroids.common.getDataPath
 import java.time.Instant
 import java.util.*
 
@@ -30,8 +32,7 @@ data class Media (
     @ColumnInfo(name = "created_at")
     val createdAt: Instant = Instant.now()
 ) : Parcelable {
-//    val path: String get() = Environment.getDataDirectory().absolutePath + when (type) {
-    val path: String get() = Environment.getExternalStorageDirectory().absolutePath + when (type) {
+    val path: String get() = getDataPath() + when (type) {
         MediaType.Photo -> "/$id.jpg"
         MediaType.Video -> "/$id.mp4"
         MediaType.Audio -> "/$id.m4a"

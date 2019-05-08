@@ -1,6 +1,8 @@
 package com.tsovedenski.galleryonsteroids.common
 
+import android.os.Environment
 import androidx.recyclerview.widget.DiffUtil
+import com.tsovedenski.galleryonsteroids.BuildConfig
 
 /**
  * Created by Tsvetan Ovedenski on 30/03/19.
@@ -9,6 +11,8 @@ fun <T> createDiffCallback(selector: (T) -> Any): DiffUtil.ItemCallback<T> = obj
     override fun areItemsTheSame(oldItem: T, newItem: T): Boolean = selector(oldItem) == selector(newItem)
     override fun areContentsTheSame(oldItem: T, newItem: T): Boolean = selector(oldItem) == selector(newItem)
 }
+
+fun getDataPath() = Environment.getExternalStorageDirectory().absolutePath + "/" + BuildConfig.APPLICATION_ID.substringAfterLast('.')
 
 fun Long?.toDurationString(): String {
     if (this == null) {
