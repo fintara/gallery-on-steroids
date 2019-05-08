@@ -41,7 +41,6 @@ class PhotoEditorView : Fragment(), PhotoEditorContract.View, NavigationResult<P
         application.appComponent.inject(this)
         injector.attachPresenter(this)
         Timber.tag(PhotoEditorView::class.java.simpleName)
-        requireActivity().onBackPressedDispatcher.addCallback(onBackPressedListener)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -81,6 +80,7 @@ class PhotoEditorView : Fragment(), PhotoEditorContract.View, NavigationResult<P
     override fun onResume() {
         super.onResume()
         event.value = PhotoEditorEvent.OnResume
+        requireActivity().onBackPressedDispatcher.addCallback(onBackPressedListener)
     }
 
     override fun onDestroy() {

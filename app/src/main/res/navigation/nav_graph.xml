@@ -85,13 +85,16 @@
             app:argType="com.tsovedenski.galleryonsteroids.domain.entities.Media"/>
         <action
             android:id="@+id/action_photoEditorView_to_cropTool"
-            app:destination="@id/cropTool"/>
+            app:destination="@id/cropTool"
+            app:popUpTo="@+id/photoEditorView"/>
         <action
             android:id="@+id/action_photoEditorView_to_styleTool"
-            app:destination="@id/styleTool"/>
+            app:destination="@id/styleTool"
+            app:popUpTo="@+id/photoEditorView"/>
         <action
             android:id="@+id/action_photoEditorView_to_tuneTool"
-            app:destination="@id/tuneTool"/>
+            app:destination="@id/tuneTool"
+            app:popUpTo="@+id/photoEditorView"/>
     </fragment>
     <fragment
         android:id="@+id/cropTool"

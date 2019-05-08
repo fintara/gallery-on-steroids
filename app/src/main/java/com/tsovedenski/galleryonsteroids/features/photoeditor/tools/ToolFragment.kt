@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import com.tsovedenski.galleryonsteroids.R
 import com.tsovedenski.galleryonsteroids.features.common.navigateBackWithResult
 import com.tsovedenski.galleryonsteroids.features.photoeditor.PhotoModification
+import timber.log.Timber
 
 /**
  * Created by Tsvetan Ovedenski on 21/04/19.
@@ -22,6 +23,7 @@ abstract class ToolFragment : Fragment() {
         setHasOptionsMenu(true)
 
         requireActivity().onBackPressedDispatcher.addCallback(OnBackPressedCallback {
+            Timber.i("Going back from ToolFragment")
             navigateBackWithResult(null)
             true
         })
