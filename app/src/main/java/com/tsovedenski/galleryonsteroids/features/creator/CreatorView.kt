@@ -183,10 +183,12 @@ class CreatorView : Fragment(), CreatorContract.View {
     }
 
     override fun openDetails(media: Media) {
+        requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_USER
         findNavController().navigate(CreatorViewDirections.actionCreatorViewToFormView(media))
     }
 
     override fun openPhotoEditor(media: Media) {
+        requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_USER
         findNavController().navigate(CreatorViewDirections.actionCreatorViewToPhotoEditorView(media))
     }
 
