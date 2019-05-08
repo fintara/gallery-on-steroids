@@ -50,35 +50,41 @@ class ViewerTypePresenter (
             view.prepare(media)
 
             if (media.type == MediaType.Video) {
-                view.seek(model.progress, true)
-                when (model.playingState) {
-                    PlayingState.Playing -> view.play()
-                    PlayingState.Paused -> view.pause()
-                    PlayingState.Completed -> playingCompleted()
-                }
+                initVideo()
             }
             if (media.type == MediaType.Photo) {
-                launch {
-                    view.showLabelSpinner()
-                    val list = Try { withContext(Dispatchers.IO) { imageLabeler.label("file://${media.path}") } }
-                    view.hideLabelSpinner()
-                    list.fold(
-                        left = {
-                            Timber.e(it)
-                            view.setEmptyLabels(it.message ?: "Unknown error")
-                        },
-                        right = {
-                            if (it.isEmpty()) {
-                                view.setEmptyLabels(R.string.no_labels)
-                            } else {
-                                view.setLabels(it.take(3))
-                            }
-                        }
-                    )
-                }
+                tryLabelPhoto(media)
             }
         }
         showControls(model.isControlShown)
+    }
+
+    private fun initVideo() {
+        view.seek(model.progress, true)
+        when (model.playingState) {
+            PlayingState.Playing -> view.play()
+            PlayingState.Paused -> view.pause()
+            PlayingState.Completed -> playingCompleted()
+        }
+    }
+
+    private fun tryLabelPhoto(media: Media) = launch {
+        view.showLabelSpinner()
+        val list = Try { withContext(Dispatchers.IO) { imageLabeler.label("file://${media.path}") } }
+        view.hideLabelSpinner()
+        list.fold(
+            left = {
+                Timber.e(it)
+                view.setEmptyLabels(it.message ?: "Unknown error")
+            },
+            right = {
+                if (it.isEmpty()) {
+                    view.setEmptyLabels(R.string.no_labels)
+                } else {
+                    view.setLabels(it.take(3))
+                }
+            }
+        )
     }
 
     private fun mediaClicked() {

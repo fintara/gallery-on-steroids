@@ -46,6 +46,11 @@ class PhotoEditorPresenter (
         }
     }
 
+    override fun onDestroy() {
+        model.loaded = false
+        super.onDestroy()
+    }
+
     private fun confirmed() {
         model.media?.let(view::openDetails)
     }
