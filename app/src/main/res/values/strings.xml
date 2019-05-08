@@ -21,7 +21,7 @@
     <string name="invalid_title">Title: max 20 letters/numbers/space</string>
     <string name="save_new">Save new</string>
     <string name="discard">Discard</string>
-    <string name="delete">Discard</string>
+    <string name="delete">Delete</string>
     <string name="stay">Stay</string>
     <string name="discard_title">Discard this item?</string>
     <string name="delete_title">Delete this item?</string>

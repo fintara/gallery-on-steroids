@@ -36,7 +36,7 @@ class ViewerView : Fragment() {
 
         Timber.tag(ViewerView::class.java.name)
         application.appComponent.inject(this)
-        
+
         val media = args.media
         initFragment(media)
     }
