@@ -73,20 +73,20 @@ class PhotoEditorView : Fragment(), PhotoEditorContract.View, NavigationResult<P
 
     override fun onStart() {
         super.onStart()
-        event.value = PhotoEditorEvent.OnStart(args.media)
         setTitle(R.string.edit_photo)
+        event.value = PhotoEditorEvent.OnStart(args.media)
     }
 
     override fun onResume() {
         super.onResume()
         event.value = PhotoEditorEvent.OnResume
-        requireActivity().onBackPressedDispatcher.addCallback(onBackPressedListener)
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, onBackPressedListener)
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        event.value = PhotoEditorEvent.OnDestroy
         resetTitle()
+        event.value = PhotoEditorEvent.OnDestroy
     }
 
     override fun setImage(media: Media) {

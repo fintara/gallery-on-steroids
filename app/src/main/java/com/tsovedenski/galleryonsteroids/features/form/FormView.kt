@@ -36,7 +36,6 @@ class FormView : Fragment(), FormContract.View {
         Timber.tag(FormView::class.java.simpleName)
         application.appComponent.inject(this)
         injector.attachPresenter(this)
-        requireActivity().onBackPressedDispatcher.addCallback(onBackPressedListener)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -59,6 +58,7 @@ class FormView : Fragment(), FormContract.View {
     override fun onResume() {
         super.onResume()
         Timber.i("onResume")
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, onBackPressedListener)
         event.value = FormEvent.OnResume
     }
 

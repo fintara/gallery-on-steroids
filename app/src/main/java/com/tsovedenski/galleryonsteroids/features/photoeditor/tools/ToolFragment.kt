@@ -21,16 +21,19 @@ abstract class ToolFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
-
-        requireActivity().onBackPressedDispatcher.addCallback(OnBackPressedCallback {
-            Timber.i("Going back from ToolFragment")
-            navigateBackWithResult(null)
-            true
-        })
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(layoutId, container, false)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, OnBackPressedCallback {
+            Timber.i("Going back from ToolFragment")
+            navigateBackWithResult(null)
+            true
+        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
